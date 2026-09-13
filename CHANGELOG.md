@@ -1,6 +1,8 @@
 # Changelog
 
-## Unreleased
+## 4.0.0 - 2026-09-13
+
+**Migration:** Combined `fde debrief --smart --apply` is no longer accepted. Run `fde debrief --smart notes.md`, review the proposal with `fde debrief --review`, then confirm with `fde debrief --apply`. Existing engagement files need no migration.
 
 - Keep context output within its byte limit even when many sections need truncation. Large-history checks cover policy, signer and recent sourced decisions.
 - Require separate `debrief --smart` and `debrief --apply` commands so a proposal can be reviewed before saving. Approval stamps without sources remain CLAIM in REVIEW. Tentative or generic signers stay notes; named signers retain source attribution.
