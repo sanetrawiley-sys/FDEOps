@@ -44,7 +44,7 @@ To remove only the fictional demo later:
 npx fdeops demo --clean
 ```
 
-### Minute 5: try your own request
+### Minute 5: review a messy update with your agent
 
 Install the skill if you have not already:
 
@@ -55,13 +55,18 @@ npx skills add suboss87/fdeops --skill fde
 With your customer workspace open, send your agent:
 
 ```text
-@fde this is client01. Our operations team manually reconciles orders.
-They asked for an AI agent by Friday. Inspect the existing workflow first.
-Help me identify the smallest useful delivery, the unknowns that affect it,
-and how the customer will decide whether it worked.
+@fde this is client01. Review these fictional meeting notes:
+"Friday: show an alert for failed settlements. Keep the existing connector.
+Priya might sign off but we haven't asked her. Tom will find the runbook.
+Nobody has measured alert delay yet. Source: kickoff meeting 2026-09-10."
+Show me the proposed scope, next action and missing evidence before saving.
 ```
 
-Replace this fictional request with your actual situation. The first useful result is a reviewed problem statement, evidence and unknowns, a bounded next step, and a success criterion with an acceptance owner. An unknown baseline should stay unknown; a requested deadline is not proof that the scope is feasible.
+The review should keep the connector, leave measurement and customer acceptance pending, and flag Priya's authority as unconfirmed. Tom finding the runbook is a next action; Friday is a requested deadline. Neither establishes that the delivery is feasible or accepted. Correct the proposal, then confirm when it matches the notes.
+
+Your agent uses separate commands: `fde debrief --smart notes.md` to propose, `fde debrief --review` after reconciling the interpretation, and `fde debrief --apply` only after your confirmation. The CLI recognizes phrases; the agent helps interpret ordinary notes. Saving your reviewed record does not mean the customer approved its contents.
+
+After saving, use `fde defend` to inspect claims and evidence gaps, then `fde dashboard --open` to see the next action and attention cues. Replace the fictional notes with your own permitted material when you are ready.
 
 For more depth, follow the fictional [Garvey Payments engagement](../examples/garvey-payments/) from Day 1 to Day 10.
 
@@ -73,7 +78,7 @@ You do not pick a skill. **`@fde` routes the AI and loads the relevant reference
 
 For free-form notes, ask `@fde` to help interpret them and review the proposed changes. The CLI's `debrief --smart` recognizes common phrases; “not detected” means it may have missed something, not that your notes contain no request or next action.
 
-An unfinished proposal stays available for review. Apply it before starting another, or use `fde debrief --smart --replace-proposal notes.md` to explicitly discard it and review different notes. Repeating an already-applied note is a new update, so check for duplicates before saving it again.
+An unfinished proposal stays available for review. Apply it before starting another, or use `fde debrief --smart --replace-proposal notes.md` to explicitly discard it and review different notes. Exact sourced repeats are refused unless you deliberately override replay protection; paraphrased duplicates still need your review.
 
 | Moment | What to ask | What to check |
 |---|---|---|

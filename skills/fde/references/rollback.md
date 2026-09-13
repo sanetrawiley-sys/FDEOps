@@ -13,7 +13,7 @@
 | Change type | Rollback method | Complication | Test |
 |-------------|----------------|--------------|------|
 | **Code deploy** | Revert the PR / redeploy previous version | Feature flags, cache invalidation | Deploy previous version to staging, verify function |
-| **Database migration** | Down migration script | Irreversible migrations (column drops, data transforms) | Run down migration on staging copy |
+| **Database migration** | Compatible rollback, restore, or roll-forward | Irreversible transforms, concurrent writes, old/new schema compatibility | Rehearse on representative staging data; verify integrity, elapsed time, and possible data loss |
 | **Config change** | Restore previous config | Propagation delay, dependent service restarts | Flip config, verify all services pick it up |
 | **Infrastructure** | Terraform/Pulumi rollback or manual | State drift, dependent resources | Plan the rollback, review the diff |
 | **Data backfill** | Restore from backup or reverse script | Mixed old/new data states | Run reverse on a 100-row sample |
@@ -96,7 +96,7 @@ One statement: "Rollback tested on staging. Time: <N minutes>. Result: <pass/fai
 ## Principles
 
 - A rollback plan that hasn't been tested is a wish.
-- Time the drill. If it takes 45 minutes on staging, it takes 90 in production at 2am.
+- Time the drill and account for differences in production scale and operating conditions; do not assume a fixed multiplier.
 - Identify the irreversible components and name the compensating action.
 - The drill report is evidence for the change ticket and the team's confidence.
 - A drill that fails is a success - you found the problem before production did.

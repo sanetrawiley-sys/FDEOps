@@ -119,15 +119,16 @@ fs.renameSync = function(from, to) {
   assert.doesNotMatch(fs.readFileSync(path.join(f.eng, 'context.md'), 'utf8'), /DIFFERENT_SECRET/)
 })
 
-test('combined smart apply, dry-run and ingest previews remain bounded', t => {
+test('separate smart review, dry-run and ingest previews remain bounded', t => {
   const f = fixture(t)
   fs.writeFileSync(f.notes, Array.from({ length: 2500 }, (_, i) => `Background note ${i}: someone discussed the system.`).join('\n'))
-  for (const args of [['debrief', '--smart', f.notes, '--apply'], ['debrief', '--dry-run', f.notes]]) {
+  for (const args of [['debrief', '--smart', f.notes], ['debrief', '--dry-run', f.notes]]) {
     const result = f.run(args)
     assert.equal(result.status, 0, result.stderr)
     assert.ok(Buffer.byteLength(result.stdout + result.stderr) <= 16384)
     assert.match(result.stdout, /omitted/)
   }
+  assert.equal(f.run(['debrief', '--apply']).status, 0)
   assert.equal(f.run(['ingest', 'stage', f.notes, '--source', 'manual', '--title', 'large-notes']).status, 0)
   const inbox = path.join(path.dirname(f.eng), '.inbox')
   const id = fs.readdirSync(inbox).find(file => file.endsWith('.md'))

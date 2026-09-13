@@ -4,7 +4,7 @@
 
 **Read first:** `reality.md`, `success.md`, `terrain.md`, `stakeholders.md`. Load `business-case.md` if poc produced one. Not the full folder.
 
-**Before committing a plan or building:** run `fde doctor --ready`. Missing binary success or a named customer-side signer blocks progression: review the proposed acceptance check and authority with the FDE first. Use a test/input and observable pass/fail under **Done when:** or **Acceptance check:**. A number, role, or successful demo alone is insufficient. Do not invent missing facts to pass lint.
+**Before a new delivery plan or material scope change:** run `fde doctor --ready`. Missing binary success or a named customer-side signer blocks progression: review the proposed acceptance check and authority with the FDE first. Use a test/input and observable pass/fail under **Done when:** or **Acceptance check:**. A number, role, or successful demo alone is insufficient. Do not invent missing facts to pass lint. Routine reversible fixes within confirmed scope reuse the existing signer, acceptance criteria, and engineering plan; record verification without reopening settled decisions.
 
 ## Validation gate (confirm understanding, clarify where it elevates)
 
@@ -34,7 +34,7 @@ An FDE plan is not a sprint backlog. The technical sequence is the easy part. Th
 
 **3. One user action per change.** Each task delivers something visible and testable ("user submits form, sees it saved"), never a layer ("build the database layer"). See `ship`.
 
-**4. Size to 30-90 minutes, PR-sized.** Longer = two tasks. Each task implementable, testable, reviewable without a thousand-line diff.
+**4. Size to a coherent, verifiable outcome.** Split unrelated work and tasks too complex to review or recover safely. Use bounded review sections for large cohesive changes; elapsed time and line count are signals to examine, not universal limits.
 
 **5. AI components get explicit eval tasks.** "Output validated on 50 real production examples," "fallback tested under model unavailability," "inputs/outputs logging to <destination>" - these are pre-conditions of shipping, in the plan before build starts.
 

@@ -1,5 +1,11 @@
 # Changelog
 
+## Unreleased
+
+- Keep context output within its byte limit even when many sections need truncation. Large-history checks cover policy, signer and recent sourced decisions.
+- Require separate `debrief --smart` and `debrief --apply` commands so a proposal can be reviewed before saving. Approval stamps without sources remain CLAIM in REVIEW. Tentative or generic signers stay notes; named signers retain source attribution.
+- Clarify the messy-notes walkthrough and make engineering guidance proportionate to risk: reuse applicable verification, compare total outcome costs, and choose rollout and recovery checks for the workload. Human confirmation and release authority remain required.
+
 ## 3.31.0
 
 - Personal setup now asks how you work, what would help first, and what to mask. Work style shapes the overview and ownership guidance; the starting need points the agent to land, triage or audit without overriding current client evidence.
@@ -13,8 +19,6 @@
 - Compact context defaults to a 4 KiB ceiling. `status` and `dashboard` follow the selected scope; `--current`, `--all` and explicit context budgets still override defaults without rebinding a workspace.
 - Optional report masking preserves original records and acceptance classification, including identifiers in report titles and metadata. It does not anonymize names, rewrite old exports, or configure an AI provider.
 - Expose `setup` and the existing `privacy` capability check through `npx fdeops` without triggering installation.
-
-## Unreleased
 
 ## 3.29.0 - 2026-09-11
 

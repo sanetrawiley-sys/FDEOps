@@ -37,6 +37,12 @@ function boundedSections(sections, maxBytes = DEFAULT_BYTES) {
     const available = maxBytes - Buffer.byteLength(out + footer) - 2
     const share = Math.max(0, Math.floor(available / (filled.length - i)))
     const text = filled[i]
+    // A truncation marker also consumes the budget. If the fair share cannot
+    // fit one, stop with one marker instead of overflowing for every section.
+    if (Buffer.byteLength(text) > share && share < Buffer.byteLength(OMITTED)) {
+      out += (out ? '\n\n' : '') + clipUtf8(text, Math.max(0, available - Buffer.byteLength(OMITTED))) + clipUtf8(OMITTED, Math.max(0, available))
+      break
+    }
     const next = Buffer.byteLength(text) <= share ? text : clipUtf8(text, Math.max(0, share - Buffer.byteLength(OMITTED))) + OMITTED
     out += (out ? '\n\n' : '') + next
   }

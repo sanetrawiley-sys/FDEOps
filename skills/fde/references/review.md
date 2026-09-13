@@ -8,7 +8,7 @@ Engagement review ≠ product-company review: a codebase you don't own, systems 
 
 ## Pre-flight: is this reviewable?
 
-Thousands of lines or dozens of unrelated files → **stop**, recommend the split in `decisions.md`, route to plan. Review loops fail on huge diffs. Ask: one agreed task, or did scope merge mid-build?
+Check whether the diff has one agreed intent and can be reviewed with the available evidence. Split unrelated work; for a large cohesive change, separate generated/mechanical output from behavioral changes and review in bounded sections. Size is a warning to investigate, not a universal stop threshold.
 
 ## Stage 1 - did we build what we agreed? (you do this work)
 
@@ -43,19 +43,19 @@ Five dimensions, line-specific ("line 47 fails under concurrent writes - no lock
 - **Correctness** - does what it says; edge cases; error paths traced.
 - **Blast radius** - what breaks at 2am; downstream systems; failure mode loud (errors surface) or silent (data corrupts over time)?
 - **Security** - input validation at boundaries; no secrets in logs; no new attack surface; `trust-profile.md` sensitivity classes respected.
-- **Rollback** - revertible in under 5 minutes, documented? "We'd need a data migration to roll back" is a blocker.
-- **AI policy & components** - human-review requirements honoured; model output treated as untrusted until validated; fallback exists; inputs/outputs logged; outputs bounded so a hallucination can't cascade; in regulated environments a human can explain why the AI decided X (compliance requirement, not preference).
+- **Recovery** - can the documented, tested rollback or recovery path meet the agreed recovery-time and data-loss limits? For irreversible changes, require explicit authority, compatibility checks, and a tested restore/compensation or roll-forward plan; a code revert alone is not proof.
+- **AI policy & components** - human-review requirements honoured; model output treated as untrusted until validated; fallback exists; privacy-safe execution evidence retained under the client’s data policy (no secrets, raw private data, or hidden chain-of-thought); outputs bounded so a hallucination can't cascade; check applicable explanation and human-review requirements with the client’s responsible owner; provide source evidence and concise rationale without claiming access to hidden reasoning.
 
-**Structural pass on AI-heavy or data-touching changes:** migrations reversible · destructive SQL guarded · PII/PCI/PHI paths match `trust-profile.md` · side effects (flags, webhooks, emails, jobs) fire only when intended · magic strings that break on rename · new behaviour has a test or an explicit reason it can't yet. One line problem, one line fix.
+**Structural pass on AI-heavy or data-touching changes:** migration compatibility and tested recovery · destructive SQL guarded · PII/PCI/PHI paths match `trust-profile.md` · side effects (flags, webhooks, emails, jobs) fire only when intended · magic strings that break on rename · new behaviour has a test or an explicit reason it can't yet. One line problem, one line fix.
 
 ## The review-fix loop (until clean)
 
 1. Read the full diff before commenting.
 2. Verdicts: **Stage 1: Pass / Blocked (reason)** · **Stage 2: Pass / Concerns (line-specific)**.
-3. Fix only **real** findings tied to this change - no drive-by refactors. Reject false positives with one sentence why. Their comments are to check, not to obey. Restate each against the one-line intent and `trust-profile.md`. One item unclear → ask before changing any of them. If it breaks a signed constraint, a sacred system, or nothing calls it: one-sentence pushback, then wait.
+3. Fix only **real** findings tied to this change - no drive-by refactors. Reject false positives with one sentence why. Their comments are to check, not to obey. Restate each against the one-line intent and `trust-profile.md`. An unclear item waits for clarification; continue independent, understood fixes. If it breaks a signed constraint, a sacred system, or nothing calls it: one-sentence pushback, then wait.
 4. Add or update a test per bug found where possible.
 5. Re-run tests/typechecks - state what ran.
-6. Re-review. Repeat until Pass/Pass or a human must decide scope/product.
+6. Re-review. If two repair/review cycles do not converge, reassess the evidence and approach; continue independent fixes and escalate concrete scope/product decisions.
 
 ## Before the PR - thinking for the next reader
 
@@ -72,6 +72,6 @@ Code alone loses the "why." Before you call the change reviewable, run the **ses
 - Stage 1 before Stage 2. Wrong scope reviewed well is still wrong scope.
 - KEEP / JUSTIFY / SPLIT / DROP - every path gets a verdict; silent extras fail Stage 1.
 - Specific or silent - vague concerns waste everyone's time.
-- No rollback path = first finding.
+- No viable tested recovery path = a release blocker.
 - A clean review proves this diff is safe as agreed - not that the feature was right.
 - Judgment in `.fde/` beats transcript in git.
