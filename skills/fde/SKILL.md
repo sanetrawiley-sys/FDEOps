@@ -36,13 +36,13 @@ On someone else's site the work is not "write code, remember later." Every chang
 
 1. **Name it** in `decisions.md` (plan), or timebox the riskiest assumption and record what the POC proves.
 2. **Characterise their code** before you change it. Brownfield: their tests, their runner. Greenfield: the empty tree, first path they can click.
-3. **Prove it on their staging.** Staging they operate, a screen the signer in `success.md` can reject.
+3. **Verify, then prove delivery.** Use their checks and the agreed representative environment; at the delivery checkpoint the signer in `success.md` can replay and reject the acceptance check. See `ship` for evidence requirements.
 4. **If a model judges:** `evals.md` Verdict SHIP before that change is done (eval-pack).
-5. **Log delivery.** Outcome is promised → measured → accepted, not a green CI. Then go live with a rollback you have run (`ship`).
+5. **Log delivery.** Outcome is promised → measured → accepted, not a green CI. Then go live with a tested recovery path (`ship`).
 
-A throwaway file can skip the loop. Bound client work cannot.
+Scale the loop to the change. A routine, reversible fix within confirmed scope reuses the existing outcome, signer, acceptance criteria, and engineering plan; batch its verification into a concise delivery receipt. It does not need a new sponsor decision or staging ceremony per edit. New outcomes, changed acceptance or authority, and production release decisions still need the relevant confirmation and evidence. This does not bypass confirmation for judgment written into the engagement record.
 
-**Skip is loud.** Bound + a change that will ship + no this-turn line in `delivery.md` = not done. Say that. Do not call it shipped. A coding pack may write the function; `@fde` still owns done.
+**Status is explicit.** Record what is implemented, verified, deployed, and accepted separately. A routine fix may be implementation-complete before release or customer acceptance; state what remains and attach the current verification receipt. A coding pack may write the function; `@fde` owns the engagement evidence.
 
 ## Working with an engineering pack
 
@@ -209,8 +209,8 @@ Ready to build with no `terrain.md` / plan: discover or plan first. Takeover wit
 
 - Never ask the FDE to pick a phase. That's your job.
 - Same six stages at any scale. Overlays carry the industry. Greenfield and brownfield change the first move inside ship, not the map.
-- Ground loop on a bound client: name → characterise → prove on their staging → go live → log. A coding pack may write the function. `@fde` still owns done. When they disagree, their repo and the signer win.
-- Do not call a change done until the signer in `success.md` can reject it on staging they operate. No this-turn receipt in `delivery.md` is a failed test, not a note to write later.
+- Ground loop on a bound client: name → characterise → verify in the agreed environment → authorize release → log. A coding pack may write the function. `@fde` still owns done. When they disagree, their repo and the signer win.
+- Customer delivery needs a replayable acceptance check in the agreed environment; reuse existing criteria for routine fixes. Missing evidence means unproven, not an observed test failure. Never equate implementation-complete with deployed or customer-accepted.
 - Read `context.md` before speaking. One sharp question - never a barrage.
 - Never invent people, meetings, or numbers - `unknown - ask:` beats a polished lie.
 - Every phase ends with its artifact written. No artifact, no "done."

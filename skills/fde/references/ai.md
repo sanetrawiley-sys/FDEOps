@@ -20,19 +20,19 @@ Record in `trust-profile.md` under `## AI policy`.
 
 ## Model selection - choosing the right tool
 
-Never start with the most powerful model. Start with the cheapest that meets the quality bar.
+Compare plausible approaches against the task’s quality, latency, privacy, and operating constraints. Optimize total cost per successful outcome, including retries, review, failures, and maintenance; call price alone can select the more expensive system.
 
-**The evaluation ladder:**
-1. **Can rules solve it?** If yes, no model needed. Rules are debuggable, testable, and free.
-2. **Can a small/fast model solve it?** (GPT-4o-mini, Claude Haiku, local models) - try this first. Cheaper, faster, easier to self-host.
-3. **Does it need a frontier model?** (GPT-4o, Claude Sonnet/Opus, Gemini Pro) - only when the quality gap is measurable and justified.
-4. **Does it need fine-tuning?** Only when: you have 500+ high-quality examples, the base model fails consistently on your domain, and the cost of inference at scale justifies the training cost.
+**Candidate approaches (test the plausible ones, not a mandatory ladder):**
+1. **Can rules solve it?** If yes, no model needed. Include their implementation and maintenance cost.
+2. **Can a small/fast model solve it?** Include one when suitable for the task and hosting constraints; measure quality and total cost.
+3. **Would a more capable model improve the outcome?** It may reduce retries, supervision, or implementation complexity enough to justify its price. Verify current model availability and capabilities in official documentation.
+4. **Does it need fine-tuning?** Consider it when representative data and a held-out evaluation support a persistent domain gap. Compare against prompt/retrieval changes; justify dataset coverage and training, serving, and maintenance costs rather than assuming a fixed example count suffices.
 
 **Evaluation method (before choosing):**
-- Build a test set: 50-100 representative inputs with expected outputs.
-- Run every candidate model against the test set.
-- Score: accuracy, latency, cost per call, failure modes.
-- The cheapest model that scores above the quality threshold wins.
+- Build a representative test set with expected outcomes and critical failure cases. Size it to diversity, consequence, and uncertainty; a small pilot set cannot establish rare-failure safety.
+- Run a bounded shortlist against the same held-out cases; record model/version and settings.
+- Score: task success, critical failures, latency, total cost per successful outcome, and failure modes, including repeated runs when variability matters.
+- Select the approach that meets the agreed constraints with the best measured tradeoff. Record uncertainty and what would trigger re-evaluation.
 
 Write model selection rationale to `decisions.md`. Include: models tested, test set size, scores, cost comparison.
 
@@ -42,7 +42,7 @@ When any slice touches a model, embeddings, RAG, or an agent: create or update `
 
 **Minimum pack (do not grow until the minimum exists):**
 1. **Component + quality bar** - one sentence each; kill switch / fallback named.
-2. **Golden cases** - 5-20 representative inputs with expected outputs and a pass rule. Prefer real production-shaped data (sanitized).
+2. **Golden cases** - representative inputs with expected outputs and a pass rule. 5-20 can seed a pilot, not certify readiness; expand for risk and coverage. Prefer real production-shaped data (sanitized).
 3. **Failure modes** - at least the silent ones: hallucination/ungrounded, retrieval miss (if RAG), drift, cost runaway.
 4. **Pass/fail** - dated run; Verdict **SHIP** or **NO-SHIP**; critical fails must be 0.
 5. **HITL gate** - which decisions need human review before action (align with `trust-profile.md`). Empty when policy requires review → NO-SHIP.
@@ -59,9 +59,9 @@ When the AI needs to answer questions about the client's data:
 3. **Generate** - chunks + query → LLM → answer with citations
 
 **Common failure modes:**
-- **Chunk size wrong.** Too small = lost context. Too large = noise drowns signal. Start at 500-1000 tokens with 100-token overlap.
+- **Chunk size wrong.** Too small = lost context. Too large = noise drowns signal. Choose boundaries from document structure and answer needs; tune size, overlap, and top-K against retrieval and answer-quality evals, latency, and context limits.
 - **No citation/grounding.** If the model can't point to where it found the answer, you can't verify it. Always require source attribution.
-- **Stale index.** Documents update, embeddings don't. Define the refresh cadence. Real-time for critical data, daily for reference docs.
+- **Stale index.** Documents update, embeddings don't. Define refresh and deletion handling from source update patterns and acceptable staleness; test them.
 - **Retrieval miss.** The right document exists but wasn't retrieved. Test with known-answer queries where the answer IS in the corpus - if retrieval misses these, the embedding model or chunking strategy needs work.
 
 ## Agent and agentic systems
@@ -71,23 +71,23 @@ When the AI takes actions (not just generates text):
 **Safety principles:**
 - **Least privilege.** An agent gets the minimum permissions needed. Never give an agent admin access "for convenience."
 - **Confirmation gates.** Any destructive or irreversible action requires human confirmation. Delete, send, transfer, publish = confirm before execute.
-- **Observability of reasoning.** Log the agent's chain of thought, tool calls, and decisions. When it does something wrong, you need to see why.
+- **Observable execution.** Record tool/action summaries, versions, timing, cost, outcomes, validation results, and concise decision rationale. Do not request or store hidden chain-of-thought. Minimize and redact logged inputs/outputs; apply the client’s access, retention, and data policies. Never log raw `<private>` content or secrets.
 - **Deterministic fallbacks.** When the agent fails or is uncertain, it falls back to a known-safe behavior (queue for human review, return a safe default, do nothing). "The agent got confused and did something unexpected" is never acceptable in production.
-- **Cost caps.** Agents in loops can burn through API budgets. Hard-cap per request, per user, per hour. Alert at 50% of cap.
+- **Cost caps.** Agents in loops can burn through API budgets. Set request and aggregate budgets with bounded retries and stopping conditions. Choose alert thresholds early enough for the owner to act.
 
 ## AI governance - responsible deployment
 
 **Before production:**
-- **Bias testing.** Run the model on demographic-varied inputs. If outputs differ by protected characteristic, it doesn't ship.
+- **Bias testing.** Run the model on demographic-varied inputs. Define relevant groups, harms, and acceptable disparity with the responsible owner; investigate material differences and block unresolved critical harm. Aggregate accuracy alone is insufficient.
 - **Explainability.** Can you explain to a non-technical stakeholder why the model made a specific decision? If not, it's a black box - some jurisdictions and industries prohibit this.
 - **Model card.** Document: what the model does, what data it was trained/tuned on, known limitations, failure modes, who owns it. One page. Required before production.
 - **Kill switch.** Every AI component must be disable-able without taking down the feature it powers. The fallback path (rule-based, human-routed, or gracefully degraded) must work when the AI is off.
 
 **In production:**
-- **Drift monitoring.** Compare production outputs weekly against the baseline quality. Models don't break - they slowly get worse as the world changes around them.
+- **Drift monitoring.** Compare production outputs against baseline quality on a cadence matched to traffic, drift risk, and impact. Quality can deteriorate gradually or fail abruptly after model, data, tool, or policy changes; monitor both patterns.
 - **Feedback collection.** Thumbs up/down, corrections, escalations. This is your retraining signal AND your quality metric.
 - **Cost monitoring.** Track: tokens consumed, calls made, cost per user, cost per feature. AI costs surprise everyone at scale.
-- **Incident response.** When the AI produces harmful/wrong output: disable (kill switch), investigate (logged reasoning), fix (prompt/model/data), restore. Define this BEFORE it happens.
+- **Incident response.** When the AI produces harmful/wrong output: disable (kill switch), investigate (sanitized execution traces and observed outcomes), fix (prompt/model/data), restore. Define this BEFORE it happens.
 
 ## Writes
 
@@ -96,10 +96,10 @@ When the AI takes actions (not just generates text):
 ## Principles
 
 - AI degrades silently. Monitor outputs, not just uptime.
-- Start with the cheapest model that meets the quality bar.
+- Choose by measured quality and total cost per successful outcome, within policy and latency constraints.
 - No golden set, no AI ship (`evals.md` Verdict SHIP).
 - Every AI component needs a kill switch and a fallback path.
-- Log reasoning, not just results. Debug AI from its decisions.
+- Debug from privacy-safe observable execution and concise rationale, never hidden chain-of-thought.
 - Drift is inevitable. Define the detection method before shipping.
 - Cost at scale ≠ cost at pilot. Model the 10× number before committing.
 - Bias testing is a pre-production gate, not a post-launch audit.

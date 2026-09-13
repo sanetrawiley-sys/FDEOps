@@ -10,11 +10,11 @@ Do not ask them to pick a mode. Name where you are, then start at the matching s
 - On staging, the signer in `success.md` can reject it → **go-live**
 - Prod is the question → **go-live**. Do not start a second change.
 
-If going live, opening question: **has anyone actually *run* the rollback, or is it still a slide?** If only planned, that's today's work - say so plainly.
+If going live, check the evidence for the recovery path: has rollback, restore, compensation, or roll-forward been exercised under representative conditions? If only planned, validate it before release. Reuse applicable drill evidence when the mechanism and relevant conditions are unchanged; record why it applies.
 
 A bounded experiment that tests an assumption is `poc`. This skill turns a validated direction into a maintainable change on a repo they will own, then production. Inspect existing prototype code and retain suitable tested parts; replace unsafe shortcuts based on evidence. A successful demo alone does not satisfy the readiness gates below.
 
-**Before committing a plan or building:** run `fde doctor --ready`. Missing binary success or a named customer-side signer blocks progression: review the proposed acceptance check and authority with the FDE first. Use a test/input and observable pass/fail under **Done when:** or **Acceptance check:**. A number, role, or successful demo alone is insufficient. Do not invent missing facts to pass lint.
+**Before a new delivery plan or material scope change:** run `fde doctor --ready`. Missing binary success or a named customer-side signer blocks progression: review the proposed acceptance check and authority with the FDE first. Use a test/input and observable pass/fail under **Done when:** or **Acceptance check:**. A number, role, or successful demo alone is insufficient. Do not invent missing facts to pass lint. Routine reversible fixes within confirmed scope reuse the existing signer and acceptance check; record verification without restarting approval. New judgment in the record still requires confirmation.
 
 ## Field (name it once, then the same loop)
 
@@ -22,18 +22,18 @@ A bounded experiment that tests an assumption is `poc`. This skill turns a valid
 |--|------------|------------|
 | What you touch | Code they already run | A new path or empty tree they will own |
 | First move | Characterise their tests, their runner, the workaround in `terrain.md` | First path a user can click. Not the whole product. |
-| Proof | Their staging, a screen they already use | Their staging, or the environment they will operate. Local demo is not delivery. |
-| Undo | Revert this change on its own | Same. If you cannot undo it, the design is coupled. |
+| Proof | Agreed representative environment and replayable acceptance check | Agreed representative environment and replayable acceptance check; record what remains untested before release |
+| Undo | Revert this change on its own | Name rollback or tested recovery; identify irreversible effects and required authority. |
 
 Skip POC only when the killer assumption already lives in the repo (typical brownfield). If the bet is unproven, `poc` first.
 
-**Done means:** the signer in `success.md` can reject this on staging they operate. A green check on your laptop is not delivery. Do not start the next change until this one is rejectable.
+**Customer delivery means:** the signer in `success.md` can replay and reject the agreed acceptance check in an environment they operate. A green check on your laptop proves only what ran there. Routine fixes can share a delivery checkpoint; distinguish implementation, verification, deployment, and acceptance.
 
 If `terrain.md` **Data estate** lists a **Blocker** this change depends on (source or pipe): stop. That is discover, not ship. Do not build a path they cannot feed.
 
 ## Method - one change they can see
 
-One change = one thing a user can do, with a test, that you can revert on its own. Not "all the APIs, then all the UI." Not a 2,000-line dump. A PR is how this often lands. It is not the job. The job is the change they can see.
+One change = one coherent outcome with observable verification and a bounded recovery path. Prefer vertical slices that can be reviewed and exercised independently. A PR is how this often lands. It is not the job. The job is the change they can see.
 
 ```
 BAD (layers):
@@ -49,7 +49,7 @@ GOOD (one user action each):
   4: Admin can void a payment (auth + logic + UI) - testable
 ```
 
-Each change is independently revertible.
+Prefer independently revertible changes. When data or external effects cannot be undone, name the dependency, containment, tested recovery, and authorized owner before release.
 
 **Before you start this change:**
 
@@ -58,7 +58,7 @@ Each change is independently revertible.
 - [ ] Rollback named: revert this change, or something more specific
 - [ ] No dependency on an unmerged change (if dependent, state it and land in order)
 - [ ] `Kill if` is written - the observation that stops this change
-- [ ] Before-receipt captured: the failing output, number, or screen as it is today, dated in `delivery.md`, before you change anything
+- [ ] Before-state evidence identified: the relevant failing output, number, or behavior, with its source and date. For a routine fix within confirmed scope, reference applicable existing evidence and batch the delivery receipt; capture new evidence when the relevant behavior or conditions changed. Never imply an old check was rerun.
 - [ ] Open PRs and uncommitted work in the area checked (`gh pr list`, `gh pr diff <n> --name-only`); overlap goes to `decisions.md` before you start
 
 Your coding pack writes the function. This skill owns done. When they disagree with this repo, the repo wins.
@@ -69,34 +69,25 @@ Your coding pack writes the function. This skill owns done. When they disagree w
 Read existing code in the area (search before creating)
   → Characterise what is already there (their tests, their runner; greenfield: the empty tree)
     → Implement the smallest path that works
-      → Prove it on their staging (below)
+      → Verify the change; demonstrate at the agreed delivery checkpoint (below)
         → Cleanup pass (dedupe, simplify - behaviour unchanged)
           → Self-review against acceptance criteria
             → Commit with a message the client's team can read
               → Update decisions.md + delivery.md
 ```
 
-**Prove it on their staging.** A green check on your laptop is not delivery.
+**Verify the change and prove customer delivery.** Match evidence to the reviewed revision, environment, and acceptance criteria.
 
-- Run **their** test command, on **their** CI, with **their** fixtures. Write the command and the result in `delivery.md` in this turn. You do not add a runner they will not keep. If you have not run their command in this turn, you cannot write that it passed. Last session's green, "should pass," and "looks correct" are not a receipt. Missing this-turn line = not proven. Same as a failing test.
-- If the signer in `success.md` cannot reject this on a screen they already use, it is not proven.
-- Staging they operate beats a local demo. If you have no staging: `unknown - ask:` who owns an environment, then stop pretending it shipped.
-- **Monday-shaped data.** Staging that is empty, synthetic, or last quarter is not next Tuesday. Before go-live, write what staging is missing (volume, PII, the batch that only runs in prod, the account that only exists in the warehouse) and what that means for the kill test. If the signer cannot reject it on a screen they already operate, with data that looks like next Tuesday, it is not proven.
+- Use **their** test commands, fixtures, and CI. Record the command, result, revision, environment, and run date in `delivery.md`. Reuse existing evidence only when the relevant code and conditions are unchanged, citing why it still applies; never claim it was rerun. Run affected checks for changed behavior and required release checks before deployment. Missing evidence means unproven, not an observed failure.
+- At the agreed delivery checkpoint, the signer in `success.md` must be able to replay and reject the acceptance check using an interface they operate (screen, API, report, or equivalent). Routine fixes can share that checkpoint; passing tests alone does not establish customer acceptance.
+- Prefer staging they operate. When unavailable, use an agreed, permitted representative test environment, record its owner and limitations, and resolve material release-evidence gaps before production. A local demonstration is not deployment.
+- **Representative data.** Use permitted sanitized or synthetic fixtures that exercise relevant volumes, edge cases, and operating paths. Before go-live, record gaps such as batch timing, distribution, or production-only dependencies and their impact on the acceptance and abort checks. Resolve material gaps or explicitly narrow the release; never load sensitive production data merely to make a demo realistic.
 - Model in the path: `eval-pack` until `evals.md` says SHIP. Do not skip because "it looked right in chat."
 - A model drafts. A named human on their side ships. No unsupervised loop on their production. If the brief demands lights-out write-access, that is `who-decides` / `hold-scope`, not ship.
 
 The proof is whatever this client already believes, plus one new receipt they can replay.
 
-**Size.** Each change targets:
-
-| Metric | Target | Why |
-|--------|--------|-----|
-| Lines changed | 100-300 | Reviewable in one sitting |
-| Time to implement | 30-90 minutes | Testable before context decays |
-| Files touched | 1-5 | Blast radius stays containable |
-| Tests added | ≥1 per new behaviour | Proves this change; guards against regression |
-
-Larger than 300 lines → split first. "It's all connected" means the design needs work, not a bigger dump.
+**Size by reviewability and risk.** Keep one coherent intent, bounded context, and observable acceptance checks. Split unrelated behavior or work whose recovery and review cannot be understood together. Diff size and elapsed time are warning signals, not hard gates: generated changes may be large and low risk; a one-line permission change may be critical. Use the repository’s checks and add meaningful coverage for changed behavior, rather than a test-count quota.
 
 **Show it.** Every 2-3 changes, something the customer can see: an endpoint they can hit, a UI they can click, a metric that moved, a risk that was retired. Technical progress invisible to stakeholders is trust decay. `delivery.md` gets updated after every visible change.
 
@@ -106,7 +97,7 @@ Larger than 300 lines → split first. "It's all connected" means the design nee
 - If it's NOT in `decisions.md`: log it as a scope receipt (see `hold-scope.md`), don't touch it.
 - Ugly code outside this change stays ugly. That is discipline, not laziness.
 
-After each change: tests pass (state the command and result), acceptance criteria met, blast radius as declared, `Kill if` still false. After every 2-3: what did they see, and what's their signal? Then, when the signer can reject it on their staging, go-live below.
+After each change: required checks pass with applicable evidence, acceptance criteria evaluated, blast radius as declared, `Kill if` still false. At the agreed delivery checkpoint: what did they see, and what is their signal? Before production, complete the go-live gates below.
 
 ---
 
@@ -141,7 +132,7 @@ Score each dimension green/amber/red. This is the gate, not a suggestion:
 | Dimension | Green | Amber | Red |
 |-----------|-------|-------|-----|
 | Tests | All pass on deploy branch | Flaky tests skipped with justification | Failures present or tests not run |
-| Rollback | Tested end-to-end (not planned - TESTED) | Documented but untested | No rollback path defined |
+| Recovery | Applicable tested rollback/restore/compensation/roll-forward meets agreed recovery and data-loss limits | Documented; drill evidence needs refresh | No viable recovery, failed drill, or irreversible effects lack explicit authority |
 | Sign-off | Stakeholder approval in `decisions.md` with date | Verbal approval, not logged | No approval sought |
 | Runbook | Exists and someone other than you has read it | Exists but unreviewed | Missing |
 | Monitoring | Alerts configured, owner named, dashboard live | Alerts configured, no named owner | No monitoring |
@@ -211,16 +202,16 @@ grep -rnE "(api[_-]?key|secret|password|token)\s*[:=]\s*['\"][^'\"]{8,}" \
   --include="*.js" --include="*.ts" --include="*.py" --include="*.env" \
   --include="*.yaml" --include="*.json" . | grep -vE "example|template|test" | head
 ```
-- DB migrations reversible.
-- Rollback documented **and tested**.
+- DB migrations checked for compatibility, data loss, and old/new application coexistence. Prefer expand/contract for destructive changes. Irreversible steps require explicit authority and a tested restore, compensation, or roll-forward plan.
+- Recovery documented **and tested**, with acceptable recovery time and data loss.
 - Monitoring alerts configured, someone watching.
 - Team knows the deploy is happening.
-- Not a Friday unless genuine emergency with someone on call.
+- Deploy window has staffed observation and recovery coverage appropriate to the risk; respect the client’s change calendar and business-critical periods.
 - **Change approval (CAB) environments:** window open, ticket approved. In banking/healthcare/gov, deploying outside an approved window is a compliance finding even when the deploy succeeds. "We didn't know there was a CAB process" is not a defence - find out before the deploy date.
 
 ## Method - the deploy
 
-**Canary:** 1-5% of traffic, ≥10 minutes. Watch error rate, latency, and **the business metric this change affects**. Anything looks wrong → roll back immediately; investigate safely; redeploy when confident. Never investigate during the canary. Then stage up: 5% → 25% → 100%, each confirmed stable.
+**Rollout:** Choose canary, blue/green, staged cohorts, or the client’s proven release mechanism based on isolation, traffic, and failure cost. For a canary, set cohort size, exposure cap, observation duration, minimum sample, and advance/abort thresholds before starting; allow for delayed and batch effects. Watch errors, latency, and **the business metric this change affects**. Breached thresholds or critical harm → halt expansion and execute the tested recovery/containment plan; investigate after exposure is controlled. Advance only with sufficient evidence and a named operator.
 
 **Canary receipt** (write it, or the canary did not happen): what was watched, on whose dashboard, for how long, and that the next change did not start in the window. If prod is a CAB console, vendor button, or their pipeline, write the owner and the click path - the host agent does not get to pretend it shipped.
 
@@ -275,7 +266,7 @@ Never skip a step. The sponsor always wants to skip from pilot to standard - tha
 Adoption isn't a handoff-stage problem - it starts while you are still writing the change. Software that launches to silence is software that gets decommissioned.
 
 **During the change:**
-- **Feature flags from day one.** Every new capability behind a flag. Ship to 5% of users first. Watch behavior before opening to 100%.
+- **Controlled exposure.** Use a feature flag or equivalent isolation when it reduces rollout risk. Choose cohorts and expansion criteria from traffic and impact; name the flag owner and removal point.
 - **Feedback loops built in.** A thumbs-up/down, a "was this helpful?", a usage counter. Instrument adoption, don't assume it.
 - **Resistance signals.** Watch for: workaround creation (they built a spreadsheet instead of using the tool), drop-off after day 3 (onboarding fails), vocal detractors (one influential skeptic can kill adoption). Address these before launch, not after.
 
@@ -290,13 +281,13 @@ Adoption isn't a handoff-stage problem - it starts while you are still writing t
 
 **`decisions.md`** - each change: what was implemented, what was tested, what was deferred, `Kill if`.
 
-**`delivery.md`** - each visible change in business language; then the deployment record: what shipped, when, rollback procedure, pulse definition, **scale-readiness assessment, and adoption metrics**. Written for whoever inherits the system.
+**`delivery.md`** - each visible change in business language; then the deployment record: what shipped, when, recovery procedure, pulse definition, **scale-readiness assessment, and adoption metrics**. Written for whoever inherits the system.
 
 ## Checkpoint
 
-After each change: tests pass, acceptance criteria met, blast radius as declared, `Kill if` still false, proven on staging they operate.
+After each change: required checks pass, acceptance criteria evaluated, blast radius as declared, `Kill if` still false. Batch routine fixes at the agreed delivery checkpoint; record staging and customer acceptance separately.
 
-Before 100% live: canary clean, business metric verified, pulse written into `delivery.md`. Also green: value bucket named, audit receipt dated, eval receipt **n/a or pass**, **intent vs diff clean** (no unresolved SPLIT/DROP). Missing any of those → not green. For enterprise-scale: scale-readiness gate passed before broad rollout.
+Before full exposure: the chosen rollout’s advance criteria are met with sufficient observation and business-metric evidence, and the pulse is written into `delivery.md`. Also green: value bucket named, audit receipt dated, eval receipt **n/a or pass**, **intent vs diff clean** (no unresolved SPLIT/DROP). Missing any of those → not green. For enterprise-scale: scale-readiness gate passed before broad rollout.
 
 ## Worked example
 
@@ -315,10 +306,10 @@ Greenfield is the same loop with an empty tree: first path a user can click, on 
 ## Principles
 
 - One user action per change. Layers are untestable until assembled.
-- On their staging, and you can undo it. Local green is not delivery.
+- Prove the agreed outcome in their environment and test recovery. Local green is not customer delivery.
 - The ugly code outside this change stays ugly. That's discipline, not laziness.
-- A deployment without a tested rollback is reckless.
-- Roll back on any canary anomaly; investigate safely.
+- A deployment needs tested recovery within agreed time and data-loss limits; irreversible effects require explicit authority.
+- Halt expansion on breached thresholds or critical harm; contain exposure with the tested recovery plan before investigating.
 - Verify the business metric, not just the technical one.
 - No value bucket, no green ship. No pulse, no done.
 - Diff larger than the stated intent without KEEP/JUSTIFY receipts = fix-first.

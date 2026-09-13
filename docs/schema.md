@@ -52,6 +52,11 @@ A later rejection or revocation must update the row's status.
 
 ### Decision entries
 
+In a debrief REVIEW, an approval-looking stamp without a source remains CLAIM.
+An explicitly uncertain signer such as `signer: pending` stays in the notes;
+it must not populate the sign-off field. Review and confirm a named authority
+before recording it. A named authority is not customer acceptance.
+
 `fde log decision "<text>"` appends a dated one-liner, which is enough for most
 choices. Optional `[approved: Name YYYY-MM-DD]` on that line is the only customer-yes
 the CLI treats as approval; without it, Monday's RECORD prints `(unconfirmed)`. Do not infer
