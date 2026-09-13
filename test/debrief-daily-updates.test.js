@@ -26,6 +26,58 @@ test('one reviewed delivery writes the ledger with unknown acceptance preserved'
   assert.equal(f.run(['debrief', '--smart'], notes).status, 0)
   assert.match(f.run(['debrief', '--review']).stdout, /already recorded/)
 })
+
+test('smart apply cannot bypass the separate review opportunity or mutate records', t => {
+  const f = fixture(t)
+  const files = ['context.md', 'decisions.md', 'success.md', 'stakeholders.md']
+  const before = files.map(file => fs.readFileSync(path.join(f.eng, file), 'utf8'))
+  const result = f.run(['debrief', '--smart', '--apply'], 'decision: bypass review\nsigner: Mara Chen\n')
+  assert.notEqual(result.status, 0)
+  assert.match(result.stderr, /separately|separate/)
+  assert.deepEqual(files.map(file => fs.readFileSync(path.join(f.eng, file), 'utf8')), before)
+  assert.equal(fs.existsSync(path.join(f.eng, '.debrief-propose')), false)
+})
+
+test('review marks an approved-looking decision without a source as CLAIM', t => {
+  const f = fixture(t)
+  const result = f.run(['debrief', '--smart'], 'decision: Freeze scope [approved: Mara Chen 2026-09-10]\n')
+  assert.equal(result.status, 0, result.stderr)
+  assert.match(result.stdout, /decided:[\s\S]*CLAIM - source missing/)
+})
+
+test('unknown signer stays a note and does not manufacture sign-off authority', t => {
+  const f = fixture(t)
+  const before = fs.readFileSync(path.join(f.eng, 'success.md'), 'utf8')
+  const proposed = f.run(['debrief', '--smart'], 'signer: pending\n')
+  assert.equal(proposed.status, 0, proposed.stderr)
+  assert.match(proposed.stdout, /authority missing|not detected/)
+  assert.equal(f.run(['debrief', '--apply']).status, 0)
+  assert.equal(fs.readFileSync(path.join(f.eng, 'success.md'), 'utf8'), before)
+  assert.doesNotMatch(fs.readFileSync(path.join(f.eng, 'stakeholders.md'), 'utf8'), /pending signs off/)
+  assert.match(fs.readFileSync(path.join(f.eng, 'context.md'), 'utf8'), /signer: pending/)
+})
+
+for (const signer of ['customer sponsor signs off', 'Priya might sign off', 'Priya could sign off', 'Priya signs off if the replay passes']) {
+  test(`generic or uncertain signer creates no authority: ${signer}`, t => {
+    const f = fixture(t)
+    const files = ['success.md', 'stakeholders.md']
+    const before = files.map(file => fs.readFileSync(path.join(f.eng, file), 'utf8'))
+    const proposed = f.run(['debrief', '--smart'], `signer: ${signer}\n`)
+    assert.equal(proposed.status, 0, proposed.stderr)
+    assert.match(proposed.stdout, /signer authority missing or uncertain/)
+    assert.equal(f.run(['debrief', '--apply']).status, 0)
+    assert.deepEqual(files.map(file => fs.readFileSync(path.join(f.eng, file), 'utf8')), before)
+    assert.ok(fs.readFileSync(path.join(f.eng, 'context.md'), 'utf8').includes(`signer: ${signer}`))
+  })
+}
+
+test('explicit named signer retains source after sign-off prose is removed', t => {
+  const f = fixture(t)
+  assert.equal(f.run(['debrief', '--smart'], 'signer: Mara Chen signs off [source: meeting:42]\n').status, 0)
+  assert.equal(f.run(['debrief', '--apply']).status, 0)
+  assert.match(fs.readFileSync(path.join(f.eng, 'success.md'), 'utf8'), /\*\*Stakeholder who signs off:\*\* Mara Chen \[source: meeting:42\]/)
+  assert.match(fs.readFileSync(path.join(f.eng, 'stakeholders.md'), 'utf8'), /Mara Chen \[source: meeting:42\] signs off/)
+})
 test('invalid delivery columns fail before changing records', t => {
   const f = fixture(t); const before = fs.readFileSync(path.join(f.eng, 'delivery.md'), 'utf8')
   assert.notEqual(f.run(['log', 'delivery', 'slice|promise|measured']).status, 0)

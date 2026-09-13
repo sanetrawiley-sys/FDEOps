@@ -1917,6 +1917,19 @@ function stripApprovedStamp(text) {
   return String(text || '').replace(/\s*\[approved:\s*[^\]]+\]/i, '').trim()
 }
 
+function proposedSigner(body) {
+  // Unknown or tentative ownership is a note, never a fabricated sign-off.
+  const sources = body.match(/\[source:[^\]]*\]/gi) || []
+  const prose = body.replace(/\[source:[^\]]*\]/gi, '').trim()
+  if (/\?|\b(?:maybe|might|whether|could|should|would|if|unless)\b/i.test(prose)) return ''
+  // Check uncertainty before removing a suffix, then validate the actual
+  // identity so "customer sponsor signs off" cannot become a named person.
+  if (!require('./lib/value-ledger').acceptanceName(prose)) return ''
+  const identity = prose.replace(/\s+signs?(?:\s+off)?\b.*$/i, '').trim()
+  if (!require('./lib/value-ledger').acceptanceName(identity)) return ''
+  return [identity, ...sources].join(' ')
+}
+
 // One screen a human can confirm in two minutes. The file-by-file routing
 // still prints after this - agents edit prefixes; people read this.
 function printDebriefReview(text, eng) {
@@ -1934,7 +1947,7 @@ function printDebriefReview(text, eng) {
     if (type === 'decision') {
       const who = approvedStamp(body)
       const core = previewLine(stripApprovedStamp(body), 90)
-      buckets.decided.push(who ? `${core}  (approved ${who})` : `${core}  (unconfirmed)`)
+      buckets.decided.push(!hasSource(body) ? `${core}  (CLAIM - source missing; unconfirmed)` : who ? `${core}  (approved ${who}; source recorded)` : `${core}  (unconfirmed; source recorded)`)
     } else if (type === 'ask') {
       buckets.asked.push(previewLine(body, 100))
     } else if (type === 'scope') {
@@ -1946,7 +1959,8 @@ function printDebriefReview(text, eng) {
     } else if (type === 'next') {
       buckets.next.push(previewLine(body, 100))
     } else if (type === 'signer') {
-      buckets.signer.push(previewLine(body, 80))
+      if (proposedSigner(body)) buckets.signer.push(previewLine(body, 80))
+      else buckets.open.push(`signer authority missing or uncertain: ${previewLine(body, 80)}`)
     }
   }
   console.log('REVIEW (one screen - confirm once, then apply)\n')
@@ -2169,7 +2183,8 @@ function routeDebriefInput(eng, input, { dry, force, sealed = [], allowReplay = 
         continue
       }
       if (type === 'signer') {
-        const who = body.replace(/\s+signs?(?:\s+off)?\b.*$/i, '').trim() || body.trim()
+        const who = proposedSigner(body)
+        if (!who) { ctxLines.push(line); continue }
         if (dry) {
           console.log(`→ success.md  **Stakeholder who signs off:** ${previewLine(who)}`)
           console.log(`→ stakeholders.md  ${previewLine(`- [${date}] ${who} signs off`)}`)
@@ -2262,6 +2277,7 @@ function runDebrief(args, eng) {
   const applyIdx = args.indexOf('--apply')
   const apply = applyIdx !== -1
   if (apply) args.splice(applyIdx, 1)
+  if (smart && apply) throw new Error('run --smart first, review the proposal, then confirm with --apply in a separate command')
   let force = false
   const forceIdx = args.indexOf('--force')
   if (forceIdx !== -1) { force = true; args.splice(forceIdx, 1) }

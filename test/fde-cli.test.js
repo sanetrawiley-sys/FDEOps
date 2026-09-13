@@ -3776,13 +3776,14 @@ test('creating an engagement says it is not yet bound to a workspace', () => {
   assert.doesNotMatch(init.stdout, /node bin\/install\.js/, 'an npm user has no clone to run that path from')
 })
 
-test('debrief REVIEW keeps [approved:] and does not infer a yes from prose', () => {
+test('debrief REVIEW requires a source for approval stamps and does not infer a yes from prose', () => {
   const sandbox = makeSandbox('review-approved')
   assert.equal(runFde(sandbox, ['resume', '--init', 'apprco']).status, 0)
   const notes = path.join(sandbox.dir, 'notes.md')
   fs.writeFileSync(notes, [
     'decision: freeze the API [approved: Helena 2026-09-08]',
     'decision: Helena agreed to keep Excel as fallback',
+    'decision: keep the review gate [approved: Helena 2026-09-08] [source: meeting 2026-09-08]',
     'We need access to the test environment.',
     'delivery: retry live on staging',
     'risk: legal may reopen scope',
@@ -3792,8 +3793,9 @@ test('debrief REVIEW keeps [approved:] and does not infer a yes from prose', () 
   const smart = runFde(sandbox, ['debrief', '--smart', notes])
   assert.equal(smart.status, 0, smart.stderr)
   assert.match(smart.stdout, /REVIEW \(one screen/)
-  assert.match(smart.stdout, /freeze the API\s+\(approved Helena 2026-09-08\)/)
-  assert.match(smart.stdout, /Helena agreed to keep Excel as fallback\s+\(unconfirmed\)/)
+  assert.match(smart.stdout, /freeze the API\s+\(CLAIM - source missing; unconfirmed\)/)
+  assert.match(smart.stdout, /Helena agreed to keep Excel as fallback\s+\(CLAIM - source missing; unconfirmed\)/)
+  assert.match(smart.stdout, /keep the review gate.*\(approved Helena 2026-09-08; source recorded\)/)
   assert.doesNotMatch(smart.stdout, /Helena agreed to keep Excel as fallback\s+\(approved/)
   assert.match(smart.stdout, /stated asks:[\s\S]*We need access/)
   assert.match(smart.stdout, /reported delivery \(not customer acceptance\):[\s\S]*retry live on staging/)
@@ -3804,7 +3806,7 @@ test('debrief REVIEW keeps [approved:] and does not infer a yes from prose', () 
   assert.equal(applied.status, 0, applied.stderr)
   const resume = runFde(sandbox, ['resume'])
   assert.match(resume.stdout, /CLAIM - source missing/)
-  assert.doesNotMatch(resume.stdout, /approved Helena 2026-09-08/)
+  assert.doesNotMatch(resume.stdout, /freeze the API.*approved Helena 2026-09-08/)
   assert.match(resume.stdout, /Helena agreed/)
 })
 
