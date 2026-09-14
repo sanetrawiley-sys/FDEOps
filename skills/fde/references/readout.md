@@ -46,6 +46,8 @@ Append the draft to `delivery.md` under `## Status - <date>` using the SCQA head
 
 ## Checkpoint
 
+Before presenting a consequential draft, check whether its intended reader can identify what changed, what remains unproven, and the decision being requested without extra explanation. Use the draft alone for this check; repair the unclear passage rather than adding another summary. A simulated reader can flag confusion but cannot confirm stakeholder understanding or acceptance. Keep the existing FDE review/send boundary.
+
 Walk the FDE through the Complication and the Ask - confirm the framing matches what the sponsor can hear right now (check `stakeholders.md` signal first: a red-signal sponsor gets a different opening than a green one).
 
 ## Worked example

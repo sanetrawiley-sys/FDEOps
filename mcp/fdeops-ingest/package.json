@@ -1,6 +1,6 @@
 {
   "name": "fdeops-ingest-mcp",
-  "version": "4.0.0",
+  "version": "4.0.1",
   "private": true,
   "description": "Thin stdio MCP sink for FDEOps ingest (stage → propose → apply). Zero runtime dependencies.",
   "bin": {
