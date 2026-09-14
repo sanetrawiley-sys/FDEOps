@@ -1,5 +1,11 @@
 # Changelog
 
+## 4.0.2 - 2026-09-14
+
+- Keep complete context packets intact when they fit the requested budget, including compact mode. Oversized packets still retain their byte ceiling and omission warnings.
+- Recognize measurable acceptance checks phrased with “observe” while retaining structural checks for a concrete test, result and named signer.
+- Show the exact existing reality record fields when formatting needs repair, and point audit guidance to the initialized template.
+
 ## 4.0.1 - 2026-09-14
 
 - Make consequential interpretations and reversed instructions visible within the existing debrief review, without adding another approval step.

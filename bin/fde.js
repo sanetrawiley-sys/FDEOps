@@ -846,7 +846,7 @@ function parseReality(md, maxLen) {
   if (prose) {
     return {
       line: '',
-      missing: 'UNREADABLE - reality.md does not match the schema (Working theory / Evidence / Differs from brief). Not showing the brief as truth.',
+      missing: 'UNREADABLE - reality.md does not match the schema. Use **Working theory:** / **Evidence:** / **Differs from brief how:** from templates/.fde/reality.md. Not showing the brief as truth.',
     }
   }
   return { line: '', missing: '' }
@@ -2880,7 +2880,7 @@ function successContractIssues(success) {
     if (explicit) return explicit[1].trim().length > 3 && target.test(explicit[2])
     const stimulus = /\b(?:test|drill|replay|runs?|request|sample|given|when|simulate|inject|compare|restore|verified|observed|measured)\b/i.test(check)
       || /^\d+\s+[a-z]/i.test(check)
-    const result = /\b(?:returns?|rejects?|matches?|equals?|arrives?|alerts?|restores?|passes?|fails?|contains?|produces?|shows?|remains?|receives?)\b/i.test(check)
+    const result = /\b(?:returns?|rejects?|matches?|equals?|arrives?|alerts?|restores?|passes?|fails?|contains?|produces?|shows?|remains?|receives?|observe)\b/i.test(check)
       || /\b(?:zero|no duplicate|no missing)\s+[a-z]/i.test(check)
     return stimulus && result && target.test(check)
   })

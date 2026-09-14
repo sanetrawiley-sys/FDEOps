@@ -33,6 +33,9 @@ function boundedSections(sections, maxBytes = DEFAULT_BYTES) {
   const footer = '\n\nCONTEXT: selected excerpts, not the complete record or proof of approval. Use fde recall <topic> for relevant evidence. If policy or constraints are truncated, retrieve them before acting. Verify conflicting decisions.\n'
   let out = ''
   const filled = sections.filter(s => s && s.trim())
+  // Preserve complete packets before allocating fair shares to oversized ones.
+  const complete = filled.join('\n\n') + footer
+  if (Buffer.byteLength(complete) <= maxBytes) return complete
   for (let i = 0; i < filled.length; i++) {
     const available = maxBytes - Buffer.byteLength(out + footer) - 2
     const share = Math.max(0, Math.floor(available / (filled.length - i)))

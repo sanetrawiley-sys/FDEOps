@@ -49,7 +49,7 @@ That's the load-bearing wall. Also establish: the single highest risk right now 
 
 **`terrain.md`** - the map as understood now. Honest beats complete: mark unknowns explicitly.
 
-**`reality.md`** - real problem vs stated brief, even if the delta is small.
+**`reality.md`** - real problem vs stated brief, even if the delta is small. Preserve the initialized template. If creating or repairing the file, put each bold colon field on its own line with its content after the label: `**Working theory:**`, `**Evidence:**`, `**Differs from brief how:**`.
 
 **`context.md`** - updated so anyone walking in is operational in five minutes.
 
