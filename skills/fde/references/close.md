@@ -2,7 +2,7 @@
 
 **Enter when:** the engagement is ending - the customer team must run this without the FDE.
 
-**Read first:** `context.md`, `reality.md`, `success.md`, `delivery.md`, `decisions.md`. The only phase that needs the full picture. Load `terrain.md` only if the handoff needs codebase-specific guidance.
+**Read first:** bounded `fde handoff` or `fde resume`, then targeted `fde recall` for missing evidence. Build the full picture through relevant excerpts, not a full-directory load. Consult `terrain.md` only for the code paths needed by the successor.
 
 The engagement doesn't end at ship. It ends when the customer can maintain what was built without calling.
 
@@ -38,6 +38,10 @@ The engagement doesn't end at ship. It ends when the customer can maintain what 
 **`retrospectives/YYYY-MM-DD-<engagement>.md`** - one file per close (separate files make cross-engagement patterns scannable). **`patterns.md`** - reusable patterns extracted. **`handoff.md`** - the 2am document.
 
 ## Checkpoint
+
+**Check the handoff as a lookup tool.** Give the intended operator one realistic task, such as finding the owner and recovery steps for a failed run. Can they locate the answer and its source in the permitted handoff without your explanation? A reader finding the instructions is not proof they can execute them; verify operation separately in the agreed safe environment. Correct the passage they could not use, rather than adding a longer introduction.
+
+If the operator is unavailable, a fresh reviewer can attempt the same lookup using only the permitted draft and task. Report this as a simulated clarity check, not operator validation, customer approval, or a green close. Use one focused pass for a consequential handoff; do not add a committee or a second approval ritual.
 
 Direct assessment to the FDE: did the engagement achieve `success.md` · 2-3 lessons that matter · is the pattern worth encoding · is the handoff complete or where are the gaps. Also: value bucket + audit receipt green; eval **n/a or green**. Pending Measured without sponsor acceptance = gap, not green close. Honest - a gap named now is cheaper than a callback in six weeks.
 

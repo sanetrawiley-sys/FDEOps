@@ -1,5 +1,10 @@
 # Changelog
 
+## 4.0.1 - 2026-09-14
+
+- Make consequential interpretations and reversed instructions visible within the existing debrief review, without adding another approval step.
+- Add targeted history checks for unfamiliar code and task-based clarity checks for handoffs and sponsor updates. Keep uncertain rationale and simulated reader feedback distinct from verified evidence.
+
 ## 4.0.0 - 2026-09-13
 
 **Migration:** Combined `fde debrief --smart --apply` is no longer accepted. Run `fde debrief --smart notes.md`, review the proposal with `fde debrief --review`, then confirm with `fde debrief --apply`. Existing engagement files need no migration.

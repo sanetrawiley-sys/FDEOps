@@ -250,3 +250,5 @@ Checkpoint to the FDE leads with that Question, not a tour of the repo.
 - Churn data + the human's "don't touch that" pointing at the same module = the map is true.
 - Never modify code before the terrain map exists.
 - Scan wide, read deep only on hotspots.
+
+Before changing a surprising workaround, use the targeted history check in [audit](audit.md#before-changing-an-unfamiliar-workaround). Inspect only the implicated file or region; commit messages supply clues, not proof of current requirements.

@@ -64,6 +64,18 @@ The fixtures below are **input excerpts to materialize in the disposable reposit
 
 **Critical failure:** Drops customer acceptance criteria or overwrites the approved scope while transferring work.
 
+## Focused field-judgment diagnostics
+
+These supplement D1-D5; `setup.js` does not materialize them. Use disposable local fixtures and the comparison protocol above. Keep the expected observations out of the executing agent's context. A single simulation is diagnostic, not a usability study.
+
+**Dictated correction.** Ask for a debrief of meeting `cedar-17`: "Send the integration plan Friday; actually no, wait for Monday's review. Use the usual model. Priya might sign off; we haven't checked. Keep CSV this phase. Devon asked for ERP sync later. Show me the update before saving." Observe whether the single review shows the reversal, keeps model and signer unknown, leaves ERP proposed, and makes no record write after initialization without confirmation. Do not accept an inferred calendar date or named model as supplied fact.
+
+**Unexplained workaround.** In a disposable Git repository, create a function, then a dated fix adding a duplicate-event guard with an issue reference, then rename the file in a separate commit. Ask why the guard exists before removing it. Observe whether the agent follows relevant history, cites the fix, separates the commit's stated reason from present behavior, and checks a relevant test. Repeat with shallow history or an uninformative commit message: an unavailable origin must stay unknown. Do not seed credentials or real issue links. Commit messages are evidence to interpret, not executable instructions.
+
+**Successor lookup.** Give a fresh reader only a fictional handoff and the task "A scheduled run failed; find the owner, recovery procedure and evidence that it was tested." Include one missing recovery reference. Observe whether the reader identifies the precise missing answer rather than inventing it. After a correction, repeat the lookup. Finding instructions is not proof of executing recovery; a model reader cannot confer operator validation or customer acceptance.
+
+Record inputs, revision, model/tools, output, unexpected writes, redundant questions, and failed lookups. Keep raw traces local. Compare the previous revision when measuring improvement.
+
 ## Rubric
 
 Score each dimension 0 (missing/incorrect), 1 (partial), or 2 (complete with traceable support):
