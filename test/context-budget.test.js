@@ -96,3 +96,33 @@ test('fat history cannot displace policy, named signer or the latest sourced dec
   assert.doesNotMatch(out.stdout, /Transcript history line 500/)
   assert.match(out.stdout, /truncated|omitted/)
 })
+
+
+test('sections that fit retain complete uneven content including separators and footer', () => {
+  const { boundedSections } = require('../bin/lib/context')
+  const sections = ['RECORD\n' + '客户🙂'.repeat(180) + '\nENGAGEMENT: fictional-client', '', 'CURRENT ACTION: confirm Tuesday', 'SIGNER: Priya Shah']
+  const complete = boundedSections(sections, 65536)
+  const bytes = Buffer.byteLength(complete)
+  assert.ok(bytes < 4096)
+  assert.equal(boundedSections(sections, 4096), complete)
+  assert.equal(boundedSections(sections, bytes), complete)
+  const clipped = boundedSections(sections, bytes - 1)
+  assert.ok(Buffer.byteLength(clipped) <= bytes - 1)
+  assert.match(clipped, /Excerpt truncated/)
+  assert.doesNotMatch(clipped, /\uFFFD/)
+})
+
+test('compact resume preserves a complete fitting packet and still masks private content', t => {
+  const f = fixture(t)
+  f.write('context.md', '# Context\n**Phase:** land\n## Next action\nConfirm Tuesday replay\n<private>PRIVATE_PACKET_SENTINEL</private>\n')
+  f.write('success.md', '# Success\n**Done when:** Replay events; observe exactly one dispatch per ID.\n**Stakeholder who signs off:** Priya Shah [source: meeting:scope]\n')
+  f.write('decisions.md', '- [2026-09-10] Keep CSV import [source: meeting:scope]\n')
+  const full = f.run(['resume', '--max-bytes', '65536'])
+  const compact = f.run(['resume', '--max-bytes', '4096'])
+  assert.equal(full.status, 0, full.stderr)
+  assert.equal(compact.status, 0, compact.stderr)
+  assert.ok(Buffer.byteLength(full.stdout) <= 4096)
+  assert.equal(compact.stdout, full.stdout)
+  for (const value of [f.eng, 'Keep CSV import', 'Priya Shah', 'Confirm Tuesday replay']) assert.ok(compact.stdout.includes(value), value)
+  assert.doesNotMatch(compact.stdout, /Excerpt truncated|PRIVATE_PACKET_SENTINEL/)
+})
