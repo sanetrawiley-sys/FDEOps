@@ -168,7 +168,8 @@ function installSkillDirs(opts = {}) {
   for (const entry of fs.readdirSync(SKILLS_SRC, { withFileTypes: true })) {
     const src = path.join(SKILLS_SRC, entry.name)
     const dest = path.join(GLOBAL_SKILLS_DIR, entry.name)
-    if (!entry.isDirectory()) { copyFile(src, dest); continue }
+    // Repository-level documentation is not an installable skill.
+    if (!entry.isDirectory()) continue
     if (isLink(dest)) { links.push(entry.name); continue }
     try {
       checkTree(src, dest)

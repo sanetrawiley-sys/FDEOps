@@ -316,3 +316,22 @@ test('a permission failure during copy never retires the old task', { skip: proc
     assert.equal(fs.readFileSync(path.join(old, 'personal/notes.md'), 'utf8'), 'retain all my notes')
   } finally { fs.chmodSync(dest, 0o700) }
 })
+
+for (const kind of ['file', 'symlink']) {
+  test(`install and force preserve a personal skills README (${kind})`, t => {
+    const f = fixture(t)
+    const dest = path.join(f.home, '.claude/skills/README.md')
+    fs.mkdirSync(path.dirname(dest), { recursive: true })
+    if (kind === 'symlink') fs.symlinkSync(f.sentinel, dest)
+    else fs.writeFileSync(dest, 'personal skill catalog\n')
+    const before = fs.readFileSync(dest, 'utf8')
+    for (const args of [[], ['--force']]) {
+      const result = f.run(...args)
+      assert.equal(result.status, 0, result.stdout + result.stderr)
+      assert.equal(fs.readFileSync(dest, 'utf8'), before)
+      assert.equal(fs.lstatSync(dest).isSymbolicLink(), kind === 'symlink')
+      assert.equal(fs.readFileSync(f.sentinel, 'utf8'), 'user-owned evidence\n')
+      assert.ok(fs.existsSync(path.join(f.home, '.claude/skills/discover/SKILL.md')))
+    }
+  })
+}
