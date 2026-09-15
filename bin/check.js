@@ -6,6 +6,7 @@ const fs = require('fs')
 const path = require('path')
 
 const root = path.join(__dirname, '..')
+const catalog = require('./skill-catalog')
 let failed = 0
 
 function fail(msg) {
@@ -190,8 +191,8 @@ ok(`router dispatch (${mentioned.length} reference targets verified) + memory co
     // a skill could disappear from the docs behind a hyphenated sibling.
     const absent = [...documented].filter(name => !new RegExp(`(?<![\\w-])${name}(?![\\w-])`).test(body))
     if (absent.length) fail(`${rel} does not list skill(s): ${absent.join(', ')}`)
-    const claims = [...body.matchAll(/(\d+)\s+skills/g)].map(m => Number(m[1]))
-    if (!claims.length) fail(`${rel} must state how many skills it documents`)
+    const claims = [...body.matchAll(/(\d+)\s+workflows/g)].map(m => Number(m[1]))
+    if (!claims.length) fail(`${rel} must state how many workflows it documents`)
     const wrong = [...new Set(claims.filter(n => n !== documented.size))]
     if (wrong.length) {
       fail(`${rel} claims ${wrong.join('/')} skills; ${documented.size} are documented`)
@@ -204,20 +205,10 @@ ok(`router dispatch (${mentioned.length} reference targets verified) + memory co
   if (extra.length) fail(`unrouted reference file(s) - dead skill: ${extra.join(', ')}`)
   else ok('no unrouted reference files')
 
-  // The on-site change loop lives in ship.md. A sibling skill is a split.
-  for (const dead of ['small-prs.md', 'thin-slices.md', 'implement.md']) {
-    if (fs.existsSync(path.join(refDir, dead))) {
-      fail(`${dead} must not exist - that craft lives in ship.md`)
-    }
-  }
-  ok('ship is one skill (no implement / small-prs / thin-slices sibling)')
-
   if (/^### Prove\b/m.test(read('skills/fde/SKILL.md'))) {
     fail('SKILL.md must not use Prove as a stage heading - the public stage is Outcome')
   } else ok('SKILL.md stage heading is Outcome')
-  if (/\b31 names\b|\b31 skills\b/.test(read('README.md'))) {
-    fail('README must not advertise 31 skills')
-  } else ok('README skill count is 30')
+
 }
 
 const install = read('bin/install.js')
@@ -292,11 +283,11 @@ if (!readme.includes('fde-engagements') || !/fdeops.*resume --init/i.test(readme
 // The advertised command must name the one skill a field user wants.
 // Contributor CLI attack notes live in evals/testing-fieldbook.md, not as a skill.
 for (const m of readme.match(/^.*npx skills add .*$/gm) || []) {
-  if (!m.includes('--skill fde')) {
-    fail(`README skills-add command must pin --skill fde: ${m.trim()}`)
+  if (!['fde', ...catalog.map(s => s.name)].some(name => new RegExp(`--skill ${name}(?:\\s|$)`).test(m))) {
+    fail(`README skills-add command must name a shipped skill: ${m.trim()}`)
   }
 }
-ok('README skills install is one skill')
+ok('README skill install commands name a discoverable entry')
 
 // A skill-only install has no fde on the PATH; the router must reach npx before
 // falling back to writing memory by hand.
@@ -661,9 +652,10 @@ for (const entry of fs.readdirSync(path.join(root, 'skills'))) {
     ok(`skill ${entry} discoverable`)
   }
 }
-if (skillDirs.length !== 1 || skillDirs[0] !== 'fde') {
-  fail(`public tree ships one skill (skills/fde); found: ${skillDirs.join(', ') || '(none)'}`)
-} else ok('one public skill')
+const expectedSkills = ['fde', ...catalog.map(s => s.name)].sort()
+if (JSON.stringify(skillDirs.sort()) !== JSON.stringify(expectedSkills)) fail('Skill directories differ from catalog')
+try { require('./generate-skills').generate(true); ok('generated standalone reference closure and freshness') }
+catch (error) { fail(error.message) }
 
 function findSkillMd(dir, acc = []) {
   for (const e of fs.readdirSync(dir, { withFileTypes: true })) {
@@ -675,10 +667,9 @@ function findSkillMd(dir, acc = []) {
   return acc
 }
 const skillFiles = findSkillMd(root)
-const allowedSkill = path.join('skills', 'fde', 'SKILL.md')
-if (skillFiles.length !== 1 || skillFiles[0] !== allowedSkill) {
-  fail(`only ${allowedSkill} may exist; found: ${skillFiles.join(', ') || '(none)'}`)
-} else ok('one SKILL.md')
+const allowedSkills = expectedSkills.map(name => path.join('skills', name, 'SKILL.md')).sort()
+if (JSON.stringify(skillFiles.sort()) !== JSON.stringify(allowedSkills)) fail('Unexpected SKILL.md outside public catalog')
+else ok('all skill entry points accounted for')
 
 if (!fs.existsSync(path.join(root, '.github', 'ISSUE_TEMPLATE', 'bug_report.yml'))) {
   fail('GitHub issue template missing')

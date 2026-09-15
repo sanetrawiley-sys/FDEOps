@@ -2,7 +2,7 @@
 
 Contributor notes for adversarially testing `bin/fde.js`, engagement resolution, `bin/check.js` session gates, the hooks, and the `<private>` redaction boundary. Sandboxed so no user-owned engagement data is touched. Local-only, no network, no credentials.
 
-This is not an installable skill. The public tree ships one skill: `skills/fde/`.
+This is not an installable skill. The coordinator is `skills/fde/`; standalone task packages are generated from its canonical references.
 
 ## Sandbox harness (use for every case)
 

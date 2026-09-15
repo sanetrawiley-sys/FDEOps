@@ -100,7 +100,7 @@ function wasInstalledByUs(dir) {
   } catch (_) { return false }
 }
 
-// v2 shipped 16 standalone skills; v3 is one `fde` skill + references.
+// Retire v2 entries only when the current pack does not ship their replacement.
 // Leaving the old ones in place would route users to stale content.
 const LEGACY_SKILL_DIRS = [
   'fde-land', 'fde-discover', 'fde-audit', 'fde-rescue', 'fde-sketch',
@@ -115,6 +115,7 @@ function removeLegacySkills(opts = {}) {
   const skipped = []
   const links = []
   for (const dir of LEGACY_SKILL_DIRS) {
+    if (fs.existsSync(path.join(SKILLS_SRC, dir, 'SKILL.md'))) continue
     const p = path.join(GLOBAL_SKILLS_DIR, dir)
     if (isLink(p)) { links.push(dir); continue }
     if (!fs.existsSync(path.join(p, 'SKILL.md'))) continue

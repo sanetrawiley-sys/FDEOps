@@ -24,9 +24,9 @@ Skill and doc changes are **reviewed and merged by the maintainer only**. If you
 1. Open an issue first - one paragraph on the on-site situation.
 2. Wait for alignment before spending time on a large PR.
 
-Skills should be **specific** (actionable steps), **verifiable** (an artifact in `.fde/`), and **minimal**. The `fde` CLI stays local-only.
+Skills should be **specific** (actionable steps), **verifiable** (a concrete artifact and evidence; confirmed `.fde/` updates when bound), and **minimal**. The `fde` CLI stays local-only.
 
-Adversarial CLI notes (resolution, hooks, `<private>`, non-regular files) live in [`evals/testing-fieldbook.md`](evals/testing-fieldbook.md). That file is not a skill - do not add a second `SKILL.md`.
+Adversarial CLI notes (resolution, hooks, `<private>`, non-regular files) live in [`evals/testing-fieldbook.md`](evals/testing-fieldbook.md). That file is not a skill. Public skill entry points are generated from the canonical catalog.
 
 **What we won't build:** SaaS sync; Slack/Notion/Granola **push** inside the CLI; CRM as core; hardware capture; generic code-craft packs. You may **pull** via *your* MCP.
 
@@ -80,3 +80,7 @@ Never commit `.fde/` or engagement exports. See [SECURITY.md](SECURITY.md).
 ## License
 
 MIT. By contributing text you agree your contribution is licensed under MIT and may be edited by the maintainer.
+
+### Task skill packaging
+
+Author methods once under `skills/fde/references/`. Add or refine task entry metadata in `bin/skill-catalog.js`, then run `npm run generate:skills`. Commit canonical changes and regenerated `skills/fde-*` directories together. `npm run check` verifies reference closure and freshness; isolated installation must work without sibling skills. Keep examples fictional and local evaluation traces outside Git.

@@ -1,6 +1,6 @@
 # The catalog
 
-One skill (`@fde`) routes. You never pick a skill by name. 30 skills across 6 stages. Not prompts - each skill is a workflow with an artifact and a checkpoint.
+`@fde` coordinates an engagement. Individual task skills use the same methods directly. 34 workflows across 6 stages. Not prompts - each skill is a workflow with an artifact and a checkpoint.
 
 Three layers:
 
@@ -35,18 +35,18 @@ These are short paths through the existing skills, not additional skills or sepa
 - [ ] [Ship](../skills/fde/references/ship.md): verify security, realistic load, failure handling, observability, release authority, rollback, and AI evaluations where relevant.
 - [ ] [Runbook](../skills/fde/references/runbook.md) and [close](../skills/fde/references/close.md): confirm an operating owner, escalation path, evidence, and scoped customer acceptance before handing over.
 
-## Engagement skills (30 skills across 6 stages)
+## Engagement skills (34 workflows across 6 stages)
 
 | Stage | Skills | What it covers |
 |--------|--------|---------------|
 | **Land** (Engage) | land, audit, who-decides, earn-trust, hold-scope | First days: access, credibility, scope |
 | **Discover** (Diagnose) | discover, test-assumptions, score-use-cases, poc | Finding the real problem behind the brief |
 | **Plan** (Align) | plan, business-case, three-options, pick-three | Sequencing work, getting sponsor alignment |
-| **Ship** (Deliver) | ship, what-breaks, rescue, review, rollback | Visible on their staging, then go-live |
+| **Ship** (Deliver) | build, integrate, debug, qa, ship, what-breaks, rescue, review, rollback | Visible on their staging, then go-live |
 | **Outcome** (Realize) | readout, demo-prep, debrief, board-memo, dashboard, ingest, connect | Get the number accepted; dated receipts |
 | **Close** (Transfer) | close, runbook, switch-clients, encode-pattern, red-team | They can run it without you |
 
-Each skill is a workflow, not a prompt: the thinking the agent does, the artifact it drafts into `.fde/` under `~/fde-engagements/`, and the checkpoint with the human FDE.
+Each workflow produces a concrete artifact and evidence. Standalone tasks use supplied context; bound engagements save confirmed decisions into `.fde/` under `~/fde-engagements/`.
 
 **Field judgment (blended into skills, not a separate pack):** land/discover use **brief interrogation** when the brief is thin; `@fde` enforces **anti-invention gates**; ship/red-team run a **pre-blast challenge** before irreversible moves.
 
@@ -69,3 +69,7 @@ Overlays layer domain judgment onto whatever skill is running - the agent activa
 - [skills-reference.md](./skills-reference.md) - what each skill does, stage by stage
 - [schema.md](./schema.md) - the `.fde/` files the skills write
 - [USAGE.md](./USAGE.md) - what to type, day to day
+
+## Standalone entry points
+
+See [the task catalog](../README.md#task-skills). Each selective installation includes its reference dependencies. Source methods remain in `skills/fde/references/`; generated packages are checked for freshness and completeness. No other skill pack is required.

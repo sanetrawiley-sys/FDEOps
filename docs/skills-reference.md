@@ -1,6 +1,6 @@
-# The catalog - one skill, 30 skills across 6 stages
+# The catalog - task skills and 34 workflows across 6 stages
 
-v3 ships **one skill**: `@fde` ([skills/fde/SKILL.md](../skills/fde/SKILL.md)). You describe the situation; it routes to a stage and follows that skill from [skills/fde/references/](../skills/fde/references/). Engagement memory lives in `~/fde-engagements/<name>/.fde/` (one folder per customer).
+The engagement coordinator is `@fde` ([skills/fde/SKILL.md](../skills/fde/SKILL.md)). You describe the situation; it routes to a stage and follows that skill from [skills/fde/references/](../skills/fde/references/). Engagement memory lives in `~/fde-engagements/<name>/.fde/` (one folder per customer).
 
 Each reference is a **skill, not a prompt**: the thinking the agent does, the artifact it drafts, and the checkpoint with the human FDE. The **Use when** column below is what the router actually matches on - the phrases in `skills/fde/SKILL.md` that send you to that skill, not a paraphrase.
 
@@ -44,6 +44,10 @@ Each reference is a **skill, not a prompt**: the thinking the agent does, the ar
 
 | Skill | What it does | Use when |
 |-------|-------------|----------|
+| [build](../skills/fde/references/build.md) | Implement a scoped change | Build the increment in their repository |
+| [integrate](../skills/fde/references/integrate.md) | Connect customer systems | APIs, imports, mappings and write-back |
+| [debug](../skills/fde/references/debug.md) | Reproduce and repair a failure | Unexpected behavior or a regression |
+| [qa](../skills/fde/references/qa.md) | Exercise the delivered journey | Functional acceptance and browser QA |
 | [what-breaks](../skills/fde/references/what-breaks.md) | Assess impact | What could go wrong, touching shared infrastructure, need to assess impact, provision, IaC, shared infra |
 | [rescue](../skills/fde/references/rescue.md) | Resolve the incident | Production down, urgent, fix a prod bug, resolve incident - or stakeholder gone quiet, trust slipping |
 | [ship](../skills/fde/references/ship.md) | Deliver the increment | Start building, update their checkout, first module, visible progress, going live, pre-flight, build the increment, create the launch plan |
@@ -114,9 +118,13 @@ Also-ran skills on the same loop (not a second map): [audit](../skills/fde/refer
 ## The memory contract (what makes it a second brain)
 
 1. On entry the agent reads a bounded view of `context.md` (via `fde resume`) - nothing else until the phase needs it.
-2. **Deliverable = memory:** every phase's output IS a `.fde/` file; nothing is maintained by hand.
+2. **Deliverable plus memory:** deliver the code, evidence or decision artifact; persist confirmed engagement outcomes when bound.
 3. Every claim carries evidence: `(ops lead, Day 5)` · `(churn: 47/90d)` · `(stated, unverified)`.
 4. On exit (and before a PR) the agent runs a **session digest** - TL;DR, key decisions & why, scope/verification, gotchas, next action - into existing `.fde/` files (not chat transcripts into the product repo); the `session-stop` hook backstops a thin snapshot (hooks resolve the engagement via the workspace registry written by `fde resume --init`).
 5. One customer, one folder. Never merged.
 
-One `@fde` router. Thirty skills across six stages.
+One `@fde` router. Thirty-four workflows across six stages.
+
+## Standalone entry points
+
+See [the task catalog](../README.md#task-skills). Each selective installation includes its reference dependencies. Source methods remain in `skills/fde/references/`; generated packages are checked for freshness and completeness. No other skill pack is required.

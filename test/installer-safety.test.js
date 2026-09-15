@@ -169,3 +169,26 @@ test('macOS system temporary-directory aliases remain usable', { skip: process.p
   fs.symlinkSync(f.outside, child)
   assert.throws(() => checkPath(path.join(child, 'new-file')), /unsafe/)
 })
+
+test('reintroduced standalone entries survive reinstall without deleting personal additions', t => {
+  const f = fixture(t)
+  assert.equal(f.run().status, 0)
+  const skill = path.join(f.home, '.claude/skills/fde-build')
+  const notes = path.join(skill, 'personal-notes.md')
+  fs.writeFileSync(notes, 'retain my field checklist')
+  assert.equal(f.run().status, 0)
+  assert.equal(fs.readFileSync(notes, 'utf8'), 'retain my field checklist')
+  assert.ok(fs.existsSync(path.join(skill, 'references/build.md')))
+  assert.ok(fs.existsSync(path.join(skill, 'references/task-context.md')))
+})
+
+test('standalone catalog preserves a conflicting user-owned skill', t => {
+  const f = fixture(t)
+  const skill = path.join(f.home, '.claude/skills/fde-build')
+  fs.mkdirSync(skill, { recursive: true })
+  fs.writeFileSync(path.join(skill, 'SKILL.md'), '# My personal builder\n')
+  const result = f.run()
+  assert.equal(fs.readFileSync(path.join(skill, 'SKILL.md'), 'utf8'), '# My personal builder\n')
+  assert.match(result.stdout + result.stderr, /fde-build/)
+  assert.equal(fs.existsSync(path.join(skill, 'references')), false)
+})
