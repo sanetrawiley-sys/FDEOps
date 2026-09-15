@@ -116,30 +116,19 @@ Write estimates to `decisions.md` under `## Sizing`. Include the assumptions - w
 
 ## Method - migration strategy (when the engagement is "move from X to Y")
 
-Migrations are the most common enterprise FDE engagement. The strategy precedes the plan:
+Choose the strategy from the existing contracts and permitted operating constraints before sequencing changes.
 
-**Step 1: Classify the migration type.**
+**Step 1: Classify what changes.** Rehost moves infrastructure; replatform changes platform dependencies; refactor changes implementation; replace introduces a different system; retire removes one. Identify affected data, callers, ownership and external effects. The label alone does not determine the risk.
 
-| Type | What it means | Risk profile |
-|------|---------------|-------------|
-| **Rehost** (lift-and-shift) | Same code, different infrastructure | Low code risk, high ops risk |
-| **Replatform** | Minor code changes to use new platform features | Medium risk, clear scope |
-| **Refactor** | Rewrite components to fit the new architecture | High risk, scope creep magnet |
-| **Replace** | Buy/build new, retire old | Highest risk, requires parallel running |
-| **Retire** | Turn off, nobody uses it | Politically hard, technically easy |
+**Step 2: Order by compatibility.** Map who calls or reads what, which versions coexist, and which prerequisite each change needs. There is no universal leaf-first order. Add compatible schema/API capabilities and reader support before switching dependent writers or callers. Remove an old contract only after its consumers and retention obligations permit it, within approved scope.
 
-**Step 2: Map the dependency graph.** What calls what. What breaks if this moves first. The migration order is the reverse of the dependency chain - leaf nodes first, core last.
+**Step 3: Choose cutover and data handling.** Compare a direct switch, staged replacement or parallel comparison against downtime, consistency, capacity and side-effect constraints. Parallel execution must not duplicate customer actions. For a live backfill, define resumable batches, how concurrent writes are preserved, and reconciliation of actual values and tenant ownership; row counts alone do not prove correctness. Use the existing platform's supported mechanisms and test their failure cases.
 
-**Step 3: Define the cutover strategy.**
-- **Big bang** - everything moves at once. Fast but catastrophic on failure. Only for small systems.
-- **Strangler fig** - new traffic to new system, old traffic drains. Safe but slow. Preferred for anything load-bearing.
-- **Parallel run** - both systems run, outputs compared. Expensive but safest for data-critical systems.
+**Step 4: Specify recovery before cutover.** Use the recovery required for release: rollback, restore, compensation or roll-forward must match the effects that persist and the agreed recovery limits. Do not route to an old binary that cannot read new writes. Identify the irreversible boundary, required authority, operator and stop conditions; exercise the chosen recovery in a permitted representative environment before release. Missing recovery evidence blocks cutover, not useful planning or reversible preparation.
 
-**Step 4: Write the rollback before the migration starts.** "If we move service X and it fails, we route back to old within [time]." No rollback = no migration.
+**Step 5: Define phase acceptance.** Check supported old/new version combinations, no lost updates, tenant isolation and relevant service-level targets. Record baseline, environment, thresholds, evidence and operating owner rather than imposing generic percentages.
 
-**Step 5: Define success metrics per phase.** Not "migration complete" - that's a project plan. "Error rate same or lower, latency within 10%, zero data loss, team can operate without FDE." Measurable, per service.
-
-Write migration strategy to `decisions.md` under `## Migration`. Each service gets a row: type, order, cutover method, rollback, success metric.
+In a bound engagement, propose the migration plan in `decisions.md` under `## Migration`. Each step records compatibility prerequisites, cutover/data handling, recovery and acceptance evidence. Standalone work returns the same plan directly.
 
 ## When the plan changes mid-engagement
 
@@ -164,4 +153,4 @@ First visible slice goes to Marco, not Priya: he is the one whose morning change
 - No kill list, no finished plan.
 - No **Kill if** on a Now PR, that PR is hope.
 - Estimates are ranges, not promises. Name the assumptions and the observation that voids them.
-- Migrations: leaf nodes first, core last. Rollback before cutover.
+- Migrations: compatibility determines order; verified recovery precedes cutover.

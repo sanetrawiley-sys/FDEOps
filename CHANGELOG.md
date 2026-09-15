@@ -1,5 +1,12 @@
 # Changelog
 
+## 5.1.3 - 2026-09-15
+
+- Order migrations by contract compatibility and choose tested recovery appropriate to persistent effects.
+- Account for concurrent updates and tenant ownership during live backfills.
+- Check affected documentation and examples when public behavior changes.
+- Review dependency execution policy before installation and qualify performance claims against comparable measurements.
+
 ## 5.1.2 - 2026-09-15
 
 - Check plans against all supplied requirements and reuse answers already provided.
