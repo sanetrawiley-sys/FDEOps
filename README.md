@@ -4,17 +4,40 @@
 
 <a name="why-use-it"></a>
 
-You're on a customer site. The AI coding agent writes code in their repo. This kit is the work around that code: the brief, who can say yes, proof on their staging then live, whether they signed off, whether they can run it after you leave.
+Take a customer request from discovery through implementation, verification and handoff. Use one task skill for the work in front of you, or `@fde` to coordinate the engagement and keep its decisions and evidence together.
 
 Notes stay on your laptop, in a separate record for each client. Review the agent's proposed changes before saving them.
 
-Keep the coding pack you already use. FDEOps adds the client brief, decisions, and evidence around that work.
+Implementation, integration, debugging and QA are included. Use your existing repository tools; no additional skill pack is required. Credentials, infrastructure and production authority still come from the customer.
 
-[Quick start](#quick-start) · [Daily fieldbook](#your-daily-fieldbook) · [30 skills](#all-30-skills) · [Documentation](docs/README.md)
+[Quick start](#quick-start) · [Daily fieldbook](#your-daily-fieldbook) · [Task skills](#task-skills) · [Documentation](docs/README.md)
 
 <img width="960" height="640" alt="FDEOps: client delivery from the first meeting to handover" src="https://github.com/user-attachments/assets/2bcb8739-55ee-445d-8a1a-8b38433b7b58" />
 
 ---
+
+## Task skills
+
+Call the task directly when you know what you need. No client folder is required for a one-off task.
+
+| Work | Skill |
+|------|-------|
+| Understand the workflow | `fde-discover` |
+| Handle a new scope request | `fde-scope` |
+| Compare approaches | `fde-options` |
+| Test a risky assumption | `fde-poc` |
+| Implement, integrate, repair | `fde-build`, `fde-integrate`, `fde-debug` |
+| Review, evaluate AI, test the journey | `fde-review`, `fde-evaluate`, `fde-qa` |
+| Release a verified increment | `fde-ship` |
+| Present evidence, transfer operation, reuse a lesson | `fde-readout`, `fde-handoff`, `fde-feedback` |
+
+For example, install just the integration skill:
+
+```bash
+npx skills add suboss87/fdeops --skill fde-integrate
+```
+
+Ask it to connect a permitted customer API and test retry behavior. It includes the references it needs. `@fde` uses those same methods when the integration is part of an ongoing engagement. [Full pack and selective installation](docs/install.md#individual-skills-and-the-full-pack).
 
 ## Quick Start
 
@@ -138,9 +161,9 @@ You can also just say it: “Prep me for the sponsor meeting,” “What did we 
 
 ---
 
-## All 30 Skills
+## Engagement workflows
 
-Thirty situations, grouped by stage. Each skill gives the agent steps to follow, a record or report to produce, and a checkpoint with you. You describe the work; `@fde` finds the skill.
+Thirty-four workflows, grouped by stage. Each skill gives the agent steps to follow, a record or report to produce, and a checkpoint with you. You describe the work; `@fde` finds the skill.
 
 Full detail: [docs/skills-reference.md](docs/skills-reference.md).
 
@@ -176,7 +199,11 @@ Full detail: [docs/skills-reference.md](docs/skills-reference.md).
 
 | Skill | What it does | Use when |
 |--------|--------------|----------|
-| [ship](skills/fde/references/ship.md) | Deliver the increment | Building, updating, or going live |
+| [build](skills/fde/references/build.md) | Implement the increment | A scoped change in their repository |
+| [integrate](skills/fde/references/integrate.md) | Prove the system boundary | APIs, imports and write-back |
+| [debug](skills/fde/references/debug.md) | Reproduce and repair a failure | Unexpected behavior or a regression |
+| [qa](skills/fde/references/qa.md) | Exercise the delivered journey | Functional acceptance or browser QA |
+| [ship](skills/fde/references/ship.md) | Release with evidence | Ready for an authorized rollout |
 | [what-breaks](skills/fde/references/what-breaks.md) | Assess impact | Touching shared infrastructure |
 | [rescue](skills/fde/references/rescue.md) | Resolve the incident | Down, or they went quiet |
 | [review](skills/fde/references/review.md) | Review the change | Before merge, scope creep |

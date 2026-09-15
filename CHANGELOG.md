@@ -1,5 +1,14 @@
 # Changelog
 
+## 4.1.0 - 2026-09-15
+
+- Make existing field workflows available as selective, self-contained task skills alongside the `@fde` coordinator, generated from one canonical source.
+- Include implementation, integration, debugging and journey QA methods; another coding skill pack is optional.
+- Support standalone tasks without mandatory engagement initialization. Preserve bounded, sanitized context and confirmed judgments for bound work.
+- Clarify evidence, bounded automation authority, operating ownership, cost assumptions and reusable field lessons.
+- Preserve reintroduced managed skills and personal additions across installation upgrades; verify generated packages and selective reference closure.
+
+
 ## 4.0.4 - 2026-09-15
 
 - Reserve active engagement identity before allocating compact context excerpts; preserve the output cap and private masking.

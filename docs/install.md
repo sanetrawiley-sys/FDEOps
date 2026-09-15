@@ -101,7 +101,7 @@ The CLI works without a model. AI-assisted use requires a local model and an age
 
 **Switching tools:** the fieldbook stays at `~/fde-engagements/<client>/.fde/`. Install `@fde` on the new tool, open a bound workspace (`fde resume --init <client>` once if needed), then `@fde` / `fde resume`. Same client record. Session start/stop hooks are Claude Code-first; other tools get the same brain and CLI, usually on demand.
 
-One skill file powers every tool. Drop the right adapter into the **client workspace** (the repo you open in the tool - not only the engagement folder):
+The coordinator uses the same canonical methods in every tool. Drop the right adapter into the **client workspace** (the repo you open in the tool - not only the engagement folder):
 
 ```bash
 node bin/install.js adapters /path/to/client-workspace
@@ -207,3 +207,13 @@ Two things `--force` does **not** override:
 ## Usage
 
 [USAGE.md](./USAGE.md) · [OPERATIONS.md](./OPERATIONS.md)
+
+## Individual skills and the full pack
+
+Install only the task you need with `npx skills add suboss87/fdeops --skill fde-integrate` (substitute a name from the [task catalog](../README.md#task-skills)). Each directory is self-contained; selective installation does not require the `fde` coordinator or another author's pack.
+
+For all task entries, the coordinator, CLI and hooks, use the existing Claude Code plugin installation or run `node bin/install.js` from a reviewed local checkout. The installer preserves unowned skill directories and reports collisions; `--force` is an explicit overwrite choice. Reinstalling updates managed entries without deleting current skills as legacy names.
+
+On a skill-compatible host, `@fde` coordinates from the request. Direct `fde-*` calls work from the supplied context without creating a client record. In an existing engagement they reuse the sanitized current packet and confirmed scope. Hooks and adapters remain optional coordinator entry points, not copies of task logic.
+
+Skills supply methods. They do not install customer dependencies, provide credentials, grant production access or bundle a browser. Use the repository's test and browser tools; unavailable checks must be reported as unrun. A successful local check is not a claim of compatibility with every host or customer environment.

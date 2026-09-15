@@ -16,6 +16,19 @@ Coverage includes private-output redaction, client binding, pending reviews, sou
 
 The context fixture reduces 1,120,010 bytes of history to a 16,384-byte response and retrieves three targeted records among 10,000 unrelated lines. This verifies a byte ceiling and retrieval in that fixture, not a fixed token count, model accuracy, or percentage of tokens saved.
 
+## Composable pack validation (4.1.0, 2026-09-15)
+
+The local candidate passed all 367 repository tests (zero failures or skips), the structural gate, and the routing contract/live CLI smoke. The routing smoke exercises CLI mechanics; it does not prove automatic model selection of every task skill. Packaging checks copy each standalone skill into isolation, verify local instruction links and canonical dependency closure, detect stale generation, and test reintroduced installer entries and user-owned collisions.
+
+Two isolated agent trials used only a copied task skill and fictional permitted inputs:
+
+- **Integration:** implemented a bounded retry adapter and ran ten tests against a real loopback HTTP server. Lost responses after committed writes produced two attempts and one downstream task. Permanent rejection, uncertain outcomes and cancellation were tested. No engagement folder, extra dependency or external skill pack was used.
+- **Options:** produced a decision artifact from an incomplete customer brief without initialization. It kept scope and acceptance pending, distinguished capacity from spend, and compared feasible routes without padding the alternatives.
+
+A separate code/instruction reviewer found a standalone POC planning gate that still required an initialized engagement. That gate was corrected in the canonical method and regenerated packages; the reviewer verified the fix. Focused packaging and readiness checks passed afterward.
+
+These are synthetic agent trials, not customer deployments or independent human usability evidence. The integration receiver implemented the supplied contract in memory; live authentication, durable upstream deduplication and production behavior were not tested. Automatic selection across every host, every standalone workflow, and every model remains unverified. These checks describe the release candidate; release status is recorded in GitHub Releases and npm.
+
 ## Identifier masking
 
 A two-session Codex/GPT-6-Astra diagnostic prepared a masked meeting review, waited for explicit confirmation, applied it, and retrieved the saved action with the same aliases. External checks found the original email and phone restored in local records, no stored aliases, and no raw fixture identifiers or private marker in either model trace. This is one scripted case, not comprehensive PII or host certification.

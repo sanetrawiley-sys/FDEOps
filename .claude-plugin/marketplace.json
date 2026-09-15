@@ -4,15 +4,15 @@
     "name": "Subash Natarajan",
     "url": "https://github.com/suboss87"
   },
-  "description": "Forward deployed engineering skills for AI coding agents - one @fde skill, local .fde/ client record.",
+  "description": "Forward deployed engineering task skills and @fde coordination, with local engagement records.",
   "metadata": {
-    "description": "Forward deployed engineering skills for AI coding agents - one @fde skill, local .fde/ client record."
+    "description": "Forward deployed engineering task skills and @fde coordination, with local engagement records."
   },
   "plugins": [
     {
       "name": "fdeops",
       "source": "./",
-      "description": "Forward deployed engineering skills for AI coding agents. One @fde skill is the client record: the brief is wrong, they went quiet, when did we agree, what's the outcome. Dated memory (sponsor, promise, decision, acceptance) lands in local .fde/ files as you confirm. For Forward Deployed Engineers running several clients at once."
+      "description": "Use focused skills for discovery, scope, implementation, integration, debugging, evaluation, release and handoff. Or use @fde to coordinate the engagement and keep confirmed decisions and evidence in local .fde/ records."
     }
   ]
 }

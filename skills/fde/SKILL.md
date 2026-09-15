@@ -7,7 +7,11 @@ description: Keeps the engagement record for client work. Use when they name a c
 
 ## Purpose
 
-The **engagement record** for one client, from first meeting to signed outcome. One skill; six stages (land → close). Same map at any scale, on greenfield or brownfield, in any industry (overlays). You route; they never pick a skill. Confirm, then write `.fde/`. The workspace still compiles and commits. `@fde` does not leave.
+The **engagement record** for one client, from first meeting to signed outcome. One coordinator; six stages (land → close), with task skills that also work independently. Same methods on greenfield or brownfield engagements. Route from the request; never make the user choose a phase. Confirm, then write `.fde/`. The workspace still compiles and commits. `@fde` does not leave.
+
+## Task entry
+
+Read `references/task-context.md` first. An explicitly selected `fde-*` task runs directly; do not wrap it in another coordinator or repeat entry. For a one-off task with supplied context, use the relevant method without initializing `.fde/`. For ongoing client work use the bounded entry and memory contract below. Missing record files alone are not a reason to restart discovery.
 
 ## When to use
 
@@ -42,15 +46,15 @@ On someone else's site the work is not "write code, remember later." Every chang
 
 Scale the loop to the change. A routine, reversible fix within confirmed scope reuses the existing outcome, signer, acceptance criteria, and engineering plan; batch its verification into a concise delivery receipt. It does not need a new sponsor decision or staging ceremony per edit. New outcomes, changed acceptance or authority, and production release decisions still need the relevant confirmation and evidence. This does not bypass confirmation for judgment written into the engagement record.
 
-**Status is explicit.** Record what is implemented, verified, deployed, and accepted separately. A routine fix may be implementation-complete before release or customer acceptance; state what remains and attach the current verification receipt. A coding pack may write the function; `@fde` owns the engagement evidence.
+**Status is explicit.** Record what is implemented, verified, deployed, and accepted separately. A routine fix may be implementation-complete before release or customer acceptance; state what remains and attach the current verification receipt. The included build, integrate, debug and QA methods cover implementation; `@fde` connects their evidence to the engagement.
 
-## Working with an engineering pack
+## Engineering within the pack
 
-Use the customer's existing coding, testing, review, and repository instructions for implementation. Carry the confirmed outcome, scope boundary, acceptance criteria, and evidence requirements into that workflow. Reference its existing plan from `decisions.md`; do not create a competing backlog or repeat questions already answered. FDEOps owns the engagement record and acceptance status. A coding pack's green tests do not establish customer acceptance. Never claim compatibility was tested with a host or pack you have not run.
+Use `references/build.md` for implementation, `references/integrate.md` for customer-system boundaries, `references/debug.md` for failures and `references/qa.md` for the delivered journey. Each uses `references/verification.md` for actual evidence. These methods use the customer's coding conventions and installed tools; another skill pack is not required. Use an existing engineering plan rather than creating a competing backlog. Green tests establish tested behavior, not customer acceptance or production authority.
 
 ## Human surface vs agent plumbing
 
-**FDE (human):** `@fde` + English, or `/brief` `/discover` `/plan` `/ship` `/outcome` `/close` `/debrief` `/prep` `/trust` `/receipts` `/readout`. Never a skill catalog.
+**FDE (human):** `@fde` + English, or `/brief` `/discover` `/plan` `/ship` `/outcome` `/close` `/debrief` `/prep` `/trust` `/receipts` `/readout`. They may also invoke an individual `fde-*` skill directly.
 
 **You (agent):** run the CLI. **Never tell the FDE to type** `fde …`. If unbound, you run `fde resume --init` after one question. Never ask them to run the CLI.
 
@@ -91,7 +95,7 @@ Writes need a bind (`FDEOPS_ENGAGEMENT` or registry). Never install fdeops on in
 ## The memory contract
 
 1. **On entry:** follow **Entry (every session)** above for the current packet and refresh rules. Retrieve additional evidence through targeted `fde recall` when needed.
-2. **Deliverable = memory.** The work *is* the `.fde/` file. The reference names which one.
+2. **Deliverable plus memory.** Deliver the requested code, evidence or decision artifact. On a bound engagement, record the confirmed result in the file named by the method. A standalone artifact does not require a `.fde/` folder.
 3. **Evidence.** Without a supplied source, a decision or measurement remains CLAIM. Use `[source: meeting YYYY-MM-DD]`, a PR/URL, transcript ID, or artifact path. The automatic log date is not attribution. ON RECORD means a source was supplied, not that it was authenticated or the customer approved. Never invent a source, signer, or acceptance.
 4. **No invented facts.** People, quotes, meetings, numbers: they said it or the repo shows it. Else `unknown - ask: <question>`.
 5. **Session digest** (end of session and before a PR) - thinking, not the chat. Confirm, then write. Never a transcript dump.
@@ -162,7 +166,11 @@ Work names (engage, diagnose, align, deliver, realize, transfer) are the same ma
 |----------|-------|-----------|
 | What could go wrong, touching shared infrastructure, need to assess impact, assess impact, provision, IaC, shared infra | what-breaks | `references/what-breaks.md` |
 | Production down, urgent, fix a prod bug, resolve incident, restore service - OR stakeholder gone quiet, trust slipping | rescue | `references/rescue.md` |
-| Deliver, start building, update their checkout, first module, visible progress, their tests, POC follow-through, ready to deploy, going live, pre-flight, deliver the increment, build the increment, create the launch plan, design their UI | ship | `references/ship.md` |
+| Deliver, start building, update their checkout, first module, their tests, build the increment, design their UI | build | `references/build.md` |
+| Customer API, connector, data mapping, write-back, import, upstream integration | integrate | `references/integrate.md` |
+| Reproduce a failure, unexpected output, regression, debug a connector | debug | `references/debug.md` |
+| Exercise the customer journey, browser acceptance, functional QA | qa | `references/qa.md` |
+| Ready to deploy, going live, pre-flight, release the verified increment | ship | `references/ship.md` |
 | Review this change, review the pull request, is it safe, does it match what we agreed | review | `references/review.md` |
 | Diff grew / scope creep in the PR / "did we only build what we said" / KEEP JUSTIFY SPLIT DROP | review (+ ship if going live) | `references/review.md` Stage 1 · `references/ship.md` Intent vs diff |
 | Wrap the session / share the thinking / catch teammates up / before I open the PR | (memory contract - session digest) | SKILL.md **Session digest** - write TL;DR + decisions/why into `.fde/`; no transcript sync |
@@ -203,17 +211,17 @@ Work names (engage, diagnose, align, deliver, realize, transfer) are the same ma
 | Payments, cardholder data, PCI-DSS, anything that moves money | `references/fintech.md` |
 | Government agency, FedRAMP, ATO, CUI, classified | `references/gov.md` |
 
-Ready to build with no `terrain.md` / plan: discover or plan first. Takeover without `audit.md`: audit first. Two customers in one message: confirm which folder.
+Ready to build: check that the supplied facts establish the outcome, constraints and verification path. Use discover or plan only for material gaps. On a takeover, audit inherited claims that affect the task. Two customers in one message: confirm which folder.
 
 ## Principles
 
 - Never ask the FDE to pick a phase. That's your job.
 - Same six stages at any scale. Overlays carry the industry. Greenfield and brownfield change the first move inside ship, not the map.
-- Ground loop on a bound client: name → characterise → verify in the agreed environment → authorize release → log. A coding pack may write the function. `@fde` still owns done. When they disagree, their repo and the signer win.
+- Ground loop on a bound client: name → characterise → verify in the agreed environment → authorize release → log. The included engineering methods do the build. `@fde` keeps delivery status explicit. When they disagree, their repo and the signer win.
 - Customer delivery needs a replayable acceptance check in the agreed environment; reuse existing criteria for routine fixes. Missing evidence means unproven, not an observed test failure. Never equate implementation-complete with deployed or customer-accepted.
 - Read the current entry packet before speaking; follow **Entry (every session)** above. One sharp question - never a barrage.
 - Never invent people, meetings, or numbers - `unknown - ask:` beats a polished lie.
-- Every phase ends with its artifact written. No artifact, no "done."
+- Deliver the task artifact; persist confirmed engagement judgments only when bound. Never manufacture a record to satisfy a checklist.
 - Evidence on every claim. The FDE will be challenged on these files.
 - Overlays activate on signal, not on request.
 - Load `.fde/` files on demand, never the whole folder.
