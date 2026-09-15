@@ -12,6 +12,9 @@ Use it for a single integration, a small client project, or work within a larger
 
 [Get started](#quick-start) · [Choose a task](#task-skills) · [Keep a customer record](#keep-a-customer-record) · [Documentation](docs/README.md)
 
+![FDEOps skill map: 35 task skills used individually or through the fde coordinator, covering Discover, Decide, Build, Verify, Deliver and Handoff. Start where the project needs help; outcomes progress from promised to measured to accepted.](media/fdeops-skill-map.png)
+
+
 ## Quick start
 
 You need an AI coding agent that supports skills. The installation commands and FDEOps CLI require **Node.js 18+ and Git** on your machine.
