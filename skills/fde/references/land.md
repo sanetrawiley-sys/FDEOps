@@ -2,7 +2,7 @@
 
 **Enter when:** new customer, first meeting, just got the brief, nothing started yet.
 
-**Read first:** `context.md` if it exists, then the supplied brief. Once the engagement type and AI/access policy are known, inspect the supplied repo/docs relevant to the ask before asking questions they can answer. This is a bounded evidence check, not a full discovery scan.
+**Read first:** apply [task context](task-context.md), then permitted `context.md` evidence if it exists and the supplied brief. Once the engagement type and AI/access policy are known, inspect the supplied repo/docs relevant to the ask before asking questions they can answer. This is a bounded evidence check, not a full discovery scan.
 
 ## Validation gate (confirm understanding, clarify where it elevates)
 
@@ -26,27 +26,27 @@ Format - one question at a time, with a guess the FDE can correct:
 
 ```
 READ: <one sentence - what you think they actually need>
-CONFIDENCE: ~NN% - missing: <what still blocks a safe start>
+MISSING: <fact or authority that changes the next action>
 Q: <one focused question>
-GUESS: <your best answer, so they can push back fast>
+POSSIBLE READ: <clearly labeled interpretation, if useful; never guessed authority>
 ```
 
-Wait for the reaction before the next question. Stop when confidence is high enough to write `success.md` without inventing names, or when the FDE says move on. Every answer that is still unknown stays `unknown - ask:` in the artifact - never fill the gap with a plausible stakeholder.
+Wait for the reaction before the next question. Stop when the next authorized action is clear, or when the FDE says move on; unanswered material gaps remain visible. Every answer that is still unknown stays `unknown - ask:` in the artifact - never fill the gap with a plausible stakeholder.
 
 ## Method - part 1: interrogate the brief (you do this work)
 
 Read the brief the FDE gives you. Separate **observed** (source/path and date), **reported** (who said it), and **hypothesis** (how to test it). A requested solution such as “build an agent” is not evidence of the cause. Ask only about gaps that change scope, access, acceptance, or the next investigation. What is **not** in the brief matters as much as what is. Produce the gap list yourself:
 
-- **No named decision-maker** → the FDE will spend two weeks building for someone who can't say yes. Flag it.
-- **"Straightforward cleanup" on an 8-year-old system** → the previous attempt is still visible in git history as a revert. Flag it.
-- **Very tight timeline** → someone already promised the outcome before hiring the FDE. Flag it.
-- **No out-of-scope section** → scope creep is pre-authorized. Flag it.
+- **No named decision-maker** → identify who or what can accept the outcome and the source of that authority; keep it unknown until established.
+- **"Straightforward cleanup" on an 8-year-old system** → inspect permitted relevant history and tests for prior attempts and constraints; age alone proves neither complexity nor a previous failure.
+- **Very tight timeline** → establish the deadline, its source and which commitments are actually agreed.
+- **No out-of-scope section** → clarify material boundaries against the existing agreement. An omission does not authorize additional work.
 
 Write these into `brief.md` as **questions to answer**, not problems - they're what the FDE is walking in to resolve.
 
 Pre-arrival checks to run through with the FDE:
-- Access confirmed? Repo, environment, docs. Waiting for access on day two burns trust.
-- Has someone tried this before? Find out why it failed before assuming this approach is different.
+- Access confirmed for the next task? Repo, environment and docs may have different permissions; identify gaps before dependent work.
+- Has someone tried this before? Establish what happened and what evidence remains; do not assume the attempt failed.
 - Other vendors/teams in scope? Then the FDE is not the only one in the room, even when alone in the meeting.
 - Tech stack recon: job postings, GitHub org - know the stack before they say it.
 
@@ -59,21 +59,21 @@ Intent: coach the FDE's first *customer* conversation - what keeps the sponsor u
 - "Who loses credibility if this goes wrong?"
 - "If nothing changes over the agreed timeframe, what happens, and who bears it?" Record the consequence and its source in `brief.md`; distinguish reported impact from measured cost. Unknown cost stays unknown, not an invented ROI.
 
-Let silence sit. If their fear doesn't match the written brief, the brief is wrong - say so plainly, log it.
+Allow time for an answer. If a stated concern differs from the brief, record the difference and clarify whether it changes the agreed outcome; neither statement automatically supersedes the other.
 
 **Listen for, and capture as you hear it:**
-- **The real decision-maker** - whoever others mention most, especially if not yet met. That's who judges the work.
-- **The previous attempt** - "we tried something similar last year" is the most important sentence in the first meeting. Who was involved? Still there and protective, or gone because of it?
-- **The passed-over internal team** - they know exactly what's wrong, and they resent the FDE's presence. Find them before the first standup, ask what they tried, use their language in every meeting. Make them look right and they protect you; ignore them and they wait for the mistake.
-- **The sacred thing** - "Is there anything in this environment I should treat as untouchable?" The hesitation before the answer is the answer.
+- **Decision rights** - who can approve scope, accept the result and authorize release, as relevant. A frequently mentioned person may be influential; confirm their actual authority and scope.
+- **The previous attempt** - "we tried something similar last year" identifies evidence to investigate. Who was involved, what happened, and which constraints still apply? Do not infer why someone left.
+- **The existing internal team** - ask what they tried, what they know and what they expect to own. Use established terminology and credit their work. Do not assume resentment, displacement or complete knowledge of the problem.
+- **The sacred thing** - "Is there anything in this environment I should treat as untouchable?" Capture the stated boundary and applicable policy; hesitation alone does not identify a restriction.
 - **Exception path (operating map seed)** - "When the happy path breaks this week, what do people actually do - who do they call, what spreadsheet opens, what do they skip?" Capture the break → workaround → who owns it. Do not build a full map on day 1; seed rows later in `terrain.md` → `## Operating map (exception-led)` during discover. Unknowns stay `unknown - ask:`.
 - **AI posture and policy** - tools already in use (sanctioned or shadow), and: "Does your organisation have a policy on AI-generated code? Are there decisions where you would not be comfortable with AI involvement?"
 - **Future operator** - "Who will run this after we leave, and have they agreed?" Record the proposed operator and unresolved ownership in `success.md`, separately from the signer. A sponsor naming a team is not that team accepting responsibility; verify with the operator during discover.
 - **Boundaries in multi-vendor rooms** - who owns what surface, who signs off before a change crosses it.
 
-## The day 1 deliverable
+## An early deliverable
 
-After `success.md` names a signer (or the FDE explicitly overrides with `unknown - ask:` still visible), ship one visible thing before the end of day 1: a small bug fix, a cleanup the team has stepped over, a dashboard tweak, a config improvement. Not because it matters technically - because it proves you can ship in their environment without breaking things. The first deploy sets the trust trajectory for the entire engagement. A day-1 deliverable earns more credibility than a week-3 architecture deck. Skip it until the land gate is met.
+Choose an early useful result within confirmed scope: a verified small fix, a permitted diagnostic, or a concise map of an unresolved problem. Reuse the existing outcome and authority for routine work. A first-day deadline does not grant deployment permission or waive verification; use `ship` for a release. If a missing signer blocks a consequential decision, keep it visible and continue independent preparation.
 
 ## Artifact (write as the conversation is debriefed)
 
@@ -81,7 +81,7 @@ After `success.md` names a signer (or the FDE explicitly overrides with `unknown
 
 **`success.md`** - what done looks like, **primary value bucket** (`cost-save` | `risk-mitigation` | `revenue-uplift`), baseline → target, who actually signs off, what is explicitly out of scope. Record agreement only with its source and scope; otherwise label the target proposed. For each baseline, record source, date/window, environment, and sample size when relevant. An operator recollection is reported, not measured. If no baseline exists, name the measurement owner and cheapest way to obtain it; do not manufacture a number.
 
-For every target number, run the **gaming check** before it is written down: *how could this metric hit its target without the customer being any better off?* There is always an answer, and the answer is what the org will drift toward under pressure. Write the guard next to the metric:
+For every target number, run the **gaming check** before it is written down: *how could this metric hit its target without the customer being any better off?* Identify plausible failure modes without predicting that the customer will exploit them. Write a relevant guard next to the metric:
 
 ```markdown
 | Metric | Baseline → target | Gamed by | Guard |
@@ -89,19 +89,19 @@ For every target number, run the **gaming check** before it is written down: *ho
 | reconciliation alert latency | 4h → 15min | alerting on everything, so nobody reads them | alerts acked by a named owner, ≤2/week |
 ```
 
-A metric with no gaming check is a metric the FDE will be held to and cannot defend. If the customer resists the guard, that is the real conversation - they are attached to the number, not the outcome.
+If a proposed guard is disputed, capture the stated reason and assess its cost and effect on the outcome. Do not infer that the customer values the number over the result.
 
 **`stakeholders.md`**:
 ```markdown
 | Who | Role | Signal | Notes |
 |-----|------|--------|-------|
-| <name> | sponsor / champion / resistor / veto / passed-over | green/amber/red | <evidence, day> |
+| <name> | <observed participation role; authority recorded separately> | green/amber/red | <evidence, day> |
 ```
 If `stakeholders.md` already has a `## Signal history` section (it does from the template), **never delete or overwrite it** when you rewrite this file - it holds the dated `[signal:...]` tokens `fde log contact --signal` and `fde debrief` write, and `fde status`/`fde receipts`/the dashboard read only from that section. Edit the table above it freely; keep the section below intact.
 
 **`trust-profile.md`** - sacred data (`<private>` tagged), fears heard, AI policy, approval chain. Sensitive: skip for status reads; use CLI/redacted surfaces; never paste raw `<private>` into prompts or subagents.
 
-**`assumptions.md`** - seed every unverified claim from the brief (and the day-1 hypothesis) as rows with Kind `UNKNOWN` (or `CONVENTION` if they said "we always"), blast radius CRITICAL / LOAD-BEARING / CONVENIENCE, and status `OPEN`. Do not wait for test-assumptions - land makes the register exist. Example:
+**`assumptions.md`** - seed consequential unverified claims from the brief (and the initial hypothesis) as rows with Kind `UNKNOWN` (or `CONVENTION` if they said "we always"), blast radius CRITICAL / LOAD-BEARING / CONVENIENCE, and status `OPEN`. Do not wait for test-assumptions - land makes the register exist. Example:
 
 ```markdown
 | # | Assumption | Kind | Blast radius | How we test | Status | Evidence |
@@ -113,7 +113,7 @@ One falsifiable hypothesis about the real problem also goes at the bottom of `br
 
 ## Checkpoint
 
-One page back to the FDE: success + value bucket + sign-off owner, out-of-scope boundary, sacred data, stakeholder map with veto power, AI posture, the hypothesis, the top CRITICAL assumptions still OPEN, and any exception-path seeds heard (break → workaround → owner) for discover to map into `terrain.md`. If it doesn't fit one page, the engagement isn't understood yet.
+One page back to the FDE: success + value bucket + sign-off owner, out-of-scope boundary, sacred data, stakeholder map with veto power, AI posture, the hypothesis, the top CRITICAL assumptions still OPEN, and any exception-path seeds heard (break → workaround → owner) for discover to map into `terrain.md`. Keep the summary short and link necessary detail; a complex engagement may need supporting evidence.
 
 If remote: agree how progress and blockers will be shared; use a short call when asynchronous context is insufficient.
 
@@ -121,16 +121,16 @@ If remote: agree how progress and blockers will be shared; use a short call when
 
 Kickoff at Acme payments. Priya (VP Eng) sponsors; the brief says "add monitoring to the reconciliation service."
 
-Asking what happens the week after a perfect delivery gets: "I stop hearing about it from finance." That is the real success statement - not monitoring. The previous attempt surfaces too: the platform team built alerting last year, it was turned off. Raj, who built it, is still there and was not in the kickoff - the passed-over team, found on day 1 rather than at the first standup.
+Asking what happens the week after a perfect delivery gets: "I stop hearing about it from finance." That suggests a concern to clarify alongside the monitoring request. The previous attempt surfaces too: the platform team built alerting last year, it was turned off. Raj, who built it, is still there and was not in the kickoff. Ask for his account of the earlier attempt; his absence does not explain his views.
 
-What gets written: `success.md` with bucket `risk-mitigation`, `reconciliation failures reach a named owner within 15 min (baseline: 4h, found by finance)`, gaming check `alerting on everything so nobody reads them` → guard `≤2 alerts/week, acked by name`, sign-off Priya. `brief.md` carries the gap list and the hypothesis: *the job is not unmonitored, it is unowned*. `assumptions.md` seeds `"finance would act on an alert" - CRITICAL - OPEN - (stated, unverified)`. `trust-profile.md` records the sacred thing Priya hesitated before naming.
+In this example Priya reports a four-hour baseline and proposes the following target; her acceptance authority still needs its source. What gets written: `success.md` with proposed bucket `risk-mitigation`, `reconciliation failures reach a named owner within 15 min (baseline: 4h, found by finance)`, gaming check `alerting on everything so nobody reads them` → guard `≤2 alerts/week, acked by name`, proposed sign-off Priya until confirmed. `brief.md` carries the gap list and the hypothesis: *the job is not unmonitored, it is unowned*. `assumptions.md` seeds `"finance would act on an alert" - CRITICAL - OPEN - (stated, unverified)`. `trust-profile.md` records the boundary Priya explicitly names, through the permitted privacy-safe workflow.
 
-Day-1 deliverable: fix the log line that swallows the job's exit code. Small, visible, in their environment.
+Early deliverable: verify and fix the log line that swallows the job's exit code within the existing scope. Deployment remains subject to the established release authority and checks.
 
 ## Principles
 
-- Never start technical work before `success.md` exists.
+- Establish the outcome and authority needed for the next action; missing record files do not block useful standalone work.
 - Sacred data tagged `<private>` stays out of model context: use CLI/redacted reads; never paste raw private blocks.
-- The brief is a hypothesis; discover confirms it. Seed `assumptions.md` on day one.
-- The passed-over internal team is the best source of truth, not an obstacle.
+- Treat unverified parts of the brief as hypotheses; discovery may support or overturn them. Record consequential assumptions.
+- Learn from the existing team and verify consequential claims without guessing motives.
 - If the customer cannot define success, that is the first problem to solve.

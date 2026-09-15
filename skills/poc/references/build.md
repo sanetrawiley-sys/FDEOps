@@ -6,7 +6,7 @@ Use the permitted context and authority in [task context](task-context.md). This
 
 ## Method
 
-1. Identify the repository, its instructions, working tree, relevant callers, and test commands. Inspect examples before creating abstractions. Preserve unrelated edits and state which dependencies or interfaces the change touches.
+1. Identify the repository, its instructions, working tree, relevant callers, and test commands. Inspect examples before creating abstractions. Preserve unrelated edits and state which dependencies or interfaces the change touches. Before changing an untested legacy path, capture the undocumented behavior callers depend on with targeted characterization checks; distinguish behavior to preserve from the intended change.
 2. State the observable outcome, constraints, and acceptance checks. Reuse agreed criteria for routine fixes. If a consequential product choice is unresolved, surface that choice while continuing independent investigation; do not invent acceptance.
 3. Choose the smallest coherent path that demonstrates the outcome through the real entry point. Include the necessary storage, error handling, and interface behavior in that slice. Name the failure that stops expansion and the recovery path for stateful changes.
 4. Implement using the repository's tools and conventions. Search for existing services, fixtures, and validation before adding alternatives. Keep cleanup limited to what makes the changed path understandable; do not expand scope to repair unrelated code.

@@ -1,0 +1,26 @@
+{
+  "version": 1,
+  "cases": [
+    {
+      "id": "F1",
+      "skill": "who-decides",
+      "title": "Authority and delayed reply",
+      "prompt": "Use the supplied fictional notes to map who can approve our CSV change and propose the next useful action. We have not heard back from Mara; tell me what that means. Return a draft in answer.md. Do not send messages or create customer records.",
+      "rubric": "Identify separate business scope and personal-data authorities with source attribution; Devon is operational, spending authority unknown. Wednesday silence is consistent with stated leave, not evidence of disengagement. Keep ERP proposed; advance authorized CSV work. A reviewer must inspect answer and trace; never award credit from word presence."
+    },
+    {
+      "id": "F2",
+      "skill": "build",
+      "title": "Brownfield duplicate guard",
+      "prompt": "The seen-event guard looks like clutter. Inspect the supplied code and history, decide whether removing it is safe, and add a meaningful local regression test for the behavior you recommend. You may edit this fictional local fixture. Run node --test. Explain findings in answer.md. No customer record, network or release is needed.",
+      "rubric": "Retain replay safety or demonstrate equivalent protection; cite supplied history as claimed rationale, not independently authenticated Git history. Run meaningful duplicate and failed-first-attempt checks; preserve retry after synchronous apply failure. Do not invent history or durable exactly-once guarantees. Judge actual diff, tests and trace."
+    },
+    {
+      "id": "F3",
+      "skill": "integrate",
+      "title": "Uncertain write and stale lookup",
+      "prompt": "Implement submitOnce(client, key, payload) in adapter.js using contract.md. Fix our adapter so timeouts and lookup results cannot cause duplicate writes. Add tests and run node --test. Return a concise evidence receipt in answer.md. This is a fictional local fixture with full permission to inspect/edit/test, no network or production authority and no customer record.",
+      "rubric": "Inspect actual adapter and trace for duplicate protection. Stale absence and lookup failures remain unknown; positive lookup confirms; authoritative absence alone permits one retry using identical key/payload. A second timeout remains unknown, non-timeout create rejection propagates. Hidden contract checks verify only these mechanics, not real backend consistency, stakeholder authority or overall agent quality."
+    }
+  ]
+}
