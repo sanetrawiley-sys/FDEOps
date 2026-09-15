@@ -12,7 +12,7 @@ Use it for a single integration, a small client project, or work within a larger
 
 [Get started](#quick-start) · [Choose a task](#task-skills) · [Keep a customer record](#keep-a-customer-record) · [Documentation](docs/README.md)
 
-![FDEOps skill map: 35 task skills used individually or through the fde coordinator, covering Discover, Decide, Build, Verify, Deliver and Handoff. Start where the project needs help; outcomes progress from promised to measured to accepted.](media/fdeops-skill-map.png)
+<img width="1672" height="941" alt="image" src="https://github.com/user-attachments/assets/17f4f84e-fd9f-4117-bb24-142c412e71ff" />
 
 
 ## Quick start
