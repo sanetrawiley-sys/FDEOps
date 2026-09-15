@@ -21,17 +21,18 @@ The engagement doesn't end at ship. It ends when the customer can maintain what 
 
 **1b. Value + receipts close gate (refuse green close if any fail):**
 - Primary value bucket in `success.md` matches what the sponsor funded; at least one ledger row has **Measured** (not forever-`pending`) with evidence **and a named customer-side owner in Accepted by** for that bucket - or the retrospective explicitly records “not measured; sponsor accepted pending.” A measured-but-unaccepted number closes as `claimed`; say so in the retrospective rather than closing green on arithmetic nobody signed.
+- The receiving team has accepted the operating responsibilities with a source. Critical operating capabilities (such as access, failure triage, recovery and disabling an AI action) are recorded as verified, failed or untested under the receiving team's intended access. Reuse applicable accepted ownership and drill evidence; a lookup exercise or a run using only the departing FDE's credentials is insufficient. Unresolved critical gaps prevent green closure.
 - Audit receipt exists for the final shipped path (exceptions/operating map walked; cite file).
 - Eval receipt: **n/a if no AI**, else final scoped eval result + operating owner and required human-review or bounded-automation authority recorded; kill switch / fallback named in `handoff.md`.
 - One line in the retrospective: which bucket moved, by how much, vs baseline.
 
 **2. The pattern.** Anything that happened here and will happen again - a compliance approach, a migration pattern, a stakeholder dynamic - gets encoded for reuse. Use [encode-pattern](encode-pattern.md) to distinguish candidate patterns from supported ones and protect customer data.
 
-**3. The handoff.** Operational knowledge for the person woken at 2am, not technical documentation: the 3 things that will break and the fix for each · who holds the tribal knowledge · what each alert means · deploy and rollback in plain language. AI components additionally: model version, what normal output looks like (so drift is recognisable), fallback behaviour, who owns retraining, **how to disable the AI path without taking down the feature** - without this the team turns it off at the first misbehaviour and it stays off.
+**3. The handoff.** Operational knowledge for the person woken at 2am, not technical documentation: the 3 things that will break and the fix for each · who holds the tribal knowledge · what each alert means · deploy and rollback in plain language. AI components additionally: model version, what normal output looks like (so drift is recognisable), fallback behaviour, who owns evaluation and corrective changes, and how to disable or contain the AI path using the supported fallback. Do not assume retraining is available or appropriate.
 
 **4. Transformation engagements - four extra answers in `handoff.md`:**
 - Who owns AI governance after the FDE leaves? (Who can pull a model from production?)
-- The retraining trigger, exactly: "precision < 0.82 on validation for 3 consecutive weeks → <owner> retrains." A number, a condition, an owner - not "when performance drops."
+- The response trigger: an agreed signal, threshold, observation window, owner and action. For example, a critical action-boundary failure can require pausing that path and investigating. Diagnose whether the cause is data, retrieval, configuration, integration or model behavior before choosing a correction; retraining is only one possible response.
 - The operating model at scale: who coordinates twenty use cases across five teams?
 - Decision authority for new use cases: intake, risk assessment, approver.
 
@@ -53,7 +54,7 @@ Acme, twelve weeks in, the FDE is rolling off.
 
 Retrospective against the receipts: `brief.md` asked for monitoring, `reality.md` proved it was ownership - and the delta is the most useful paragraph in the file, because it is exactly the argument the next engagement will need.
 
-The close gate bites in a useful way. The ledger shows detection at 12 minutes measured across two real incidents, but **Accepted by** is empty - Marco confirmed it in Slack, Denise (finance) never did, and Denise is whose escalation started the engagement. So it closes as `claimed` with a one-line retrospective note and a named next step, rather than a green close on a number nobody with budget agreed to.
+The close gate bites in a useful way. The ledger shows detection at 12 minutes measured across two real incidents, but **Accepted by** is empty - Marco confirmed it in Slack, but Denise, the recorded acceptance owner, has not accepted the result. Her authority comes from the agreed acceptance record, not her finance title or the fact that she raised the original problem. So it closes as `claimed` with a one-line retrospective note and a named next step, rather than a green close on a number the agreed acceptance owner has not accepted.
 
 `handoff.md` is written for the person woken at 2am: the three things that break, what the page means, how to re-run manually the way Marco does, and who holds the tribal knowledge (Raj, who built the original job - credited, because he protects it now). `patterns.md` gets *"unowned job" presents as "unmonitored job"* - it has now happened twice.
 
