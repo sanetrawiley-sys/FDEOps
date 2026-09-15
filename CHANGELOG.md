@@ -1,5 +1,10 @@
 # Changelog
 
+## 4.1.1 - 2026-09-15
+
+- Make standalone sponsor readouts and handoffs explicitly use supplied context without engagement-only CLI gates.
+- Synchronize obsolete generated skill files and retired entries safely, while keeping validation read-only and protecting unowned files.
+
 ## 4.1.0 - 2026-09-15
 
 - Make existing field workflows available as selective, self-contained task skills alongside the `@fde` coordinator, generated from one canonical source.

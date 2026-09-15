@@ -29,6 +29,12 @@ A separate code/instruction reviewer found a standalone POC planning gate that s
 
 These are synthetic agent trials, not customer deployments or independent human usability evidence. The integration receiver implemented the supplied contract in memory; live authentication, durable upstream deduplication and production behavior were not tested. Automatic selection across every host, every standalone workflow, and every model remains unverified. These checks describe the release candidate; release status is recorded in GitHub Releases and npm.
 
+## Standalone corrections (4.1.1)
+
+An additional isolated agent trial drafted a sponsor readout and handoff using only the selective packages and supplied fictional facts. It used no engagement CLI or initialization, kept staging measurements and unaccepted ownership explicit, and reported recovery as unrehearsed.
+
+Generator regression coverage checks removed dependencies and catalog entries, read-only validation, ownership migration, unowned additions, modified obsolete files, symlinks and hard links. A separate reviewer reproduced a hard-link overwrite risk; the preflight guard and preservation regression resolved it. All ten focused packaging tests passed after that correction.
+
 ## Identifier masking
 
 A two-session Codex/GPT-6-Astra diagnostic prepared a masked meeting review, waited for explicit confirmation, applied it, and retrieved the saved action with the same aliases. External checks found the original email and phone restored in local records, no stored aliases, and no raw fixture identifiers or private marker in either model trace. This is one scripted case, not comprehensive PII or host certification.
