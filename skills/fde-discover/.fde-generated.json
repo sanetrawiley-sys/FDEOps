@@ -1,0 +1,10 @@
+{
+  "generator": "bin/generate-skills.js",
+  "version": 1,
+  "files": {
+    "SKILL.md": "ca2ab4e5d01f8715b344e0726a692aa6bc66a599a45ebea37b7f8e05f71b1e65",
+    "references/audit.md": "ed32ea78cbccb100742dd838e8cf4cd4b6f33ad44b3de7424fc624670d571dbc",
+    "references/discover.md": "6fc143a4224248c496b209bf36509c2f1aac7872aa0c0ba82656a94d0dee0f66",
+    "references/task-context.md": "8ec90708522e512a50a57ab2a377a7472e93bae169c6f075a93fa603ce2ad780"
+  }
+}

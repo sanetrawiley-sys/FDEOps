@@ -4,7 +4,7 @@
 
 **Enter when:** the engagement is ending - the customer team must run this without the FDE.
 
-**Read first:** bounded `fde handoff` or `fde resume`, then targeted `fde recall` for missing evidence. Build the full picture through relevant excerpts, not a full-directory load. Consult `terrain.md` only for the code paths needed by the successor.
+**Read first:** for standalone work, use the supplied permitted operating notes, evidence and ownership; no engagement binding or CLI command is required. For a bound engagement, use bounded `fde handoff` or `fde resume`, then targeted `fde recall` for missing evidence. Never initialize records merely to draft a handoff. Build the picture through relevant excerpts, not a full-directory load. Consult `terrain.md` only for code paths needed by the successor.
 
 The engagement doesn't end at ship. It ends when the customer can maintain what was built without calling.
 

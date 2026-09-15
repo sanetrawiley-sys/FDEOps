@@ -1,12 +1,14 @@
 # readout - Report the outcome
 
+**Context:** apply [task context and evidence](task-context.md). Standalone readouts use supplied permitted notes and evidence; no engagement binding or CLI command is required.
+
 **Enter when:** the weekly update is due, an exec asks "where are we," or the FDE says "I need to send Dana something." This artifact decides renewals; engineers underinvest in it.
 
-**Read first:** `success.md` (the yardstick), `delivery.md` (value ledger), `decisions.md` (plan + kill list), `assumptions.md` (OPEN criticals), `risks.md`, `context.md`. Gather the week's facts: `fde receipts` for agreements, `git log --since='7 days ago' --oneline` for shipped work.
+**Read first:** `success.md` (the yardstick), `delivery.md` (value ledger), `decisions.md` (plan + kill list), `assumptions.md` (OPEN criticals), `risks.md`, `context.md`. For bound work, gather agreements through `fde receipts`; use permitted repository history only when relevant. A commit shows a code change, not proof of deployment. For standalone work, use the supplied facts and mark missing evidence explicitly.
 
 ## Method (you do this work)
 
-**First:** run `fde status`. It prints the value ledger before trust - promised → measured → accepted by, or `claimed, not yet accepted`. Those lines locate the Situation; check their cited records before making the claim. CLI output summarizes recorded text, not independently verified acceptance. Do not invent a number the CLI did not print. If the CLI is unavailable, use the redacted source records and say so.
+**First:** for a bound engagement, run `fde status`. It prints the value ledger before trust - promised → measured → accepted by, or `claimed, not yet accepted`. Check cited records through sanitized CLI views before making the claim. CLI output summarizes recorded text, not independently verified acceptance. For standalone work, build the same distinction from supplied permitted context without running engagement-only commands or initializing records. If a bound CLI is unavailable, use only permitted supplied excerpts and report the limitation. Never infer acceptance or fabricate missing measurements.
 
 **Qualify the evidence before drafting.** For each result, identify baseline source, measurement environment, observation window/sample, and the scope of acceptance. Report an informal baseline as reported and a staging sample as staging; neither establishes realized savings. “Looks good” without what was accepted is not outcome acceptance. Attribute an engineer's note as such; do not turn it into a direct customer receipt. If evidence conflicts, include the conflict and the next verification action rather than choosing the flattering version.
 
@@ -20,8 +22,8 @@
 | **A - Answer** | What you recommend / what happens next week (≤3 bullets) | plan Now lane, delivery promised→measured |
 
 Then add, still on the same page:
-1. **Value this week** - from the value ledger: promised → measured (or "pending") → **accepted by whom**, with evidence citation. A measured number nobody on the customer side has agreed to is written as `claimed`, and the Ask never rests on it - if the whole case for the next phase is a claimed number, the real ask this week is "who signs off that this is real?".
-2. **Are they using it?** - Situation must say whether the workaround is still open: spreadsheet still running, shadow paste still happening, named operator completed Tuesday's job on the new path without you at the keyboard. A measured metric with the old path still live is `claimed`. That week's Ask is not "fund phase 2." It is "who on their side stops the old way, by when."
+1. **Value this week** - from the value ledger: promised → measured (or "pending") → **accepted by whom**, with evidence citation. An unaccepted measurement stays labeled as measured but unaccepted; do not present it as realized or accepted value. Preserve the actual decision needed: it may be funding a bounded test to resolve uncertainty, rather than asking for sign-off on evidence that does not yet exist.
+2. **Are they using it?** - Situation must say whether the workaround is still open: spreadsheet still running, shadow paste still happening, named operator completed Tuesday's job on the new path without you at the keyboard. If the old path remains live, report its role and remaining effort. Parallel operation may be a deliberate control; do not demand its removal without evidence and authority. Frame the next ask around the actual blocker or uncertainty.
 3. **Kill / defer reminder** - one line from the plan kill list so scope fights stay visible.
 4. **Hostile Q prep** - three questions a skeptical sponsor will ask, with one-line answers from memory.
 

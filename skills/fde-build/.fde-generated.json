@@ -1,0 +1,16 @@
+{
+  "generator": "bin/generate-skills.js",
+  "version": 1,
+  "files": {
+    "SKILL.md": "958f58e8ee13d187fe92a0c9d17e0499d8918a7f19b7f321378977038c103556",
+    "references/build.md": "3dfeed619eeb1c8401f5cdf65e6f803fb209c70cb464dac4e60a1c890fd3a6f7",
+    "references/debug.md": "c3bb344d38cc3552cb4e230c601a9be3fe173af2b2efb89aab6b7b04339f24f4",
+    "references/eval-pack.md": "0590b85d3cae0903c6b1274540c92eaa2a4373047e8a0548d6942516ef0bb9e1",
+    "references/integrate.md": "107a50bddf6cb0ba7f2bc006dfe9851800c6868e43f785a33ae4b737aeb74c95",
+    "references/qa.md": "d8f58e6d36436469a58aeb1107037f3e27fa81ff5b82d0e4df3c23eeadaf683c",
+    "references/review.md": "63a007f78288089cc84cccc72647e8ce6721b7efa0f4f8d6774c0f0af594749d",
+    "references/ship.md": "8cdcb2d4d6eb57e0adf3f1996bc02ae66920852ca304d2afd778fa483b7e969a",
+    "references/task-context.md": "8ec90708522e512a50a57ab2a377a7472e93bae169c6f075a93fa603ce2ad780",
+    "references/verification.md": "d453c075b849437375338fd23782ca7fe6d427b05137a2b10fc2f724aaf7f8a9"
+  }
+}
