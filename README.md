@@ -12,8 +12,7 @@ Use it for a single integration, a small client project, or work within a larger
 
 [Get started](#quick-start) · [Choose a task](#task-skills) · [Keep a customer record](#keep-a-customer-record) · [Documentation](docs/README.md)
 
-<img width="1672" height="941" alt="image" src="https://github.com/user-attachments/assets/17f4f84e-fd9f-4117-bb24-142c412e71ff" />
-
+<img width="1000" height="586" alt="fdeops-flow" src="https://github.com/user-attachments/assets/12bbec6a-d0b3-4d03-81aa-4b842731a044" />
 
 ## Quick start
 
