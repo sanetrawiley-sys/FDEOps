@@ -111,3 +111,36 @@ test('handoff retains long-form decision sources and orders recent decisions by 
   const entries = require('../bin/lib/provenance').datedDecisions(fs.readFileSync(path.join(f.eng, 'decisions.md'), 'utf8'))
   assert.deepEqual(entries.map(e => e.date), ['2026-01-01', '2026-09-08', '2026-09-10'])
 })
+
+
+test('short receipts retain original and correction sources for one decision', t => {
+  const f = fixture(t)
+  fs.writeFileSync(path.join(f.eng, 'decisions.md'), '- [2026-09-15] Approval withdrawn ' + 'context '.repeat(35) + '[source: meeting:0910] [source: meeting:0914]\n')
+  const r = f.run(['receipts', 'withdrawn'])
+  assert.equal(r.status, 0, r.stderr)
+  assert.match(r.stdout, /sources: meeting:0910; meeting:0914/)
+})
+
+test('receipts omit untouched scaffold but retain real statements and redacted line numbers', t => {
+  const f = fixture(t)
+  const template = fs.readFileSync(path.join(__dirname, '../templates/.fde/delivery.md'), 'utf8')
+  fs.writeFileSync(path.join(f.eng, 'delivery.md'), template + '\n- Acceptance is not yet confirmed.\n- Accepted by Mara [source: meeting:scope]\n')
+  const r = f.run(['receipts', 'accepted'])
+  assert.equal(r.status, 0, r.stderr)
+  assert.match(r.stdout, /Accepted by Mara/)
+  assert.doesNotMatch(r.stdout, /a customer-side name|\| Accepted by \|/)
+  assert.match(f.run(['receipts', 'Acceptance']).stdout, /Acceptance is not yet confirmed/)
+})
+
+
+test('receipt attribution clipping preserves Unicode and never leaves partial masking aliases', t => {
+  const f = fixture(t)
+  for (const source of ['A'.repeat(239) + '🙂' + 'B'.repeat(120), 'A'.repeat(230) + ' person@example.test ' + 'B'.repeat(120)]) {
+    fs.writeFileSync(path.join(f.eng, 'decisions.md'), '- [2026-09-15] Correction [source: ' + source + ']\n')
+    const r = f.run(['receipts', 'Correction'])
+    assert.equal(r.status, 0, r.stderr)
+    assert.match(r.stdout, /sources truncated/)
+    assert.doesNotMatch(r.stdout, /\uFFFD|person@example\.test/)
+    assert.doesNotMatch(r.stdout.replace(/\[\[(?:email|phone|identifier|credential|term):[a-f0-9]{16}\]\]/g, ''), /\[\[/)
+  }
+})
