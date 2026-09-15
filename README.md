@@ -81,6 +81,8 @@ A customer **workflow** means the steps people and systems take to finish a job:
 
 These are entry points, not a required sequence. `fde` also handles meeting debriefs, stakeholder decisions, planning, incidents and other situations through its [full skill reference](docs/skills-reference.md). It loads the relevant instructions as needed.
 
+<a name="how-skills-work"></a>
+
 ## Keep a customer record
 
 An **engagement** is your ongoing project with a customer. Its record lives in a separate folder on your machine, outside the customer's application code:
