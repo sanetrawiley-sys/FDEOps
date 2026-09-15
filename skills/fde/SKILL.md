@@ -126,7 +126,7 @@ Direct. Their words. No "Certainly." Playback 2-4 lines, then act. One question 
 
 New embed: sprint / standard / programme changes depth, not which skills exist. Before first code: safe place to break things, plus AI-code policy. Before go-live: who needs to know, what's the rollback. Before a sponsor artifact: as-is or gut-check first.
 
-Muddy signal: name it ("discover or rescue - leaning X"). Never a phase-picker interview. Default: land if new, audit if takeover.
+Muddy signal: name it ("discover or rescue - leaning X"). Never a phase-picker interview. Default: brief if new, audit if takeover.
 
 ## Routing - 6 stages
 
@@ -136,11 +136,11 @@ Work names (engage, diagnose, align, deliver, realize, transfer) are the same ma
 
 | You hear | Skill | Reference |
 |----------|-------|-----------|
-| Engage, onboarding, starting fresh, new customer, first meeting, just got the brief, set product strategy, define success metrics, scope the brief | land | `references/land.md` |
+| Engage, onboarding, starting fresh, new customer, first meeting, just got the brief, set product strategy, define success metrics, scope the brief | brief | `references/land.md` |
 | Taking over, previous consultant left, joining mid-project | audit | `references/audit.md` |
 | Need to understand who matters, who decides, map decision rights, who blocks quietly | who-decides | `references/who-decides.md` |
 | Need to earn access, navigate AI policy, build credibility | earn-trust | `references/earn-trust.md` |
-| "Also can you…", scope expanding, timeline unchanged, hold scope, scope the brief after kickoff | hold-scope | `references/hold-scope.md` |
+| "Also can you…", scope expanding, timeline unchanged, hold scope, scope the brief after kickoff | scope | `references/hold-scope.md` |
 
 ### Discover
 
@@ -157,8 +157,8 @@ Work names (engage, diagnose, align, deliver, realize, transfer) are the same ma
 |----------|-------|-----------|
 | Align, break this down, what order, sequence the delivery, align the plan | plan | `references/plan.md` |
 | Sponsor needs justification, need to defend budget or timeline, build the business case | business-case | `references/business-case.md` |
-| Significant decision, multiple approaches, "what should we do?", generate solutions, generate options, not the playbook, from the surviving facts | three-options | `references/three-options.md` |
-| 20 things are "urgent," need to pick the 3 that matter, prioritize three | pick-three | `references/pick-three.md` |
+| Significant decision, multiple approaches, "what should we do?", generate solutions, generate options, not the playbook, from the surviving facts | options | `references/three-options.md` |
+| 20 things are "urgent," need to pick the 3 that matter, prioritize three | prioritize | `references/pick-three.md` |
 
 ### Ship
 
@@ -172,6 +172,7 @@ Work names (engage, diagnose, align, deliver, realize, transfer) are the same ma
 | Exercise the customer journey, browser acceptance, functional QA | qa | `references/qa.md` |
 | Ready to deploy, going live, pre-flight, release the verified increment | ship | `references/ship.md` |
 | Review this change, review the pull request, is it safe, does it match what we agreed | review | `references/review.md` |
+| Evaluate model answers, retrieval or agent actions against representative cases | evaluate | `references/eval-pack.md` |
 | Diff grew / scope creep in the PR / "did we only build what we said" / KEEP JUSTIFY SPLIT DROP | review (+ ship if going live) | `references/review.md` Stage 1 · `references/ship.md` Intent vs diff |
 | Wrap the session / share the thinking / catch teammates up / before I open the PR | (memory contract - session digest) | SKILL.md **Session digest** - write TL;DR + decisions/why into `.fde/`; no transcript sync |
 | "We can always revert" - need to actually test the escape route, rehearse rollback | rollback | `references/rollback.md` |
@@ -184,7 +185,7 @@ Work names (engage, diagnose, align, deliver, realize, transfer) are the same ma
 | Demo coming up, show-and-tell, exec walkthrough, prepare the demo | demo-prep | `references/demo-prep.md` |
 | Just out of a meeting, raw notes, "they said…", "debrief", user interviews, workshop notes, capture the meeting | debrief | the debrief verb (above) + `references/debrief.md` |
 | Make sure we're up to date, pull what's relevant, fetch from Granola/Slack/Gmail/transcript | ingest | `references/ingest.md` (capability check → stage → propose → confirm → apply) |
-| Connect a new MCP / connect Granola Slack or Notion / what can you pull | connect | `references/connect.md` (+ `mcp/recipes/`) |
+| Connect a new MCP / connect Granola Slack or Notion / what can you pull | connect | `references/connect.md` (+ `references/source-setup.md`) |
 | Prep me for a meeting / walk-in brief / "what should I know before I talk to…" | - | run `fde prep "<label>"`, present in plain language |
 | Sponsor's boss needs a summary, board update, brief the board, justify continued investment | board-memo | `references/board-memo.md` |
 | Status across all my customers, view the portfolio | dashboard | `references/dashboard.md` |
@@ -194,9 +195,9 @@ Work names (engage, diagnose, align, deliver, realize, transfer) are the same ma
 | You hear | Skill | Reference |
 |----------|-------|-----------|
 | Juggling 2+ customers, losing track, context-switching, switch engagements | switch-clients | `references/switch-clients.md` |
-| Transfer, wrapping up, handoff, making yourself replaceable, transfer operations | close | `references/close.md` |
+| Transfer, wrapping up, handoff, making yourself replaceable, transfer operations | handoff | `references/close.md` |
 | Engagement ending, team needs to operate without you, write the runbook | runbook | `references/runbook.md` |
-| Something worked well and will apply to future engagements, encode the pattern | encode-pattern | `references/encode-pattern.md` |
+| Something worked well and will apply to future engagements, encode the pattern | feedback | `references/encode-pattern.md` |
 | "Red-team this," "stress-test my plan," poke holes, challenge the plan, what am I missing | red-team | `references/red-team.md` |
 | "What did we agree about X?", scope dispute, receipts | - | run `fde receipts <term>`, answer with dates |
 

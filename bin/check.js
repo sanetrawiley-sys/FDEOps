@@ -115,9 +115,8 @@ for (const refFile of mentioned) {
 }
 ok(`router dispatch (${mentioned.length} reference targets verified) + memory contract`)
 
-// Public claims must match the router. The docs advertise a method count and a
-// per-domain list; both drifted from SKILL.md once (ingest / connect
-// routed but undocumented), and a number nobody can verify is worse than none.
+// Public names, routed instructions, installation entries and generated docs
+// must agree. A task must never be advertised without a usable package.
 {
   // Every routing row must parse. A row this misses is a method that could go
   // undocumented for free, so an unparsed row is a hard failure, not a silent skip.
@@ -150,55 +149,23 @@ ok(`router dispatch (${mentioned.length} reference targets verified) + memory co
       fail(`check.js cannot read the method name in a SKILL.md routing row: ${line.trim().slice(0, 80)}`)
       continue
     }
+    const entry = catalog.find(item => item.name === method)
+    const target = (line.match(/references\/([a-z0-9-]+)\.md/) || [])[1]
+    if (entry && entry.method !== target) fail(`Router points ${method} at ${target}, expected ${entry.method}`)
     routed.add(method)
   }
   if (!routed.size) fail('check.js could not parse the SKILL.md routing table')
 
-  // docs/skills-reference.md is the canonical per-skill list: one row per
-  // skill inside the six stage tables, ending at the Overlays section.
-  const reference = read('docs/skills-reference.md')
-  const documented = new Set()
-  let documentedRows = 0
-  for (const line of reference.split('### Overlays')[0].split('\n')) {
-    const m = line.match(/^\|\s*\[([a-z0-9-]+)\]\(\.\.\/skills\/fde\/references\/([a-z0-9-]+\.md)\)/)
-    if (!m) continue
-    documentedRows++
-    documented.add(m[1])
-    // A link nobody followed is the same unverifiable claim this gate exists for:
-    // the target must exist, and it must be the skill the text names.
-    if (m[2] !== `${m[1]}.md`) {
-      fail(`docs/skills-reference.md links [${m[1]}] at references/${m[2]}`)
-    } else if (!fs.existsSync(path.join(root, 'skills', 'fde', 'references', m[2]))) {
-      fail(`docs/skills-reference.md links references/${m[2]}, which does not exist`)
-    }
+  // Every routed task is installable and every public entry is reachable.
+  const names = new Set(catalog.map(item => item.name))
+  for (const name of routed) if (!names.has(name)) fail(`Routed task has no installable skill: ${name}`)
+  for (const item of catalog) {
+    if (!routed.has(item.name)) fail(`Installable skill has no coordinator route: ${item.name}`)
+    if (!router.includes(`references/${item.method}.md`)) fail(`Missing canonical instruction for ${item.name}`)
   }
-  if (documented.size !== documentedRows) {
-    fail(`docs/skills-reference.md lists ${documentedRows} skill rows for ${documented.size} skills - a duplicate row inflates the count`)
-  }
-  const undocumented = [...routed].filter(name => !documented.has(name))
-  if (undocumented.length) {
-    fail(`SKILL.md routes skill(s) missing from docs/skills-reference.md: ${undocumented.join(', ')}`)
-  }
-  // and the other direction: a documented skill nothing routes to is a skill
-  // the agent can never reach, advertised anyway.
-  const unrouted = [...documented].filter(name => !routed.has(name))
-  if (unrouted.length) {
-    fail(`docs/skills-reference.md documents skill(s) SKILL.md never routes to: ${unrouted.join(', ')}`)
-  }
-  for (const rel of ['docs/skills.md', 'docs/skills-reference.md']) {
-    const body = read(rel)
-    // `-` is a word boundary, so \bscore\b matches inside `score-use-cases`:
-    // a skill could disappear from the docs behind a hyphenated sibling.
-    const absent = [...documented].filter(name => !new RegExp(`(?<![\\w-])${name}(?![\\w-])`).test(body))
-    if (absent.length) fail(`${rel} does not list skill(s): ${absent.join(', ')}`)
-    const claims = [...body.matchAll(/(\d+)\s+workflows/g)].map(m => Number(m[1]))
-    if (!claims.length) fail(`${rel} must state how many workflows it documents`)
-    const wrong = [...new Set(claims.filter(n => n !== documented.size))]
-    if (wrong.length) {
-      fail(`${rel} claims ${wrong.join('/')} skills; ${documented.size} are documented`)
-    }
-  }
-  ok(`public skill count is verifiable (${documented.size} documented, ${routed.size} routed)`)
+  if (names.size !== catalog.length || new Set(catalog.map(item => item.method)).size !== catalog.length) fail('Duplicate public skill name or method')
+  try { require('./catalog-doc').checkCatalog(); ok('Public catalog matches installable skills') }
+  catch (error) { fail(error.message) }
 
   const refDir = path.join(root, 'skills', 'fde', 'references')
   const extra = fs.readdirSync(refDir).filter(f => f.endsWith('.md') && !mentioned.includes(f))
@@ -560,10 +527,14 @@ if (plugin.commands !== './.claude/commands' || plugin.skills !== './skills') {
 } else {
   for (const cmd of ['brief', 'discover', 'plan', 'ship', 'outcome', 'close', 'debrief', 'prep', 'trust', 'receipts', 'readout']) {
     const rel = `.claude/commands/${cmd}.md`
-    if (!fs.existsSync(path.join(root, rel))) fail(`${rel} missing`)
+    const task = catalog.find(item => item.name === cmd)
+    if (task) {
+      if (!fs.existsSync(path.join(root, 'skills', cmd, 'SKILL.md'))) fail(`Missing command skill: ${cmd}`)
+      if (fs.existsSync(path.join(root, rel))) fail(`Duplicate command and task skill: ${cmd}`)
+    } else if (!fs.existsSync(path.join(root, rel))) fail(`${rel} missing`)
     else if (!read(rel).includes('@fde')) fail(`${rel} must load @fde`)
   }
-  ok('slash commands load @fde')
+  ok('Task commands have one entry; legacy engagement shortcuts load @fde')
 }
 
 if (!fs.existsSync(path.join(root, 'mcp', 'fdeops-ingest', 'server.js'))) {

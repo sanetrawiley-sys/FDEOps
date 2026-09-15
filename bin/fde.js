@@ -569,8 +569,8 @@ function withFileLock(targetPath, fn, opts = {}) {
           console.error(msg)
           process.exit(1)
         }
-        const waitUntil = Date.now() + 20
-        while (Date.now() < waitUntil) { /* spin */ }
+        // This CLI is synchronous; yield CPU while the other writer finishes.
+        Atomics.wait(new Int32Array(new SharedArrayBuffer(4)), 0, 0, 20)
         continue
       }
       if (opts.soft) throw e

@@ -94,8 +94,19 @@ test('two agents applying the same proposal write it only once', async t => {
   })
   const results = await Promise.all([apply(), apply()])
   assert.deepEqual(results.map(r => r.status).sort(), [0, 1])
-  assert.match(results.find(r => r.status === 1).stderr, /nothing to apply/)
+  const loser = results.find(r => r.status === 1)
+  // A bounded lock timeout asks the caller to retry. Both writers have now
+  // exited, so that retry must observe the already-consumed proposal.
+  if (/could not lock \.debrief-propose - another writer is active; retry/.test(loser.stderr)) {
+    const retry = f.run(['debrief', '--apply'])
+    assert.equal(retry.status, 1)
+    assert.match(retry.stderr, /nothing to apply/)
+  } else {
+    assert.match(loser.stderr, /nothing to apply/)
+  }
   assert.equal(fs.readFileSync(path.join(f.eng, 'decisions.md'), 'utf8').split('CONCURRENT_ONCE').length - 1, 1)
+  assert.equal(fs.readFileSync(path.join(f.eng, 'risks.md'), 'utf8').split('SHARED_RISK').length - 1, 1)
+  assert.equal(fs.existsSync(path.join(f.eng, '.debrief-propose')), false)
 })
 
 test('failed explicit replacement preserves the old proposal and its sealed private note', t => {

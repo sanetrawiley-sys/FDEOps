@@ -1,6 +1,6 @@
 # AGENTS.md - working in the fdeops repository
 
-This repository **is** FDEOps: skills for Forward Deployed Engineers. The `fde` coordinator selects the relevant instructions for customer work. Fourteen task skills also work individually. The local CLI manages customer records in `.fde/` files; users confirm consequential judgments.
+This repository **is** FDEOps: skills for Forward Deployed Engineers. The `fde` coordinator selects the relevant instructions for customer work. All 35 task skills also work individually. The local CLI manages customer records in `.fde/` files; users confirm consequential judgments.
 
 ## If you are helping use fdeops in an engagement
 

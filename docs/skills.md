@@ -1,75 +1,35 @@
-# The catalog
+# Start with the work in front of you
 
-`@fde` coordinates an engagement. Individual task skills use the same methods directly. 34 workflows across 6 stages. Not prompts - each skill is a workflow with an artifact and a checkpoint.
-
-Three layers:
-
-1. **Daily** - prep, debrief, receipts, status, triage / doctor
-2. **Engagement** - brief wrong, they went quiet, when did we agree, what's the outcome - plus the skills below
-3. **Overlays** - ai / fintech / healthcare / gov / artifacts (plus eval-pack as an AI companion)
-
-The full map is below; per-skill details live in [skills-reference.md](./skills-reference.md).
+Use any skill directly, or let `fde` coordinate the customer project. The [complete skill catalog](skills-reference.md) is the single list of installable skills and their inputs.
 
 ## Three delivery checklists
 
-These are short paths through the existing skills, not additional skills or separate plans. Tell `@fde` the situation; it uses the relevant reference and the same client record. Skip work already supported by current evidence.
+These examples show how skills fit together. Use only the steps needed for your task; you do not need to complete every group.
 
-### Day zero: make the engagement legible
+### A new customer brief
 
-- [ ] [Land](../skills/fde/references/land.md): write the request and the unknowns without presenting the brief as verified fact.
-- [ ] [Who decides](../skills/fde/references/who-decides.md): name the sponsor, acceptance owner, and authority gaps.
-- [ ] [Earn trust](../skills/fde/references/earn-trust.md): confirm access, data policy, and permitted model use before inspecting sensitive material.
-- [ ] [Plan](../skills/fde/references/plan.md): agree on one next action and what evidence would make it useful.
+1. Use `brief` to clarify the request and what success might mean.
+2. Use `discover` where the actual problem or current process is uncertain.
+3. Use `who-decides` for unclear responsibilities or authority.
+4. Use `plan` to propose the next useful action and its evidence.
 
-### Discovery to one small ship
+### A small system change
 
-- [ ] [Discover](../skills/fde/references/discover.md): observe the real workflow and confirm the required data sources are usable.
-- [ ] [Test assumptions](../skills/fde/references/test-assumptions.md): test the belief that could invalidate the change; use [POC](../skills/fde/references/poc.md) when a bounded experiment is needed.
-- [ ] [Plan](../skills/fde/references/plan.md): define a small user-visible result, acceptance owner, exclusions, and evidence.
-- [ ] [Ship](../skills/fde/references/ship.md): test the change on the client's staging, check approval and recovery, and record the result. Keep production measurement and acceptance separate from staging proof.
+1. Use `build` for implementation or `integrate` for a connection between systems.
+2. Use `review` and relevant `qa` checks to verify the change.
+3. Use `ship` when release is requested and authorized.
 
-### POC to production
+Reuse the repository's conventions and existing tests. A small task does not require an enterprise discovery workshop or a customer record.
 
-- [ ] [POC](../skills/fde/references/poc.md): record what the experiment proved, what it did not prove, and the proceed/pivot/stop decision.
-- [ ] [Plan](../skills/fde/references/plan.md): inspect the prototype; retain useful tested parts, replace unsafe shortcuts, and size the remaining production work. A demo is not production readiness.
-- [ ] [Ship](../skills/fde/references/ship.md): verify security, realistic load, failure handling, observability, release authority, rollback, and AI evaluations where relevant.
-- [ ] [Runbook](../skills/fde/references/runbook.md) and [close](../skills/fde/references/close.md): confirm an operating owner, escalation path, evidence, and scoped customer acceptance before handing over.
+### A pilot approaching production
 
-## Engagement skills (34 workflows across 6 stages)
+1. Use `poc` and `evaluate` to separate what was demonstrated from what remains unproven.
+2. Use `options` and `business-case` when the remaining investment needs a decision.
+3. Use `plan`, `ship` and `rollback` for the agreed controlled release.
+4. Use `runbook` and `handoff` to establish operating readiness and responsibility.
 
-| Stage | Skills | What it covers |
-|--------|--------|---------------|
-| **Land** (Engage) | land, audit, who-decides, earn-trust, hold-scope | First days: access, credibility, scope |
-| **Discover** (Diagnose) | discover, test-assumptions, score-use-cases, poc | Finding the real problem behind the brief |
-| **Plan** (Align) | plan, business-case, three-options, pick-three | Sequencing work, getting sponsor alignment |
-| **Ship** (Deliver) | build, integrate, debug, qa, ship, what-breaks, rescue, review, rollback | Visible on their staging, then go-live |
-| **Outcome** (Realize) | readout, demo-prep, debrief, board-memo, dashboard, ingest, connect | Get the number accepted; dated receipts |
-| **Close** (Transfer) | close, runbook, switch-clients, encode-pattern, red-team | They can run it without you |
+A draft plan is not approval. A passing test is not customer acceptance. Keep each claim tied to the relevant evidence.
 
-Each workflow produces a concrete artifact and evidence. Standalone tasks use supplied context; bound engagements save confirmed decisions into `.fde/` under `~/fde-engagements/`.
+## Using customer records
 
-**Field judgment (blended into skills, not a separate pack):** land/discover use **brief interrogation** when the brief is thin; `@fde` enforces **anti-invention gates**; ship/red-team run a **pre-blast challenge** before irreversible moves.
-
-## 5 overlays (activate automatically on signal)
-
-Overlays layer domain judgment onto whatever skill is running - the agent activates them when your engagement involves the signal, without being told:
-
-| Overlay | Triggers on | What it adds |
-|---------|------------|-------------|
-| **ai** | AI, ML, LLM, model, embeddings, RAG, agents | Model selection, RAG architecture, agent safety, drift monitoring, cost management |
-| **artifacts** | deck, slides, report, governance, compliance pack, ADR | Executive decks, governance frameworks, ADRs, value reports |
-| **fintech** | payments, PCI-DSS, cardholder data, anything that moves money | Idempotency, transaction integrity, fraud signals, silent-failure prevention |
-| **healthcare** | PHI, HIPAA, EHR, patient data | De-identification, minimum-necessary, audit trails |
-| **gov** | FedRAMP, ATO, CUI, classified | Authority boundaries, CUI marking, continuous monitoring |
-
-**AI companion (not a sixth overlay):** `eval-pack` - engagement golden set / SHIP gate (`evals.md`). Loaded with the **ai** overlay when models are in scope.
-
-## See also
-
-- [skills-reference.md](./skills-reference.md) - what each skill does, stage by stage
-- [schema.md](./schema.md) - the `.fde/` files the skills write
-- [USAGE.md](./USAGE.md) - what to type, day to day
-
-## Standalone entry points
-
-See [the task catalog](../README.md#task-skills). Each selective installation includes its reference dependencies. Source methods remain in `skills/fde/references/`; generated packages are checked for freshness and completeness. No other skill pack is required.
+Most skills can work from supplied notes or code. `dashboard` and `switch-clients` operate on actual customer records. `ingest` can prepare a draft, but staging or saving requires the intended customer record. See [installation](install.md) and [daily use](USAGE.md).

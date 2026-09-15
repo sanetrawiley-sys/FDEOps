@@ -219,7 +219,7 @@ Install one task, such as integration:
 npx skills add suboss87/fdeops --skill integrate
 ```
 
-Substitute a name from the [task catalog](../README.md#task-skills). Each task includes its required references and can work from supplied context without creating a customer record or installing the coordinator.
+Substitute a name from the [task catalog](../README.md#task-skills). Each task includes its required references and does not require the coordinator. Tasks that draft or analyze can use supplied context. Record operations need actual records; staging and saving need a selected customer.
 
 Install `fde` alone when you want the agent to choose the relevant instructions for a customer project. Its references cover the complete engagement; separate task installations are needed only if you want those tasks available as individual skill entries.
 
@@ -230,7 +230,7 @@ For the full pack in Claude Code:
 /plugin install fdeops@fdeops
 ```
 
-The plugin includes the coordinator, all task skills and session hooks. Invoke `/fdeops:fde` for a project or `/fdeops:integrate` for a task. Plugin namespaces let FDEOps coexist with another pack's `review` or `build`. Personal or project skills use `/integrate`; they may override same-named host skills. See [Claude Code's naming rules](https://code.claude.com/docs/en/skills#resolve-skills-that-share-a-name). Other hosts use their own skill picker and invocation syntax; select the FDEOps entry if names overlap.
+The plugin includes all 35 task skills, the `fde` coordinator and session hooks. Invoke `/fdeops:fde` for a project or `/fdeops:integrate` for a task. Plugin namespaces let FDEOps coexist with another pack's `review` or `build`. Personal or project skills use `/integrate`; they may override same-named host skills. See [Claude Code's naming rules](https://code.claude.com/docs/en/skills#resolve-skills-that-share-a-name). Other hosts use their own skill picker and invocation syntax; select the FDEOps entry if names overlap.
 
 For other supported hosts, run the skills installer interactively and select the entries you need. For a local Claude Code disk installation, run `node bin/install.js` from a reviewed checkout; see the collision and upgrade behavior above. Skill-only installs do not register session hooks.
 

@@ -11,7 +11,12 @@ const CLAUDE_MD_SRC = path.join(__dirname, '..', 'CLAUDE.md.template')
 const FDE_TEMPLATES_SRC = path.join(__dirname, '..', 'templates', '.fde')
 const ADAPTERS_SRC = path.join(__dirname, '..', 'adapters')
 const TASK_NAMES = new Set(require('./skill-catalog').map(item => item.name))
-const RENAMED_SKILLS = new Set([...TASK_NAMES].map(name => `fde-${name}`))
+// Only these published task packages changed names. New catalog entries must
+// not acquire historical migration authority over unrelated prefixed skills.
+const RENAMED_SKILLS = new Set([
+  'discover', 'scope', 'options', 'poc', 'build', 'integrate', 'debug',
+  'review', 'evaluate', 'qa', 'ship', 'readout', 'handoff', 'feedback',
+].map(name => `fde-${name}`))
 const LIB_SRC = path.join(__dirname, 'lib')
 
 const GLOBAL_SKILLS_DIR = path.join(os.homedir(), '.claude', 'skills')
@@ -135,8 +140,8 @@ function removeLegacySkills(opts = {}) {
 // Keep edits and additions outside the discovery directory, without guessing which
 // individual files are personal. Unmarked third-party installs require manual cleanup.
 function archiveRenamedSkill(name) {
-  if (!TASK_NAMES.has(name)) return
   const oldName = `fde-${name}`
+  if (!RENAMED_SKILLS.has(oldName)) return
   const old = path.join(GLOBAL_SKILLS_DIR, oldName)
   checkPath(old)
   if (!fs.existsSync(old)) return
@@ -163,7 +168,8 @@ function installSkillDirs(opts = {}) {
   for (const entry of fs.readdirSync(SKILLS_SRC, { withFileTypes: true })) {
     const src = path.join(SKILLS_SRC, entry.name)
     const dest = path.join(GLOBAL_SKILLS_DIR, entry.name)
-    if (!entry.isDirectory()) { copyFile(src, dest); continue }
+    // Repository-level documentation is not an installable skill.
+    if (!entry.isDirectory()) continue
     if (isLink(dest)) { links.push(entry.name); continue }
     try {
       checkTree(src, dest)

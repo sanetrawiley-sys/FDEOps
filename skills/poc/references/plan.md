@@ -6,7 +6,7 @@
 
 **Read first:** `reality.md`, `success.md`, `terrain.md`, `stakeholders.md`. Load `business-case.md` if poc produced one. Not the full folder.
 
-**On an initialized engagement, before a new delivery plan or material scope change:** run `fde doctor --ready`. For standalone planning, check the supplied outcome, scope, acceptance and authority directly; do not initialize records to run this validator. Missing binary success or a named customer-side signer blocks progression: review the proposed acceptance check and authority with the FDE first. Use a test/input and observable pass/fail under **Done when:** or **Acceptance check:**. A number, role, or successful demo alone is insufficient. Do not invent missing facts to pass lint. Routine reversible fixes within confirmed scope reuse the existing signer, acceptance criteria, and engineering plan; record verification without reopening settled decisions.
+**On an initialized engagement, before a new delivery plan or material scope change:** run `fde doctor --ready`. For standalone planning, check the supplied outcome, scope, acceptance and authority directly; do not initialize records to run this validator. Missing acceptance criteria or authority blocks the affected implementation commitment, not a provisional plan. Draft proposed checks and next steps, mark them pending, and ask only what changes the next action. Use a test/input and observable pass/fail under **Done when:** or **Acceptance check:**. A number, role, or successful demo alone is insufficient. Do not invent missing facts to pass lint. Routine reversible fixes within confirmed scope reuse the existing signer, acceptance criteria, and engineering plan; record verification without reopening settled decisions.
 
 ## Validation gate (confirm understanding, clarify where it elevates)
 
@@ -17,8 +17,8 @@ Before planning, state what you're working from in 2-3 lines:
 Then check - probe ONLY if it prevents a bad plan:
 
 1. **Success is measurable.** If "done" is vague ("make it better") → rephrase it: "I'm reading success as: [specific measurable outcome]. That the target?"
-2. **Reality matches the brief.** If discovery contradicted the brief → name it: "Discovery found [X] but the brief says [Y]. Planning against reality unless you say otherwise."
-3. **Out-of-scope exists.** If missing → one line: "Nothing's marked out-of-scope yet. That means every new request is implicitly in. Worth defining now or after the first plan draft?"
+2. **Reality matches the brief.** If discovery contradicted the brief → name it: "Discovery found [X] but the brief says [Y]. Here is the proposed adjustment; it remains unagreed until confirmed."
+3. **Out-of-scope exists.** If missing → one line: "I will keep this draft within the supplied request and mark proposed exclusions for confirmation."
 
 State your read, let the FDE correct, then plan.
 
@@ -42,19 +42,19 @@ An FDE plan is not a sprint backlog. The technical sequence is the easy part. Th
 
 **6. Stakeholder touchpoints every 2-3 tasks.** "Show progress to <name from stakeholders.md>." Not ceremony: a customer who sees small wins stays bought in; silence gets filled with doubt.
 
-**7. End with a kill list.** Every plan names what you will **not** do this phase. If everything is "later," you have no plan - you have a wish list. Cap **Now** at 3 PRs (same discipline as pick-three).
+**7. End with a kill list.** Every plan names what you will **not** do this phase. If everything is "later," you have no plan - you have a wish list. Keep **Now** small enough to review and act on; split by independently verifiable outcomes.
 
 **Acceptance criteria gate:** no task moves to build without written happy-path AND unhappy-path criteria. Can't write them = the task isn't understood; the open question goes to the customer **before** the task starts. Vague criteria surface later as scope creep and rework.
 
 ## Artifact
 
-The plan goes to **`decisions.md`** - always. Build reads the plan from `decisions.md`; anywhere else and the build starts blind.
+For standalone planning, return the requested draft or save to the authorized project document. In a bound engagement, propose the plan for **`decisions.md`** under its confirmation rules, or link the existing approved plan; do not duplicate it.
 
 A plan is **not done** until all four blocks exist:
 
 ```markdown
 ## Plan - <date>
-### Now (max 3)
+### Now
 Task N: <outcome, not activity>
 Delivers: <what someone can see/test>
 Accepts: <happy path> / <unhappy path>

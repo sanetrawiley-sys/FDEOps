@@ -1,6 +1,6 @@
 {
   "name": "fdeops",
-  "version": "5.0.0",
+  "version": "5.1.0",
   "description": "Forward deployed engineering skills for AI coding agents. Use focused task skills or @fde for discovery, implementation, verification and handoff, with local engagement records.",
   "bin": {
     "fdeops": "bin/install.js",
@@ -11,7 +11,7 @@
     "test": "node --test test/*.test.js",
     "test:skill-routing": "node evals/skill-routing/check.js && node evals/skill-routing/live-smoke.js",
     "prepublishOnly": "node bin/check.js && npm test",
-    "generate:skills": "node bin/generate-skills.js"
+    "generate:skills": "node bin/generate-skills.js && node bin/catalog-doc.js"
   },
   "files": [
     "bin/",

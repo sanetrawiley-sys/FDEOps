@@ -1,5 +1,15 @@
 # Changelog
 
+## 5.1.0 - 2026-09-15
+
+- Expose all existing capabilities through one catalog: 35 independently installable task skills plus the `fde` coordinator. Existing task names remain compatible; `brief` and `prioritize` provide clear entry points for kickoff and priority selection.
+- Remove redundant Claude Code command files where a task skill already provides the same command. Keep existing engagement shortcuts available.
+- Generate the public catalog from installation metadata and check that every routed task is installable. Clarify task inputs, customer-record requirements and full-pack installation.
+- Make source setup self-contained for selective installs; distinguish source access, drafts, staging and confirmed record updates.
+- Let planning and runbook drafts proceed from supplied evidence without forced setup, invented ownership or arbitrary readiness scores.
+- Keep legacy migration limited to the actual 14 renamed packages from 4.x, preserving unrelated prefixed skills.
+- Yield CPU while waiting for a record lock; verify that a competing writer can retry safely without applying the same proposal twice.
+
 ## 5.0.0
 
 - **Plain task names:** use `discover`, `scope`, `options`, `poc`, `build`, `integrate`, `debug`, `review`, `evaluate`, `qa`, `ship`, `readout`, `handoff` and `feedback`. These replace the `fde-` prefixed names; `fde` remains the coordinator. Update selective-install commands and prompts that name an old task.

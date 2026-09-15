@@ -388,7 +388,7 @@ Custom terms and preferences live in `<engagements-root>/.preferences.json`, pro
 
 ## Claude Code engagement shortcuts
 
-The plugin provides these shortcuts for work coordinated by `fde`. In Claude Code, prefix them with `fdeops:` when invoking the plugin, for example `/fdeops:brief`. Plain task names such as `discover` also work directly from supplied notes or code.
+Task commands now come directly from the corresponding skill. The plugin retains `/outcome`, `/close`, `/prep`, `/trust` and `/receipts` as compatibility shortcuts through `fde`; they are not additional task packages. In Claude Code, prefix them with `fdeops:` when invoking the plugin, for example `/fdeops:brief`. Plain task names such as `discover` also work directly from supplied notes or code.
 
 | Shortcut | Use it to… |
 |---|---|
