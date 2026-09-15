@@ -10,6 +10,8 @@ const HOOKS_SRC = path.join(__dirname, '..', 'hooks')
 const CLAUDE_MD_SRC = path.join(__dirname, '..', 'CLAUDE.md.template')
 const FDE_TEMPLATES_SRC = path.join(__dirname, '..', 'templates', '.fde')
 const ADAPTERS_SRC = path.join(__dirname, '..', 'adapters')
+const TASK_NAMES = new Set(require('./skill-catalog').map(item => item.name))
+const RENAMED_SKILLS = new Set([...TASK_NAMES].map(name => `fde-${name}`))
 const LIB_SRC = path.join(__dirname, 'lib')
 
 const GLOBAL_SKILLS_DIR = path.join(os.homedir(), '.claude', 'skills')
@@ -115,7 +117,7 @@ function removeLegacySkills(opts = {}) {
   const skipped = []
   const links = []
   for (const dir of LEGACY_SKILL_DIRS) {
-    if (fs.existsSync(path.join(SKILLS_SRC, dir, 'SKILL.md'))) continue
+    if (RENAMED_SKILLS.has(dir) || fs.existsSync(path.join(SKILLS_SRC, dir, 'SKILL.md'))) continue
     const p = path.join(GLOBAL_SKILLS_DIR, dir)
     if (isLink(p)) { links.push(dir); continue }
     if (!fs.existsSync(path.join(p, 'SKILL.md'))) continue
@@ -127,6 +129,29 @@ function removeLegacySkills(opts = {}) {
     }
   }
   return { removed, skipped, links }
+}
+
+// Archive the complete previous package only after its replacement is installed.
+// Keep edits and additions outside the discovery directory, without guessing which
+// individual files are personal. Unmarked third-party installs require manual cleanup.
+function archiveRenamedSkill(name) {
+  if (!TASK_NAMES.has(name)) return
+  const oldName = `fde-${name}`
+  const old = path.join(GLOBAL_SKILLS_DIR, oldName)
+  checkPath(old)
+  if (!fs.existsSync(old)) return
+  if (!isManaged(old)) {
+    installIncomplete = true
+    console.log(`  keep   ~/.claude/skills/${oldName} (ownership unknown; move it outside skills manually after reviewing ${name})`)
+    return
+  }
+  checkTree(old, old)
+  const archiveRoot = path.join(os.homedir(), '.claude', 'fdeops', 'skill-backups')
+  mkdir(archiveRoot)
+  const archive = fs.mkdtempSync(path.join(archiveRoot, `${oldName}-`))
+  try { fs.renameSync(old, path.join(archive, oldName)) }
+  catch (error) { fs.rmdirSync(archive); throw error }
+  console.log(`  archive ~/.claude/skills/${oldName} → ${path.join(archive, oldName)} (all previous content preserved)`)
 }
 
 // Copy each skill in, but never over a directory fdeops did not create.
@@ -146,8 +171,10 @@ function installSkillDirs(opts = {}) {
       if (fs.existsSync(dest) && !isManaged(dest) && !opts.force) {
         // Installs predating the marker are still ours: adopt a same-named dir
         // whose SKILL.md is recognizably fdeops', so upgrades keep working.
-        if (!wasInstalledByUs(dest)) {
+        // Newly generic task names require an explicit marker, never a fingerprint.
+        if (TASK_NAMES.has(entry.name) || !wasInstalledByUs(dest)) {
           skipped.push(entry.name)
+          if (TASK_NAMES.has(entry.name)) installIncomplete = true
           continue
         }
         console.log(`  adopt  ~/.claude/skills/${entry.name} (earlier fdeops install)`)
@@ -156,6 +183,7 @@ function installSkillDirs(opts = {}) {
       // say it in human terms, place the rest, and exit non-zero at the end.
       copyDir(src, dest)
       markManaged(dest)
+      archiveRenamedSkill(entry.name)
     } catch (e) {
       failed.push({ name: entry.name, code: e.code || 'error', path: destPathFor(e.path, src, dest) })
     }

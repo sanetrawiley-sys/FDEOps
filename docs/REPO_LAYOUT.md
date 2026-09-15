@@ -3,9 +3,9 @@
 | Path | Purpose |
 |------|---------|
 | `skills/fde/` | **Canonical methods** - coordinator (`SKILL.md`) + 34 routed workflows, 5 overlays, and AI companion `eval-pack` under `references/` |
-| `skills/fde-*/` | Generated self-contained task skills; load only the relevant references |
+| `skills/<task>/` | Generated self-contained task skills; load only the relevant references |
 | `bin/skill-catalog.js`, `bin/generate-skills.js` | Public entries and deterministic packaging with reference closure |
-| `.claude/commands/` | Slash commands: `/brief` `/discover` `/plan` `/ship` `/outcome` `/close` plus `/debrief` `/prep` `/trust` `/receipts` `/readout`. Each loads `@fde` |
+| `.claude/commands/` | Slash commands: `/brief` `/discover` `/plan` `/ship` `/outcome` `/close` plus `/debrief` `/prep` `/trust` `/receipts` `/readout`. Task shortcuts load their task; engagement shortcuts load `@fde` |
 | `adapters/` | Thin per-tool pointers (Codex/`AGENTS.md`, Gemini, Cursor, Copilot, local LLMs) - `node bin/install.js adapters <dir>` |
 | `templates/.fde/` | Core memory templates for `fde resume --init` (phase artifacts are created by phases on demand; `evals.md` is optional) |
 | `examples/` | Fictional walkthroughs with sample `.fde/` files |
@@ -26,7 +26,7 @@
 ## Where to start
 
 - **Use the tool:** [installation](install.md), then the [five-minute walkthrough](USAGE.md#new-here-5-minutes).
-- **Change a workflow:** edit the relevant `skills/fde/references/` file and its routing evaluation. Keep methods canonical; run `node bin/generate-skills.js` after changing references. `bin/skill-catalog.js` defines standalone entry points; generated copies in `skills/fde-*` must never be edited independently.
+- **Change a workflow:** edit the relevant `skills/fde/references/` file and its routing evaluation. Keep methods canonical; run `node bin/generate-skills.js` after changing references. `bin/skill-catalog.js` defines standalone entry points; generated task copies under `skills/` must never be edited independently.
 - **Change records or reports:** start in `bin/fde.js` and `bin/lib/`, with regressions in `test/`. Document record changes in [schema.md](schema.md).
 - **Change host setup:** use `bin/install.js`, `adapters/`, or `hooks/`; verify automatic and manual host behavior separately.
 - **Change public instructions:** keep README concise; use [USAGE.md](USAGE.md) for routines and [install.md](install.md) for setup.

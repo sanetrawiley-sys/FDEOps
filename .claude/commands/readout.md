@@ -1,21 +1,7 @@
 ---
-description: Report the outcome. Promised, measured, accepted.
+description: Draft a sponsor update from supplied evidence or an existing record.
 ---
 
-Load `@fde` (`skills/fde/SKILL.md`) and follow its **First-use preferences** and **Entry (every session)** once. Situation: **Friday or sponsor update**.
+Use the FDEOps `readout` task in `skills/readout/SKILL.md`. Follow its task-context contract and referenced method directly, whether supplied notes or an existing customer record provide the evidence.
 
-If `fde resume` shows NO ENGAGEMENT: ask "What should we call this client?" once, then **you** run `fde resume --init`. Never tell the human to type the CLI.
-
-This is for the sponsor-facing update - not a standup or a code review.
-
-Run `fde status` (fallback: `npx --yes fdeops status`). Lead with the **value ledger**: promised → measured → accepted. That is what the sponsor cares about first.
-
-Read `references/readout.md` and follow it for update shape, gaps to call out, and what to offer next.
-
-Name what is delivered vs still claimed. Flag acceptance missing a named signer. Surface one trust or scope signal if the record shows amber or red.
-
-Draft the update in their voice - short, factual, no invented wins. Confirm before any write to `.fde/`.
-
-Done when: the human has a sponsor-ready update grounded in the ledger and agrees what to send or say.
-
-Not for TypeScript errors, unit tests, refactors, or git commits - those stay in the host agent.
+Do not initialize a customer record solely to run this task. When already working through `@fde`, reuse its current permitted context and authority without repeating setup. If the task entry is unavailable, use `skills/fde/references/task-context.md` and `skills/fde/references/readout.md` as the canonical instructions.
