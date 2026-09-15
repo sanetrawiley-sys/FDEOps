@@ -2,10 +2,10 @@
 
 | Path | Purpose |
 |------|---------|
-| `skills/fde/` | **Canonical methods** - coordinator (`SKILL.md`) + 34 routed workflows, 5 overlays, and AI companion `eval-pack` under `references/` |
+| `skills/fde/` | Coordinator (`SKILL.md`) and the canonical instructions used by every task under `references/` |
 | `skills/<task>/` | Generated self-contained task skills; load only the relevant references |
-| `bin/skill-catalog.js`, `bin/generate-skills.js` | Public entries and deterministic packaging with reference closure |
-| `.claude/commands/` | Slash commands: `/brief` `/discover` `/plan` `/ship` `/outcome` `/close` plus `/debrief` `/prep` `/trust` `/receipts` `/readout`. Task shortcuts load their task; engagement shortcuts load `@fde` |
+| `bin/skill-catalog.js`, `bin/generate-skills.js` | One task catalog and deterministic packaging with reference closure |
+| `.claude/commands/` | Compatibility shortcuts for `/outcome`, `/close`, `/prep`, `/trust` and `/receipts`, routed through `fde`. Task commands come directly from their skill folders. |
 | `adapters/` | Thin per-tool pointers (Codex/`AGENTS.md`, Gemini, Cursor, Copilot, local LLMs) - `node bin/install.js adapters <dir>` |
 | `templates/.fde/` | Core memory templates for `fde resume --init` (phase artifacts are created by phases on demand; `evals.md` is optional) |
 | `examples/` | Fictional walkthroughs with sample `.fde/` files |
@@ -26,7 +26,7 @@
 ## Where to start
 
 - **Use the tool:** [installation](install.md), then the [five-minute walkthrough](USAGE.md#new-here-5-minutes).
-- **Change a workflow:** edit the relevant `skills/fde/references/` file and its routing evaluation. Keep methods canonical; run `node bin/generate-skills.js` after changing references. `bin/skill-catalog.js` defines standalone entry points; generated task copies under `skills/` must never be edited independently.
+- **Change a skill:** edit the relevant `skills/fde/references/` file and its routing evaluation. Keep methods canonical; run `node bin/generate-skills.js` after changing references. `bin/skill-catalog.js` defines standalone entry points; generated task copies under `skills/` must never be edited independently.
 - **Change records or reports:** start in `bin/fde.js` and `bin/lib/`, with regressions in `test/`. Document record changes in [schema.md](schema.md).
 - **Change host setup:** use `bin/install.js`, `adapters/`, or `hooks/`; verify automatic and manual host behavior separately.
 - **Change public instructions:** keep README concise; use [USAGE.md](USAGE.md) for routines and [install.md](install.md) for setup.
@@ -39,3 +39,9 @@ Keep customer `.fde/` records outside this repository. Examples and tests use fi
 
 
 Keep one-off plans, designer briefs, session notes, and raw host traces outside Git. Public validation belongs in [verification.md](verification.md); reusable fixtures and model results belong in `evals/`.
+
+## One source for each instruction
+
+Users browse `skills/<name>/SKILL.md` or the generated [catalog](skills-reference.md). Contributors edit `skills/fde/references/` and `bin/skill-catalog.js`, then run `npm run generate:skills`. The generated task copies keep selective installs self-contained; checks reject stale copies or catalog drift. Do not edit them independently.
+
+`bin/catalog-doc.js` renders the public catalog from the same metadata the installer uses. Tests and fictional examples remain in the repository; private working notes stay ignored and outside the published package.

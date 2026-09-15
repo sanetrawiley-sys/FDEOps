@@ -78,6 +78,14 @@ A separate README-only reader trial correctly distinguished installing the coord
 
 These are automated checks and simulated agent trials. They do not demonstrate independent customer adoption, every host's skill-selection behavior, or reliability across all enterprise environments.
 
+## Unified skill catalog (5.1)
+
+The public catalog is generated from the same metadata used for packaging. Checks require every routed task to have an installable entry, every entry to route to its correct instruction, and every advertised path and count to match. All 35 task packages pass isolated reference-closure checks. Migration tests preserve the original 14 upgrade names and leave unrelated prefixed skills alone.
+
+Separate fictional trials exercised planning and runbook drafting from supplied facts without the coordinator installed. The revised instructions preserved unknown ownership, unmeasured baselines and untested recovery procedures, and completed useful drafts without setup, messages or production actions. These were manual agent trials and dependency checks, not independent customer studies or statistically repeated model evaluations.
+
+The public-file audit found no tracked private prompts or temporary authoring outputs. Regression tests, fictional examples and license notices remain intentionally public; they are not removed to make the repository look smaller.
+
 ## What remains unproven
 
 Independent users' maintenance time, repeated benefit, and continued use have not been demonstrated. Neither have universal host compatibility or superiority over other workflows. The [delivery evaluation protocol](../evals/delivery/README.md) describes repeated, blinded comparisons for testing those claims.

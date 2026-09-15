@@ -1,0 +1,9 @@
+{
+  "generator": "bin/generate-skills.js",
+  "version": 1,
+  "files": {
+    "SKILL.md": "33a822a1e10824461543e296f93e07ed3f8e2eab7a719bcde4bb3bbef597859c",
+    "references/task-context.md": "73eea2d7f164fac3226599e5be26ae4e79dcf69e0d24428dd12d623861410490",
+    "references/who-decides.md": "56c577f0984cb69cfb18349fc9194e92dba2b56ead9a527d5e6e887c1219717f"
+  }
+}

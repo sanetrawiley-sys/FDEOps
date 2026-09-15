@@ -41,14 +41,48 @@ test('reference discovery follows transitive links and terminates cycles', t => 
   assert.throws(() => referencesFor('start', dir), /Nonportable instruction link/)
 })
 
-test('catalog names are unique and standalone methods are routed by the coordinator', () => {
+test('every coordinator task and evaluation method has exactly one public catalog entry', () => {
   assert.equal(new Set(catalog.map(s => s.name)).size, catalog.length)
+  assert.equal(new Set(catalog.map(s => s.method)).size, catalog.length)
   const router = fs.readFileSync(path.resolve(source, '../SKILL.md'), 'utf8')
+  const routes = router.split('## Routing')[1].split('**Overlays')[0]
+  const methods = new Set(routes.split('\n').filter(line => line.startsWith('|')).map(line => line.match(/references\/([a-z-]+)\.md/)).filter(Boolean).map(match => match[1]))
+  methods.add('eval-pack')
+  for (const line of routes.split('\n').filter(line => line.startsWith('|'))) {
+    const match = line.match(/references\/([a-z-]+)\.md/)
+    if (!match) continue
+    const name = line.split('|')[2].trim().replace(/\s*\([^)]*\)\s*$/, '')
+    const entry = catalog.find(item => item.name === name)
+    assert.ok(entry, `Routed name ${name} is installable`)
+    assert.equal(entry.method, match[1], `Correct instructions for ${name}`)
+  }
+  assert.deepEqual(catalog.map(item => item.method).sort(), [...methods].sort())
+  assert.equal(catalog.length, 35)
+  const groups = new Set(['Start', 'Discover', 'Plan', 'Build and verify', 'Report', 'Operate'])
   for (const item of catalog) {
     assert.match(item.name, /^[a-z][a-z-]*$/)
     assert.ok(!item.name.startsWith('fde-'))
-    assert.ok(router.includes(`references/${item.method}.md`), item.name)
+    assert.ok(groups.has(item.group), item.name)
+    assert.ok(item.result.length > 15, item.name)
+    assert.ok(['context', 'records', 'source', 'record-write'].includes(item.inputMode), item.name)
   }
+})
+
+test('entrypoints state record requirements without blocking supplied-context tasks', () => {
+  for (const name of ['dashboard', 'switch-clients']) {
+    const item = catalog.find(item => item.name === name)
+    assert.equal(item.inputMode, 'records')
+    const entry = expectedFiles(item).get('SKILL.md')
+    assert.match(entry, /operates on existing engagement records/)
+    assert.doesNotMatch(entry, /Standalone work does not require/)
+  }
+  const connect = expectedFiles(catalog.find(item => item.name === 'connect')).get('SKILL.md')
+  assert.match(connect, /configuration and capability checks do not require an engagement record/)
+  const ingest = expectedFiles(catalog.find(item => item.name === 'ingest')).get('SKILL.md')
+  assert.match(ingest, /applying updates requires the bound record and confirmation/)
+  assert.match(ingest, /CLI staging and reconciliation use a bound engagement/)
+  const build = expectedFiles(catalog.find(item => item.name === 'build')).get('SKILL.md')
+  assert.match(build, /Standalone work does not require an engagement folder/)
 })
 
 function generationFixture(t) {
@@ -182,8 +216,11 @@ test('generation refuses hard links without changing either path', t => {
 })
 
 
-test('all fourteen task names are plain public entry points', () => {
-  assert.deepEqual(catalog.map(item => item.name), ['discover', 'scope', 'options', 'poc', 'build', 'integrate', 'debug', 'review', 'evaluate', 'qa', 'ship', 'readout', 'handoff', 'feedback'])
+test('established public entry points retain their names and methods', () => {
+  const established = { discover: 'discover', scope: 'hold-scope', options: 'three-options', poc: 'poc', build: 'build', integrate: 'integrate', debug: 'debug', review: 'review', evaluate: 'eval-pack', qa: 'qa', ship: 'ship', readout: 'readout', handoff: 'close', feedback: 'encode-pattern' }
+  for (const [name, method] of Object.entries(established)) assert.equal(catalog.find(item => item.name === name)?.method, method)
+  assert.equal(catalog.find(item => item.name === 'brief').method, 'land')
+  assert.equal(catalog.find(item => item.name === 'prioritize').method, 'pick-three')
 })
 
 test('generation migrates owned prefixed packages without duplicate entries', t => {
@@ -210,4 +247,15 @@ test('a generic collision prevents any old generated package removal', t => {
   const before = snapshot(f.root)
   assert.throws(() => generate(false, f.options), /Unowned skill/)
   assert.deepEqual(snapshot(f.root), before)
+})
+
+
+test('public catalog uses installable paths and includes every skill exactly once', () => {
+  const { renderCatalog, checkCatalog } = require('../bin/catalog-doc')
+  const rendered = renderCatalog()
+  const names = [...rendered.matchAll(/\| \[([a-z-]+)\]\(\.\.\/skills\/([a-z-]+)\/SKILL\.md\)/g)]
+  assert.deepEqual(names.map(m => m[1]).sort(), catalog.map(s => s.name).sort())
+  for (const match of names) assert.equal(match[1], match[2])
+  assert.equal(new Set(names.map(m => m[1])).size, catalog.length)
+  checkCatalog()
 })

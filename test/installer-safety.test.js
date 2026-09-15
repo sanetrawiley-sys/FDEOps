@@ -206,14 +206,15 @@ function previousTask(f, name, managed = true) {
 
 test('upgrade archives all fourteen managed names and personalized files after successful replacement', t => {
   const f = fixture(t)
-  const catalog = require('../bin/skill-catalog')
-  for (const { name } of catalog) previousTask(f, name)
+  // Historical release fixture: intentionally independent of today's catalog.
+  const previousNames = ['discover', 'scope', 'options', 'poc', 'build', 'integrate', 'debug', 'review', 'evaluate', 'qa', 'ship', 'readout', 'handoff', 'feedback']
+  for (const name of previousNames) previousTask(f, name)
   const result = f.run()
   assert.equal(result.status, 0, result.stdout + result.stderr)
   const backups = path.join(f.home, '.claude/fdeops/skill-backups')
   const archives = fs.readdirSync(backups)
   assert.equal(archives.length, 14)
-  for (const { name } of catalog) {
+  for (const name of previousNames) {
     assert.equal(fs.existsSync(path.join(f.home, '.claude/skills', `fde-${name}`)), false)
     assert.ok(fs.existsSync(path.join(f.home, '.claude/skills', name, 'SKILL.md')))
     const archived = path.join(backups, archives.find(entry => entry.startsWith(`fde-${name}-`)), `fde-${name}`)
@@ -222,6 +223,20 @@ test('upgrade archives all fourteen managed names and personalized files after s
   }
   assert.equal(f.run().status, 0)
   assert.deepEqual(fs.readdirSync(backups), archives)
+})
+
+test('new catalog names do not claim unrelated prefixed skills or mark installation incomplete', t => {
+  const f = fixture(t)
+  const unrelated = previousTask(f, 'connect', false)
+  for (const args of [[], ['--force']]) {
+    const result = f.run(...args)
+    assert.equal(result.status, 0, result.stdout + result.stderr)
+    assert.equal(fs.readFileSync(path.join(unrelated, 'SKILL.md'), 'utf8'), 'personalized old connect')
+    assert.equal(fs.readFileSync(path.join(unrelated, 'personal/notes.md'), 'utf8'), 'retain all my notes')
+    assert.ok(fs.existsSync(path.join(f.home, '.claude/skills/connect/SKILL.md')))
+    assert.equal(fs.existsSync(path.join(f.home, '.claude/fdeops/skill-backups')), false)
+    assert.doesNotMatch(result.stdout, /ownership unknown/)
+  }
 })
 
 for (const name of ['build', 'review', 'discover']) {

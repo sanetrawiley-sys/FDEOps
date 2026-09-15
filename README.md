@@ -6,7 +6,7 @@
 
 Work through a customer project from the first conversation to a system their team can run. FDEOps helps your agent clarify the problem, compare solutions, write and test code, connect customer systems, and prepare delivery and handover evidence.
 
-A **skill** is a set of instructions your AI coding agent follows. FDEOps includes **14 task skills** you can use individually and **one `fde` coordinator** that chooses the right task as a customer project progresses.
+A **skill** is a set of instructions your AI coding agent follows. FDEOps includes **35 task skills + one coordinator, `fde`**. Use any skill directly, or ask `fde` to select the relevant skills as a customer project progresses.
 
 Use it for a single integration, a small client project, or work within a larger enterprise team. You bring the customer context, repository tools and access. FDEOps supplies the working method; you and the responsible teams make the decisions.
 
@@ -54,32 +54,30 @@ an incoming request today, where time goes, and what we still need to ask.
 
 The agent works from your notes and returns its findings. You do not need to create a customer record for this task. Each task skill includes the instructions it needs and works without installing `fde` or another skill pack.
 
-**Want every task available by name?** Install the full pack using the [installation guide](docs/install.md#individual-skills-and-the-full-pack). Installing `fde` alone gives the coordinator all the underlying instructions; it does not add the 14 separate names to your agent's skill menu.
+**Want every task available by name?** Install the full pack using the [installation guide](docs/install.md#individual-skills-and-the-full-pack). Installing `fde` alone gives the coordinator all the underlying instructions; it does not add the 35 separate names to your agent's skill menu.
 
 Skill invocation differs between agents. Ask for the FDEOps skill by name or select it in your agent's skill picker. For Claude Code plugin installs, use `/fdeops:fde` or `/fdeops:discover`. See [host setup and name conflicts](docs/install.md#individual-skills-and-the-full-pack).
 
-## Task skills
+## Choose a skill
 
-A customer **workflow** means the steps people and systems take to finish a job: receive a request, check its details, make a decision, and update the relevant system. These skills help with different parts of that work.
+<a name="task-skills"></a>
 
-| What you need to do | Skill | What you get |
-|---|---|---|
-| Find the real problem behind a customer request | `discover` | Current steps, delays, baseline and unanswered questions |
-| Decide what to do with an additional request | `scope` | Impact on agreed work and a recommended commitment |
-| Choose how to solve the problem | `options` | Feasible approaches, trade-offs and a recommendation |
-| Test an assumption before committing to a build | `poc` | A limited test, its evidence and the next decision |
-| Implement an agreed software change | `build` | Code, checks and a clear account of what changed |
-| Connect the customer's systems | `integrate` | An integration checked for mapping, permissions and failed or repeated requests |
-| Find and fix a failure | `debug` | A reproduced problem, repair and regression checks |
-| Check a proposed code change | `review` | Specific findings tied to code and expected behavior |
-| Check an AI system's answers or actions | `evaluate` | Evaluation cases, results and remaining limits |
-| Test what users actually experience | `qa` | Runtime or browser evidence, including failure cases |
-| Prepare and carry out an authorized release | `ship` | Release checks, recovery steps and deployment evidence |
-| Explain progress to the customer sponsor | `readout` | What was promised, what was measured and what was accepted |
-| Leave the team able to operate the system | `handoff` | Responsibilities, operating instructions and readiness gaps |
-| Turn a deployment lesson into reusable learning | `feedback` | A supported product recommendation or reusable pattern |
+Use the skill that matches the work in front of you. All skills are individually installable; the [complete catalog](docs/skills-reference.md) lists the input and result for each one.
 
-These are entry points, not a required sequence. `fde` also handles meeting debriefs, stakeholder decisions, planning, incidents and other situations through its [full skill reference](docs/skills-reference.md). It loads the relevant instructions as needed.
+| You need to… | Start with |
+|---|---|
+| Clarify a new customer request | `brief` or `discover` |
+| Understand who can approve the change | `who-decides` |
+| Decide what to build and what to leave out | `options`, `scope` or `plan` |
+| Implement or connect customer systems | `build` or `integrate` |
+| Find a failure or test the result | `debug`, `review`, `evaluate` or `qa` |
+| Prepare an authorized release | `ship` |
+| Review meeting notes or report progress | `debrief` or `readout` |
+| Prepare the team to run the system | `runbook` or `handoff` |
+
+These examples are starting points, not a required sequence. The catalog also covers inherited projects, business cases, incidents, recovery, source connections and multiple customer records. `fde` uses the same instructions and loads additional detail only when needed.
+
+**Which mode should I choose?** Use an individual skill for a specific task. Use `fde` when you want help across several tasks and a continuing customer record. Installing a skill makes it available independently; it does not remove its real input requirements. For example, `dashboard` needs records to display, while `debrief` can review pasted notes without saving anything.
 
 <a name="how-skills-work"></a>
 

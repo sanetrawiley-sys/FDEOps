@@ -1,130 +1,80 @@
-# The catalog - task skills and 34 workflows across 6 stages
+# FDEOps skills
 
-The engagement coordinator is `@fde` ([skills/fde/SKILL.md](../skills/fde/SKILL.md)). You describe the situation; it routes to a stage and follows that skill from [skills/fde/references/](../skills/fde/references/). Engagement memory lives in `~/fde-engagements/<name>/.fde/` (one folder per customer).
+**35 task skills + one coordinator, `fde` = 36 installable skills.**
 
-Each reference is a **skill, not a prompt**: the thinking the agent does, the artifact it drafts, and the checkpoint with the human FDE. The **Use when** column below is what the router actually matches on - the phrases in `skills/fde/SKILL.md` that send you to that skill, not a paraphrase.
+Every task below can be installed and used directly. Ask `fde` to select the relevant skills when working across a customer project. The groups help you find a task; they are not required phases.
 
----
+Install a task with `npx skills add suboss87/fdeops --skill <name>`, replacing `<name>` with its catalog name. See [installation](install.md#individual-skills-and-the-full-pack) for the full pack and host-specific invocation.
 
-## The 6 stages
+Customer records live at `~/fde-engagements/<customer>/.fde/`. A skill provides instructions, not customer credentials or infrastructure. Drafting from supplied notes does not need a customer record. Viewing records does; staging or saving requires the intended customer and applicable confirmation.
 
-### Land
-*Engage. First days. Access, credibility, scope.*
+## Start
 
-| Skill | What it does | Use when |
-|-------|-------------|----------|
-| [land](../skills/fde/references/land.md) | Interrogate the brief | Starting fresh, new customer, first meeting, just got the brief, set product strategy, define success metrics, scope the brief |
-| [audit](../skills/fde/references/audit.md) | Verify inherited claims | Taking over, previous consultant left, joining mid-project |
-| [who-decides](../skills/fde/references/who-decides.md) | Map decision rights | Need to understand who matters, who decides, who blocks quietly |
-| [earn-trust](../skills/fde/references/earn-trust.md) | Earn access | Need to earn access, navigate AI policy, build credibility |
-| [hold-scope](../skills/fde/references/hold-scope.md) | Hold scope | "Also can you...", scope expanding, timeline unchanged, scope the brief after kickoff |
+| Skill | Use it when | Result | Input needed |
+|---|---|---|---|
+| [brief](../skills/brief/SKILL.md) | Clarify a new customer brief, desired outcome, constraints and evidence gaps. Use for kickoff or a first meeting; do not repeat discovery already supplied. | A grounded brief with success criteria and open questions. | Supplied notes, code or evidence |
+| [audit](../skills/audit/SKILL.md) | Audit an inherited engagement or implementation against its evidence. Use when taking over work or joining mid-project; distinguish verified facts from inherited claims. | An audit of inherited claims and takeover risks. | Supplied notes, code or evidence |
+| [who-decides](../skills/who-decides/SKILL.md) | Map stakeholders, decision rights, influence and blockers from supplied evidence. Use when ownership is unclear or the stakeholder landscape changes. | A stakeholder map with decision rights and unknowns. | Supplied notes, code or evidence |
+| [earn-trust](../skills/earn-trust/SKILL.md) | Plan how to earn customer trust and appropriate access. Use when credibility, permissions or AI policy constrain the engagement. | A plan for access, credibility and permitted AI use. | Supplied notes, code or evidence |
 
-### Discover
-*Diagnose. Finding the real problem. Testing what the brief claims.*
+## Discover
 
-| Skill | What it does | Use when |
-|-------|-------------|----------|
-| [discover](../skills/fde/references/discover.md) | Frame the problem | Don't know the real problem, brief feels wrong, shadow processes, frame discovery, understand the problem space, data not ready, data estate |
-| [test-assumptions](../skills/fde/references/test-assumptions.md) | Test assumptions | The brief feels too neat, assumptions untested, "we just need..." |
-| [score-use-cases](../skills/fde/references/score-use-cases.md) | Score use cases | Multiple use cases competing, "we want to do everything" |
-| [poc](../skills/fde/references/poc.md) | Validate the solution | Need to validate a direction, prototype, demo to de-risk, validate the solution, build prototype |
+| Skill | Use it when | Result | Input needed |
+|---|---|---|---|
+| [discover](../skills/discover/SKILL.md) | Trace a customer workflow and identify the problem, baseline and evidence gaps. Use for discovery or an unclear customer brief, before choosing a solution. | A workflow diagnosis with baseline and evidence gaps. | Supplied notes, code or evidence |
+| [test-assumptions](../skills/test-assumptions/SKILL.md) | Challenge a proposed solution by identifying and testing consequential assumptions. Use when the brief feels too certain or discovery reveals contradictions. | A ranked set of assumptions and ways to test them. | Supplied notes, code or evidence |
+| [score-use-cases](../skills/score-use-cases/SKILL.md) | Compare competing customer use cases by value, feasibility and evidence. Use when several problems compete for delivery capacity. | A ranked use-case shortlist with evidence and trade-offs. | Supplied notes, code or evidence |
+| [poc](../skills/poc/SKILL.md) | Run a bounded customer proof of concept to test a consequential uncertainty. Use for a spike or pilot with a question and decision deadline, not a full rollout. | A bounded experiment with evidence and a decision. | Supplied notes, code or evidence |
 
-### Plan
-*Align. Sequencing work and getting sponsor alignment.*
+## Plan
 
-| Skill | What it does | Use when |
-|-------|-------------|----------|
-| [plan](../skills/fde/references/plan.md) | Sequence the work | Break this down, what order, sequence the delivery, align the plan |
-| [business-case](../skills/fde/references/business-case.md) | Build the business case | Sponsor needs justification, need to defend budget or timeline |
-| [three-options](../skills/fde/references/three-options.md) | Generate options | Significant decision, multiple approaches, "what should we do?", generate solutions |
-| [pick-three](../skills/fde/references/pick-three.md) | Prioritize three | 20 things are "urgent," need to pick the 3 that matter |
+| Skill | Use it when | Result | Input needed |
+|---|---|---|---|
+| [scope](../skills/scope/SKILL.md) | Assess a new customer request against agreed scope, trade-offs and ownership. Use when an engagement expands or a custom feature needs a commitment decision. | A scope decision with trade-offs and ownership. | Supplied notes, code or evidence |
+| [options](../skills/options/SKILL.md) | Compare feasible approaches to a customer problem and recommend a path with costs, constraints and evidence. Use for an architecture or delivery decision, not implementation. | Compared approaches and an evidence-backed recommendation. | Supplied notes, code or evidence |
+| [plan](../skills/plan/SKILL.md) | Sequence an understood outcome into verifiable delivery slices with dependencies, ownership and acceptance checks. Use for delivery planning, estimation or migration strategy. | A sequenced delivery plan with owners and acceptance checks. | Supplied notes, code or evidence |
+| [business-case](../skills/business-case/SKILL.md) | Develop a business case for an initiative using costs, benefits, risks and evidence. Use when a sponsor needs budget or timeline justification. | An evidence-backed investment case with explicit assumptions. | Supplied notes, code or evidence |
+| [prioritize](../skills/prioritize/SKILL.md) | Choose up to three immediate priorities from competing initiatives. Use when everything is urgent and the customer needs a defensible order with explicit deferrals. | Three immediate priorities and explicit deferrals. | Supplied notes, code or evidence |
+| [red-team](../skills/red-team/SKILL.md) | Stress-test a plan, brief or delivery claim against evidence and plausible failure modes. Use when the user asks for a red team or preparation for a consequential decision. | A critique of weak claims, failure modes and corrective actions. | Supplied notes, code or evidence |
 
-### Ship
-*Deliver. On their codebase, their staging, then go-live.*
+## Build and verify
 
-| Skill | What it does | Use when |
-|-------|-------------|----------|
-| [build](../skills/fde/references/build.md) | Implement a scoped change | Build the increment in their repository |
-| [integrate](../skills/fde/references/integrate.md) | Connect customer systems | APIs, imports, mappings and write-back |
-| [debug](../skills/fde/references/debug.md) | Reproduce and repair a failure | Unexpected behavior or a regression |
-| [qa](../skills/fde/references/qa.md) | Exercise the delivered journey | Functional acceptance and browser QA |
-| [what-breaks](../skills/fde/references/what-breaks.md) | Assess impact | What could go wrong, touching shared infrastructure, need to assess impact, provision, IaC, shared infra |
-| [rescue](../skills/fde/references/rescue.md) | Resolve the incident | Production down, urgent, fix a prod bug, resolve incident - or stakeholder gone quiet, trust slipping |
-| [ship](../skills/fde/references/ship.md) | Deliver the increment | Start building, update their checkout, first module, visible progress, going live, pre-flight, build the increment, create the launch plan |
-| [review](../skills/fde/references/review.md) | Review the change | Review this change, review the pull request, is it safe, does it match what we agreed, scope creep in the PR |
-| [rollback](../skills/fde/references/rollback.md) | Rehearse rollback | "We can always revert" - need to actually test the escape route |
+| Skill | Use it when | Result | Input needed |
+|---|---|---|---|
+| [build](../skills/build/SKILL.md) | Implement a scoped customer-facing software change in the existing repository and verify its behavior. Use for delivery work with an understood outcome, not incident response. | An implemented change with verification evidence. | Supplied notes, code or evidence |
+| [integrate](../skills/integrate/SKILL.md) | Build or change a customer-system integration with explicit data mapping, permissions, retries and reconciliation. Use for connectors, imports, write-back and upstream APIs. | An integration with tested mapping and failure handling. | Supplied notes, code or evidence |
+| [debug](../skills/debug/SKILL.md) | Investigate and repair a reproducible failure in a customer integration or application. Use for diagnosis and regression prevention; follow incident authority for live mitigation. | A diagnosed failure, repair and regression evidence. | Supplied notes, code or evidence |
+| [review](../skills/review/SKILL.md) | Review a proposed customer code change against its intended outcome and operational risks. Use for a diff or PR review; report evidence and actionable findings. | Actionable findings tied to the intended outcome. | Supplied notes, code or evidence |
+| [evaluate](../skills/evaluate/SKILL.md) | Evaluate an AI workflow against representative cases and its permitted actions. Use for model, retrieval or agent evaluation; tests do not grant release authority. | Evaluation results, failure analysis and release evidence. | Supplied notes, code or evidence |
+| [qa](../skills/qa/SKILL.md) | Exercise the delivered customer journey using real runtime or browser evidence. Use for functional acceptance testing after implementation, including failure paths. | Customer-journey evidence and acceptance gaps. | Supplied notes, code or evidence |
+| [what-breaks](../skills/what-breaks/SKILL.md) | Assess the impact of a proposed change on dependencies and shared infrastructure. Use before touching unfamiliar or consequential systems. | A blast-radius assessment and mitigation plan. | Supplied notes, code or evidence |
+| [rollback](../skills/rollback/SKILL.md) | Prepare and rehearse a recovery path for an intended release. Use when rollback is assumed, untested or previously failed; follow the environment authority for any drill. | A rollback drill with recovery evidence and remaining gaps. | Supplied notes, code or evidence |
+| [ship](../skills/ship/SKILL.md) | Prepare or execute an authorized controlled release with verified checks, recovery and an operating owner. Use when a customer increment is ready for deployment. | A controlled release result with recovery and ownership. | Supplied notes, code or evidence |
 
-### Outcome
-*Realize. Dated receipts, not memory.*
+## Report
 
-| Skill | What it does | Use when |
-|-------|-------------|----------|
-| [readout](../skills/fde/references/readout.md) | Report the outcome | Weekly update due, "need to send the sponsor something" |
-| [demo-prep](../skills/fde/references/demo-prep.md) | Prepare the demo | Demo coming up, show-and-tell, exec walkthrough |
-| [debrief](../skills/fde/references/debrief.md) | Capture the meeting | Just out of a meeting, raw notes, "they said...", "debrief", user interviews, workshop notes |
-| [board-memo](../skills/fde/references/board-memo.md) | Brief the board | Sponsor's boss needs a summary, board update, justify continued investment |
-| [dashboard](../skills/fde/references/dashboard.md) | View the portfolio | Status across all my customers |
-| [ingest](../skills/fde/references/ingest.md) | Ingest sources | "Pull today's transcript," "bring in the Notion page" |
-| [connect](../skills/fde/references/connect.md) | Connect a source | "Connect Granola," "wire up Drive" |
+| Skill | Use it when | Result | Input needed |
+|---|---|---|---|
+| [readout](../skills/readout/SKILL.md) | Prepare a sponsor update separating promised outcomes, measured results and customer acceptance. Use for progress readouts or defending a delivery claim. | A sponsor update separating promises, results and acceptance. | Supplied notes, code or evidence |
+| [demo-prep](../skills/demo-prep/SKILL.md) | Prepare a customer demo or executive walkthrough around an evidenced outcome. Use before show-and-tell to rehearse the journey and prepare a fallback. | A demo narrative, rehearsal plan and failure fallback. | Supplied notes, code or evidence |
+| [debrief](../skills/debrief/SKILL.md) | Turn meeting notes or a transcript into sourced decisions, changes and next actions. Use after a customer conversation; review consequential record updates before saving. | A sourced meeting summary with decisions and next actions. | Supplied notes, code or evidence |
+| [board-memo](../skills/board-memo/SKILL.md) | Draft a board or executive summary of an engagement using outcomes, risks and investment decisions. Use when the sponsor needs to brief senior leadership. | An executive memo separating evidence, risk and decisions. | Supplied notes, code or evidence |
 
-### Close
-*Transfer. They can run it without you.*
+## Operate
 
-| Skill | What it does | Use when |
-|-------|-------------|----------|
-| [close](../skills/fde/references/close.md) | Transfer operations | Wrapping up, handoff, making yourself replaceable |
-| [runbook](../skills/fde/references/runbook.md) | Write the runbook | Engagement ending, team needs to operate without you |
-| [switch-clients](../skills/fde/references/switch-clients.md) | Switch engagements | Juggling 2+ customers, losing track, context-switching |
-| [encode-pattern](../skills/fde/references/encode-pattern.md) | Encode the pattern | Something worked well and will apply to future engagements |
-| [red-team](../skills/fde/references/red-team.md) | Challenge the plan | "Red-team this," "stress-test my plan," poke holes, what am I missing |
+| Skill | Use it when | Result | Input needed |
+|---|---|---|---|
+| [rescue](../skills/rescue/SKILL.md) | Triage an outage, loss of stakeholder trust or a failing engagement direction. Use for urgent recovery; distinguish diagnosis from authorized production mitigation. | A recovery plan and evidence of authorized mitigation. | Supplied notes, code or evidence |
+| [dashboard](../skills/dashboard/SKILL.md) | Review the portfolio across existing engagement records. Use for status across customers; requires accessible permitted records and does not create missing client histories. | A portfolio view of engagement status and attention needed. | Existing customer records + CLI |
+| [switch-clients](../skills/switch-clients/SKILL.md) | Switch between existing customer engagements and triage competing needs. Use when context switching causes confusion; requires engagement records and preserves one client per write. | A refreshed client binding and cross-client triage. | Existing customer records + CLI |
+| [runbook](../skills/runbook/SKILL.md) | Write an operating runbook from the delivered system and verified procedures. Use when the customer team or a successor needs to operate without the original engineer. | An operating runbook with recovery steps and ownership. | Supplied notes, code or evidence |
+| [handoff](../skills/handoff/SKILL.md) | Transfer operation of a customer deployment with ownership, evidence and a tested support path. Use for handoff or an engineer rotation, not merely code delivery. | An operating handoff with ownership and a support path. | Supplied notes, code or evidence |
+| [feedback](../skills/feedback/SKILL.md) | Assess a field lesson for reuse or product feedback without exposing customer context. Use for recurring deployment lessons; distinguish a hypothesis from a validated pattern. | A reusable field lesson with evidence and privacy boundaries. | Supplied notes, code or evidence |
+| [connect](../skills/connect/SKILL.md) | Configure or diagnose access to a requested source using available host tools. Use for source MCP setup; source configuration needs no engagement record and credentials stay with the host. | Source setup guidance and an honest capability check. | Host source tools or setup documentation |
+| [ingest](../skills/ingest/SKILL.md) | Fetch requested source material and prepare sourced engagement updates. Use to catch up from external notes or messages; applying updates requires a bound record and confirmation. | Sourced proposed updates, with confirmed record application when bound. | Notes or source tools; selected record for staging/saving |
 
-### Overlays (activate on signal, alongside whatever skill is running)
+## Domain guidance
 
-| Overlay | Triggers on | What it adds |
-|---------|------------|-------------|
-| [ai](../skills/fde/references/ai.md) | AI, ML, LLM, model, embeddings, RAG, agents | Model selection, RAG architecture, agent safety, governance, drift monitoring, cost management |
-| [artifacts](../skills/fde/references/artifacts.md) | deck, slides, report, governance, compliance | Executive decks, governance frameworks, ADRs, compliance packs, value reports |
-| [fintech](../skills/fde/references/fintech.md) | payments, PCI, banking, cardholder data | Idempotency, transaction integrity, fraud signals, silent-failure prevention |
-| [healthcare](../skills/fde/references/healthcare.md) | PHI, HIPAA, patient data | De-identification, minimum-necessary, audit trails |
-| [gov](../skills/fde/references/gov.md) | FedRAMP, ATO, CUI, classified | Authority boundaries, CUI marking, continuous monitoring |
+The skills can apply supporting guidance for AI systems, financial services, healthcare, government work and customer-facing artifacts when relevant. These references are included instructions, not additional installable skills or a substitute for the responsible specialists.
 
-**AI companion (not a sixth overlay):** [eval-pack](../skills/fde/references/eval-pack.md) - golden set / pass-fail before AI ship (`evals.md`). Loaded with the **ai** overlay when models are in scope.
-
----
-
-## Core path (quick reference)
-
-The six stages stay land → discover → plan → ship → outcome → close. These are the skills most engagements actually run, with what gets written where. POC, the change on their repo, proof on their staging, go-live, and eval stay on `@fde`.
-
-| Skill | Enter when | What it does | Writes |
-|-------|-----------|-------------------|--------|
-| [land](../skills/fde/references/land.md) | New customer, first meeting | Interrogates the brief for what's missing; coaches the sponsor conversation; maps stakeholders and sacred data | `brief.md` `success.md` `stakeholders.md` `trust-profile.md` |
-| [discover](../skills/fde/references/discover.md) | Brief feels wrong, real problem unclear | Runs churn/test-gap/"temporary"-archaeology/AI-component scans; hunts the workaround; scores use cases | `reality.md` `terrain.md` |
-| [plan](../skills/fde/references/plan.md) | Scope clear, needs sequencing | Back from done; fragile first; PR-sized tasks; acceptance-criteria gate | `decisions.md` |
-| [ship](../skills/fde/references/ship.md) | Writing or updating on their repo, or ready to deploy | Seen on their staging, then live; intent vs diff, pre-flight/CAB, rollback you have run | `decisions.md` `delivery.md` |
-| [readout](../skills/fde/references/readout.md) | Friday, sponsor update, what's delivered | Promised → measured → accepted | `delivery.md` (ledger); presented via `fde status` |
-| [close](../skills/fde/references/close.md) | Engagement ending | Retrospective with receipts; pattern extraction; the 2am handoff | `retrospectives/` `patterns.md` `handoff.md` |
-
-Also-ran skills on the same loop (not a second map): [audit](../skills/fde/references/audit.md) · [poc](../skills/fde/references/poc.md) · [rescue](../skills/fde/references/rescue.md) · [review](../skills/fde/references/review.md).
-
----
-
-## The `fde` CLI (deterministic core - works without AI)
-
-`scan` recon + "ASK ON DAY 1" questions (zero-config via `npx fdeops scan`) · `resume [--full] [--init <name>]` memory (bounded by default - current state + recent activity; `--full` for the complete log) + bind (`--init` creates AND binds; prefer `@fde this is Acme` in chat, terminal `--init` as fallback) · `debrief <file>` (or stdin) route `decision:`/`risk:`/`delivery:`/`contact:` prefixed lines to their `.fde` files with dates, everything else to a dated block in `context.md` · `log <type> <text> [--signal green|amber|red]` structured appends; `--signal` writes the `[signal:...]` token that drives trust in status/dashboard (stale after 21 days) · `receipts <term>` agreements with dates · `capture` session snapshot · `status` value ledger then trust · `dashboard [--all] [--open] [--out <path>]` bound engagement into `fieldbook-current.html` (pass `--all` for every engagement). The skill calls these for mechanics; the AI does interpretation and judgment. Every command above runs locally - no AI needed.
-
----
-
-## The memory contract (what makes it a second brain)
-
-1. On entry the agent reads a bounded view of `context.md` (via `fde resume`) - nothing else until the phase needs it.
-2. **Deliverable plus memory:** deliver the code, evidence or decision artifact; persist confirmed engagement outcomes when bound.
-3. Every claim carries evidence: `(ops lead, Day 5)` · `(churn: 47/90d)` · `(stated, unverified)`.
-4. On exit (and before a PR) the agent runs a **session digest** - TL;DR, key decisions & why, scope/verification, gotchas, next action - into existing `.fde/` files (not chat transcripts into the product repo); the `session-stop` hook backstops a thin snapshot (hooks resolve the engagement via the workspace registry written by `fde resume --init`).
-5. One customer, one folder. Never merged.
-
-One `@fde` router. Thirty-four workflows across six stages.
-
-## Standalone entry points
-
-See [the task catalog](../README.md#task-skills). Each selective installation includes its reference dependencies. Source methods remain in `skills/fde/references/`; generated packages are checked for freshness and completeness. No other skill pack is required.
+[Starting examples](skills.md) · [Customer records](schema.md) · [Verification and limits](verification.md)

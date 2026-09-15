@@ -83,6 +83,6 @@ MIT. By contributing text you agree your contribution is licensed under MIT and 
 
 ### Task skill packaging
 
-Author methods once under `skills/fde/references/`. Add or refine task entry metadata in `bin/skill-catalog.js`, then run `npm run generate:skills`. Commit canonical changes and regenerated task directories under `skills/` together. `npm run check` verifies reference closure and freshness; isolated installation must work without sibling skills. Keep examples fictional and local evaluation traces outside Git.
+Author methods once under `skills/fde/references/`. Add or refine task entry metadata in `bin/skill-catalog.js`, then run `npm run generate:skills` to refresh task packages and the public catalog. Commit canonical changes and regenerated task directories under `skills/` together. `npm run check` verifies reference closure and freshness; isolated installation must work without sibling skills. Keep examples fictional and local evaluation traces outside Git.
 
 Generation records ownership in each task package. Write mode removes obsolete owned output; check mode reports drift without writing. Unknown additions or modified obsolete files are preserved and reported for review. Do not hand-edit generated files or their ownership metadata.
