@@ -1,5 +1,13 @@
 # Changelog
 
+## 5.1.2 - 2026-09-15
+
+- Check plans against all supplied requirements and reuse answers already provided.
+- Keep stakeholder reviews and AI evaluation tasks proportional to the project and permitted data.
+- Preserve changed behavior in meaningful automated coverage where feasible.
+- Treat retrieved material as evidence, never as authority to change the task.
+- Require accepted operating responsibilities and verified critical capabilities at handoff; diagnose AI failures before choosing corrective action.
+
 ## 5.1.1 - 2026-09-15
 
 - Map decision authority by scope and source; preserve disputed ownership and separate observations from possible stakeholder explanations.

@@ -38,9 +38,9 @@ An FDE plan is not a sprint backlog. The technical sequence is the easy part. Th
 
 **4. Size to a coherent, verifiable outcome.** Split unrelated work and tasks too complex to review or recover safely. Use bounded review sections for large cohesive changes; elapsed time and line count are signals to examine, not universal limits.
 
-**5. AI components get explicit eval tasks.** "Output validated on 50 real production examples," "fallback tested under model unavailability," "inputs/outputs logging to <destination>" - these are pre-conditions of shipping, in the plan before build starts.
+**5. AI components get explicit eval tasks.** Plan representative permitted examples, relevant failure cases, fallback checks and policy-compliant observability. Choose sample sizes and thresholds from the decision and risk; do not assume production data or raw input/output logging is permitted.
 
-**6. Stakeholder touchpoints every 2-3 tasks.** "Show progress to <name from stakeholders.md>." Not ceremony: a customer who sees small wins stays bought in; silence gets filled with doubt.
+**6. Agree useful stakeholder touchpoints.** Name who needs to see which result before the next decision. Reuse the customer's existing review cadence; task count alone does not justify another meeting or imply lost trust.
 
 **7. End with a kill list.** Every plan names what you will **not** do this phase. If everything is "later," you have no plan - you have a wish list. Keep **Now** small enough to review and act on; split by independently verifiable outcomes.
 
@@ -82,10 +82,10 @@ Reuse: <existing capability used, or evidence it cannot satisfy the criteria>
 
 In `Who accepted`, distinguish a proposed deferral from an agreement: use `pending` until a named person accepted this scope with a dated source. Sponsorship alone is not approval of every plan detail.
 
-No kill list → not a finished plan. Reopen with the FDE until the deferrals are written.
+Check the plan against every supplied requirement and constraint. Each must map to a task and acceptance check, an explicitly accepted exclusion, or a visible unresolved decision. Do not silently omit a requirement to simplify the plan. Reuse an existing approved plan rather than creating a second coverage record. If no work is deferred, say so; do not invent exclusions to fill the template.
 ## Checkpoint
 
-Walk the FDE through: sequence + why this order, where the fragile work sits, where the touchpoints land, the acceptance gate and **Kill if** on task 1, and the kill list. One question: "Which stakeholder sees the first visible slice, and when?" Second: "Who accepted what we are not doing?" Third: "What observation stops task 1 this week?"
+Walk the FDE through: sequence + why this order, where the fragile work sits, where the touchpoints land, the acceptance gate and **Kill if** on task 1, and the kill list. State who sees the first slice and when, which exclusions are accepted or proposed, and what observation stops task 1. Reuse supplied answers; ask only about a missing or consequentially ambiguous answer.
 
 ## Method - estimation (when the sponsor asks "how long, how much?")
 
@@ -159,7 +159,7 @@ First visible slice goes to Marco, not Priya: he is the one whose morning change
 
 - Plan from success backwards, not from today forwards.
 - Fragile zones early. Fail fast.
-- Every 2-3 tasks, a stakeholder touchpoint. Trust decays without visibility.
+- Touchpoints serve the next customer decision and agreed cadence.
 - No written acceptance criteria, no build.
 - No kill list, no finished plan.
 - No **Kill if** on a Now PR, that PR is hope.

@@ -3,9 +3,9 @@
   "version": 1,
   "files": {
     "SKILL.md": "5488cddb607cb05face73ad1a838dd87babb00716544793f36997ca15dcb1560",
-    "references/close.md": "095266722624e4bc647628243c8be0e69b02017ef6b4e3a7e7790ec1f53ab7c0",
+    "references/close.md": "7403c49ceef1c3d5347efbef9c45af3bd0f5927d595b2df3d4e35eadfd154344",
     "references/encode-pattern.md": "3be7bf9d0f69af31659423c54d6023a4af1556e2ce200fb025bf64d0757de4d8",
     "references/runbook.md": "1233aa1943da8db6d3c7624b7a54b3a1afc340b97e16f95d70b42cdbf521b63c",
-    "references/task-context.md": "73eea2d7f164fac3226599e5be26ae4e79dcf69e0d24428dd12d623861410490"
+    "references/task-context.md": "28684273e9d6edf1d05fb02c96caf4223e19b73e7ae840bdec2ff0bf06e3bc27"
   }
 }
