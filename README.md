@@ -34,7 +34,7 @@ Help me prepare for the first meeting. Here is the brief: …
 
 `fde` asks for the information needed next and uses the relevant instructions. As work progresses, it can help you investigate delays, compare approaches, implement a change, test it, and prepare a customer update. You do not have to choose a skill at each step.
 
-Naming the customer starts a local project record at `~/fde-engagements/client01/.fde/`. It keeps the brief, decisions, evidence and next actions together. Review proposed agreements and corrections before saving them. [How customer records work](#keep-a-customer-record).
+For an ongoing project, naming the customer starts a local record at `~/fde-engagements/client01/.fde/`. It keeps the brief, decisions, evidence and next actions together. Review proposed agreements and corrections before saving them. [How customer records work](#keep-a-customer-record).
 
 ### Use just one task
 
@@ -77,7 +77,7 @@ Use the skill that matches the work in front of you. All skills are individually
 
 These examples are starting points, not a required sequence. The catalog also covers inherited projects, business cases, incidents, recovery, source connections and multiple customer records. `fde` uses the same instructions and loads additional detail only when needed.
 
-**Which mode should I choose?** Use an individual skill for a specific task. Use `fde` when you want help across several tasks and a continuing customer record. Installing a skill makes it available independently; it does not remove its real input requirements. For example, `dashboard` needs records to display, while `debrief` can review pasted notes without saving anything.
+**Which mode should I choose?** Use an individual skill for a specific task. Use `fde` when you want help selecting the next task or maintaining a continuing customer record. You can also ask it for a one-off result without creating records. Installing a skill makes it available independently; it does not remove its real input requirements. For example, `dashboard` needs records to display, while `debrief` can review pasted notes without saving anything.
 
 <a name="how-skills-work"></a>
 
@@ -125,7 +125,13 @@ Open a customer's record and copy an action into your agent to continue. Run the
 
 ## Fit it to the project
 
-For a small task, use the supplied notes or code and return the result. For an ongoing project, use the customer record. For enterprise work, include the relevant teams, access rules, release checks and operating responsibilities in the plan.
+Start with the work in front of you:
+
+| Project | How to use FDEOps |
+|---|---|
+| Small fix or analysis | Give a task skill the relevant notes or code. Get the result and its verification; no customer record is required. |
+| Customer integration or ongoing delivery | Use `fde` to connect discovery, implementation, tests and updates in one continuing record. |
+| Enterprise engagement | Work within the customer’s existing access, change-control and operating processes. Record who can approve each decision and what evidence they require. |
 
 The pack includes implementation, integration, debugging and QA instructions. It uses the repository's existing tools. It does not supply customer credentials, infrastructure, specialist approvals or production authority.
 

@@ -7,7 +7,7 @@ description: Keeps the engagement record for client work. Use when they name a c
 
 ## Purpose
 
-The **engagement record** for one client, from first meeting to signed outcome. One coordinator; six stages (land → close), with task skills that also work independently. Same methods on greenfield or brownfield engagements. Route from the request; never make the user choose a phase. Confirm, then write `.fde/`. The workspace still compiles and commits. `@fde` does not leave.
+Coordinate customer work from the first brief through implementation, verification and handoff. Select the relevant task instructions; never make the user choose a phase. Work directly on a standalone request, or maintain a confirmed `.fde/` record for an ongoing engagement. Reuse the customer’s tools, decisions and operating process.
 
 ## Task entry
 
@@ -17,22 +17,22 @@ Read `references/task-context.md` first. An explicitly selected task skill (such
 
 - They named a client, pasted notes, or asked what was agreed
 - The brief feels wrong, a sponsor went quiet, or Friday needs the ledger
-- Unbound - ask the name once, then **you** run `fde resume --init`
+- For ongoing client work without a binding, use the supplied name or ask once, then **you** run `fde resume --init`. A standalone request does not enter this setup path.
 
 ## When NOT to use
 
-A one-line typo or compile error in a file that will not ship. On a bound client: stay here for POC, characterisation, the change on their repo, eval, go-live, rollback, and acceptance.
+Ordinary code edits in an unbound repository do not automatically trigger the coordinator. If the user explicitly asks `@fde` for a standalone task, follow Task entry without creating records. On a bound client, use the relevant task for POC, characterization, implementation, evaluation, release or handoff.
 
 ## Use these first
 
 | What's happening | Sentence to say | You run | Then read |
 |---------|-----------------|---------|-----------|
 | **The brief is wrong** | "If this works, who in their company would have to agree that it worked?" | Current entry packet (see Entry below), then discover | `references/discover.md` |
-| **They went quiet** | "Is this a process gap, or a trust problem?" | `fde log contact "…" --signal amber\|red\|green` | `references/rescue.md` |
+| **They went quiet** | "What changed, and what do we know about why?" | Review supplied evidence; confirm any signal update before `fde log contact "…" --signal amber\|red\|green` | `references/rescue.md` |
 | **When did we agree?** | Don't argue from memory. Search the record. | `fde receipts <term>` | - |
 | **What's the outcome?** | A number nobody signed is claimed, not delivered. | `fde status` | `references/readout.md` |
 
-After a meeting: the agent runs `fde debrief --smart`, interprets and reconciles the sanitized proposal, then validates it with `fde debrief --review`. Show the human one concise review of consequential changes and uncertainties → **Save this update?** → `--apply` only after confirmation → verify the saved facts. See `references/debrief.md` for the shared preparation contract. Walk-in: `fde prep`. Friday: `fde status`.
+For a bound engagement update after a meeting: the agent runs `fde debrief --smart`, interprets and reconciles the sanitized proposal, then validates it with `fde debrief --review`. Show the human one concise review of consequential changes and uncertainties → **Save this update?** → `--apply` only after confirmation → verify the saved facts. For standalone meeting analysis, use the review-only path in `references/debrief.md` without CLI setup or saving. Walk-in: `fde prep`. Friday: `fde status`.
 
 ## Ground loop
 
@@ -56,20 +56,22 @@ Use `references/build.md` for implementation, `references/integrate.md` for cust
 
 **FDE (human):** `@fde` + English, or `/brief` `/discover` `/plan` `/ship` `/outcome` `/close` `/debrief` `/prep` `/trust` `/receipts` `/readout`. They may also invoke an individual task skill directly.
 
-**You (agent):** run the CLI. **Never tell the FDE to type** `fde …`. If unbound, you run `fde resume --init` after one question. Never ask them to run the CLI.
+**You (agent):** run the CLI when the task needs real records. **Never tell the FDE to type** `fde …`. For ongoing work without a binding, use the supplied client name or ask once, then run `fde resume --init`. Never ask them to run the CLI. Standalone drafts and code tasks skip initialization, preferences and record reads.
 
 Fallbacks: `node ~/.claude/fdeops/fde.js …`, then `npx --yes fdeops …`. Skill-only install is not "unavailable."
 
 ## First-use preferences
 
-Run `fde setup --show` before client reads. If unavailable, update the CLI before offering setup. If `configured` is false, bind the named client, then run `fde setup` and present its three questions together: how they work, what would help first, and what to mask. Save their explicit answers; never infer permission to share data. For custom masking, the optional fourth question asks them to enter terms **locally** with `fde setup`, or give a local terms-file path. Do not ask them to paste sensitive names into chat or open that file with model-facing file tools. Pass the path directly to `--terms-file`; inspect only the returned count, never `.preferences.json` or the alias dictionary. If they skip, keep existing defaults.
+For ongoing record-backed work, run `fde setup --show` before client reads. Skip this section for standalone work. If unavailable, use the permitted CLI fallback before offering setup; if none is available, continue from supplied excerpts without claiming record access. If `configured` is false, bind the named client, then run `fde setup` and present its three questions together: how they work, what would help first, and what to mask. Save their explicit answers; never infer permission to share data. For custom masking, the optional fourth question asks them to enter terms **locally** with `fde setup`, or give a local terms-file path. Do not ask them to paste sensitive names into chat or open that file with model-facing file tools. Pass the path directly to `--terms-file`; inspect only the returned count, never `.preferences.json` or the alias dictionary. If they skip, keep existing defaults.
 
 Use `work` to tailor the help: single = focus on the bound client; multiple = portfolio overview with one bound client per write; team = clarify responsibility and handoff, without implying shared storage. `start` chooses the initial route when no more specific request or record determines it: new → land, daily → triage, takeover → audit. Current client evidence and the user's request always take precedence; never restart an existing engagement because of this preference. `masking` selects standard patterns or those plus custom terms. Older technical settings remain valid; offer personal setup when requested rather than resetting them. Do not ask again per client. `fde setup --settings` keeps display, context size and report masking editable. Choices do not configure models or approve client data use.
 
 ## Entry (every session)
 
+This section applies to ongoing record-backed work only. For a standalone request, use Task entry and the selected method; do not run setup, resume or init merely because `@fde` was invoked.
+
 1. After the first-use setup check above, use one current `fde resume` packet (16 KiB by default, 4 KiB with compact setup; a byte ceiling, not a model token count). At each new user turn or task, run `fde resume` unless a fresh session-hook packet was supplied for that entry. Within this entry, reuse that hook packet or a packet from a CLI call made during the current turn/task only if its `ENGAGEMENT:` identity is visible, matches the current client binding, and freshness is certain. Never reuse a packet carried over from an earlier user turn or task: external edits may have changed the record. If the packet is absent, its identity or freshness is uncertain, the binding or engagement state changed since it was loaded (including your own writes or setup/masking changes), or the user asks for a refresh or “where are we,” run `fde resume` before using the context. Do not repeat an immediate entry call solely because the skill, an adapter, or a slash command was loaded. Read client constraints first, then signer, goals, risks, delivery ledger and current context; never substitute a recursive read of `.fde/` or raw transcripts. If truncated or a decision needs evidence, run `fde recall <specific topic>`; narrow the query rather than loading the whole history. `--max-bytes 4096` reduces the allowance for smaller models. `--full` only when the complete log is explicitly needed.
-2. **NO ENGAGEMENT:** ask "What should we call this client?" then **you** init. Pasted notes → debrief after bind.
+2. **NO ENGAGEMENT, ongoing work:** use the supplied client name, or ask "What should we call this client?" then **you** init. Pasted notes for that ongoing record → debrief after bind. Notes requested only for review stay standalone.
 3. Playback 2-3 lines. `hygiene:` → offer `fde doctor`; **never auto-rewrite**.
 4. Route. Read **one** `references/*.md`. Confirm, then write.
 
@@ -79,12 +81,12 @@ Writes need a bind (`FDEOPS_ENGAGEMENT` or registry). Never install fdeops on in
 |----------|---------|
 | where are we | `fde resume` |
 | day-1 look at the repo | `fde scan` |
-| debrief / pasted notes | `fde debrief --smart` → agent reconciliation → one plain-English review → Save this update? → `--apply`. `--smart` is a gate, not a brain. `references/debrief.md` |
+| debrief / pasted notes for a bound record | `fde debrief --smart` → agent reconciliation → one plain-English review → Save this update? → `--apply`. `--smart` is a gate, not a brain. `references/debrief.md` |
 | prep me for … | `fde prep "<label>"` |
 | when did we agree | `fde receipts <term>` |
 | sponsor update / defend the number | `fde defend` |
 | successor / rotation / portable handoff | `fde handoff` (stdout; `--out new-file.md` only after export requested) |
-| they went quiet | `fde log contact "…" --signal amber\|green\|red` |
+| they went quiet | Review evidence with `references/rescue.md`; confirm a signal change before `fde log contact "…" --signal amber\|green\|red` |
 | fieldbook page | `fde dashboard` (`--all` portfolio, `--open` to open the file) |
 | clean up the fieldbook | `fde doctor` - never auto-rewrite |
 | scrub a secret | `fde redact <term>` then `--apply` after confirm |
@@ -98,7 +100,7 @@ Writes need a bind (`FDEOPS_ENGAGEMENT` or registry). Never install fdeops on in
 2. **Deliverable plus memory.** Deliver the requested code, evidence or decision artifact. On a bound engagement, record the confirmed result in the file named by the method. A standalone artifact does not require a `.fde/` folder.
 3. **Evidence.** Without a supplied source, a decision or measurement remains CLAIM. Use `[source: meeting YYYY-MM-DD]`, a PR/URL, transcript ID, or artifact path. The automatic log date is not attribution. ON RECORD means a source was supplied, not that it was authenticated or the customer approved. Never invent a source, signer, or acceptance.
 4. **No invented facts.** People, quotes, meetings, numbers: they said it or the repo shows it. Else `unknown - ask: <question>`.
-5. **Session digest** (end of session and before a PR) - thinking, not the chat. Confirm, then write. Never a transcript dump.
+5. **Bound-engagement session digest** (end of session and before a PR) - relevant conclusions, not the chat. Confirm, then write. Standalone tasks return their requested result without a record digest. Never a transcript dump.
 
    | Digest beat | Lands in |
    |-------------|----------|
@@ -183,7 +185,7 @@ Work names (engage, diagnose, align, deliver, realize, transfer) are the same ma
 |----------|-------|-----------|
 | Realize, weekly update due, "need to send the sponsor something", report the outcome | readout | `references/readout.md` |
 | Demo coming up, show-and-tell, exec walkthrough, prepare the demo | demo-prep | `references/demo-prep.md` |
-| Just out of a meeting, raw notes, "they said…", "debrief", user interviews, workshop notes, capture the meeting | debrief | the debrief verb (above) + `references/debrief.md` |
+| Just out of a meeting, raw notes, "they said…", "debrief", user interviews, workshop notes, capture the meeting | debrief | `references/debrief.md`; review-only for standalone notes, CLI review/apply for a bound record |
 | Make sure we're up to date, pull what's relevant, fetch from Granola/Slack/Gmail/transcript | ingest | `references/ingest.md` (capability check → stage → propose → confirm → apply) |
 | Connect a new MCP / connect Granola Slack or Notion / what can you pull | connect | `references/connect.md` (+ `references/source-setup.md`) |
 | Prep me for a meeting / walk-in brief / "what should I know before I talk to…" | - | run `fde prep "<label>"`, present in plain language |
@@ -229,4 +231,4 @@ Ready to build: check that the supplied facts establish the outcome, constraints
 
 ## Identifier masking
 
-Before reading engagement content in a session, run `fde privacy` to verify runtime support. If the command is unavailable, stop and update the CLI; a new skill alone does not upgrade an older executable. Use CLI context and previews for model input. They mask common email, phone, SSN-shaped, and credential patterns by default; aliases remain consistent within the local engagements root. Preserve complete alias tokens when drafting updates; the CLI resolves them locally. Never read the private `.privacy/` dictionary, sealed sidecars, raw sensitive notes, or local dashboard/vault files to recover an identity. Custom masking additionally hides the literal names or terms the user supplied locally, ignoring letter case and matching whole terms. It does not infer variants or discover names. Names, company names, addresses, and unrecognized formats are otherwise not automatically detected: keep sensitive prose in `<private>` blocks. Direct file tools, pasted chat, and upstream source MCPs bypass this boundary.
+Before reading stored engagement content, run `fde privacy` to verify runtime support. If unavailable, stop record access and use the permitted CLI fallback; a new skill alone does not upgrade an older executable. A standalone task using supplied permitted context does not need the CLI. If no executable is available, continue useful work from supplied excerpts and report the record-access limitation. Use CLI context and previews for model input. They mask common email, phone, SSN-shaped, and credential patterns by default; aliases remain consistent within the local engagements root. Preserve complete alias tokens when drafting updates; the CLI resolves them locally. Never read the private `.privacy/` dictionary, sealed sidecars, raw sensitive notes, or local dashboard/vault files to recover an identity. Custom masking additionally hides the literal names or terms the user supplied locally, ignoring letter case and matching whole terms. It does not infer variants or discover names. Names, company names, addresses, and unrecognized formats are otherwise not automatically detected: keep sensitive prose in `<private>` blocks. Direct file tools, pasted chat, and upstream source MCPs bypass this boundary.

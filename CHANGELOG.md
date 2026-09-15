@@ -1,5 +1,13 @@
 # Changelog
 
+## 5.1.1 - 2026-09-15
+
+- Map decision authority by scope and source; preserve disputed ownership and separate observations from possible stakeholder explanations.
+- Keep one-off coordinator tasks out of customer-record setup and make standalone meeting review explicit.
+- Characterize changed legacy behavior and handle uncertain writes without assuming stale lookup results authorize a retry.
+- Add reproducible field-task fixtures with separate reviewer criteria, local contract checks and preserved run receipts. These do not claim model or customer validation automatically.
+- Clarify small-project and enterprise use, host verification coverage and contribution scope.
+
 ## 5.1.0 - 2026-09-15
 
 - Expose all existing capabilities through one catalog: 35 independently installable task skills plus the `fde` coordinator. Existing task names remain compatible; `brief` and `prioritize` provide clear entry points for kickoff and priority selection.

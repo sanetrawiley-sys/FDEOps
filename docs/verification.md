@@ -1,10 +1,10 @@
 # Verification and limits
 
-FDEOps has automated regression tests and focused workflow checks. Passing them does not certify every agent, model, or client engagement. The CLI and fieldbook run locally without a model; AI hosts and source connectors have their own permissions and network behavior.
+Evidence has three levels: local software behavior, agent task execution, and customer outcomes. FDEOps has software checks and selected agent trials; customer outcomes remain unproven. A pass at one level does not establish the next. The CLI and fieldbook work locally without a model; the coding agent and external connections have their own permissions and network behavior.
 
-## Automated checks
+## Reproduce the software checks
 
-The 2026-09-11 maintenance update passed 293 tests, with no failures or skips, plus skill-routing checks and live CLI smoke. GitHub validation passed before merge.
+Requires Node.js 18+ and Git. The core has no package dependencies to install.
 
 ```bash
 npm run check
@@ -12,80 +12,60 @@ npm run test:skill-routing
 node evals/context-budget/check.js
 ```
 
-Coverage includes private-output redaction, client binding, pending reviews, sourced replay warnings, acceptance conflicts, installer paths, export protection, and concurrent CLI writes. Multi-file commands are not database transactions, and external editors do not participate in CLI locks.
+`npm run check` validates the skill catalog, generated packages, installation and local CLI behavior. Coverage includes customer binding, private-output redaction, pending reviews, corrections, acceptance conflicts, exports, unsafe filesystem paths and concurrent writes. Multi-file commands are not database transactions; external editors do not participate in CLI locks.
 
-The context fixture reduces 1,120,010 bytes of history to a 16,384-byte response and retrieves three targeted records among 10,000 unrelated lines. This verifies a byte ceiling and retrieval in that fixture, not a fixed token count, model accuracy, or percentage of tokens saved.
+All 35 task packages are checked in isolation for required references and correct routing. Installer tests exercise clean and repeat installs, name collisions, preservation of personal files, managed migrations, symlinks and hard links. Those checks establish package integrity, not whether a model chooses or follows the right skill.
 
-## Composable pack validation (4.1.0, 2026-09-15)
+Routing smoke runs actual CLI commands. It explicitly leaves model-only selection untested. The [delivery evaluation guide](../evals/delivery/README.md) separates behavioral trials from these static checks. CI results for a release are linked from [GitHub Actions](https://github.com/suboss87/fdeops/actions); version-specific changes are in the [changelog](../CHANGELOG.md).
 
-The local candidate passed all 367 repository tests (zero failures or skips), the structural gate, and the routing contract/live CLI smoke. The routing smoke exercises CLI mechanics; it does not prove automatic model selection of every task skill. Packaging checks copy each standalone skill into isolation, verify local instruction links and canonical dependency closure, detect stale generation, and test reintroduced installer entries and user-owned collisions.
+## Context and privacy
 
-Two isolated agent trials used only a copied task skill and fictional permitted inputs:
+The context fixture reduces 1,120,010 bytes of history to a 16,384-byte response and retrieves three targeted records among 10,000 unrelated lines. This establishes the byte ceiling and retrieval for that fixture, not a token count, model accuracy or percentage of tokens saved.
 
-- **Integration:** implemented a bounded retry adapter and ran ten tests against a real loopback HTTP server. Lost responses after committed writes produced two attempts and one downstream task. Permanent rejection, uncertain outcomes and cancellation were tested. No engagement folder, extra dependency or external skill pack was used.
-- **Options:** produced a decision artifact from an incomplete customer brief without initialization. It kept scope and acceptance pending, distinguished capacity from spend, and compared feasible routes without padding the alternatives.
+A two-session Codex/GPT-6-Astra diagnostic prepared a masked meeting review, waited for confirmation, applied it and retrieved the saved action. Checks found original email and phone values restored in local records, no stored aliases, and no raw fixture identifiers or private marker in either model trace. This was one scripted case, not comprehensive sensitive-data detection.
 
-A separate code/instruction reviewer found a standalone POC planning gate that still required an initialized engagement. That gate was corrected in the canonical method and regenerated packages; the reviewer verified the fix. Focused packaging and readiness checks passed afterward.
+Regression tests cover stable aliases, original-record preservation, confirmed proposal restoration, sourced replay, masked stderr/MCP responses, truncation and invalid private state. Raw file tools, pasted chat, upstream sources and unrecognized identifiers remain outside this boundary. See [privacy details](../PRIVACY.md#default-identifier-masking).
 
-These are synthetic agent trials, not customer deployments or independent human usability evidence. The integration receiver implemented the supplied contract in memory; live authentication, durable upstream deduplication and production behavior were not tested. Automatic selection across every host, every standalone workflow, and every model remains unverified. These checks describe the release candidate; release status is recorded in GitHub Releases and npm.
+## Agent task evidence
 
-## Standalone corrections (4.1.1)
+Completed synthetic diagnostics include:
 
-An additional isolated agent trial drafted a sponsor readout and handoff using only the selective packages and supplied fictional facts. It used no engagement CLI or initialization, kept staging measurements and unaccepted ownership explicit, and reported recovery as unrehearsed.
+- **Standalone tasks:** discovery, options, integration, readout, handoff, planning and runbook drafting using copied task packages without the coordinator. They produced useful results while retaining unknown ownership, unmeasured baselines and untested recovery. Integration exercised a local HTTP receiver, including a lost response after a committed write. These were small reviewer-run trials, not repeated comparisons or live customer integrations.
+- **Correction and continuity:** a scripted Codex CLI 0.153.4/GPT-6-Astra diagnostic on 2026-09-11 covered messy-note review, rejection, correction, confirmed save, a fresh-session lookup and older-note replay. Record hashes stayed unchanged before confirmation and during replay. A second workspace returned its own customer's context. Two preliminary runs resolved a stale global CLI and exposed a synthetic private marker; they were excluded from current-executable validation and do not establish universal masking reliability.
+- **Reader checks:** a README-only reader distinguished the coordinator from individual tasks and understood when customer records were optional. This was an agent reader, not an independent human usability study.
 
-Generator regression coverage checks removed dependencies and catalog entries, read-only validation, ownership migration, unowned additions, modified obsolete files, symlinks and hard links. A separate reviewer reproduced a hard-link overwrite risk; the preflight guard and preservation regression resolved it. All ten focused packaging tests passed after that correction.
+Four fresh Codex subagent trials on the 5.1.1 candidate used only supplied fictional inputs and copied FDEOps instructions, without the audit findings or evaluator rubric. The authority draft respected a documented leave period and separate approval scopes. The brownfield task retained a replay guard, added three passing tests and checked that two unsafe mutations failed. The integration task produced 18 passing tests and passed the separate local adapter contract checks. A coordinator-only meeting draft preserved a correction and unagreed scope without record initialization. The lead reviewed the artifacts and reran the integration checks.
 
-## Identifier masking
+These are single runs per case, not a randomized baseline comparison. The host was Codex; an exact model identifier and token measurements were not recorded. Fixture requirements were supplied, no customer systems were used, and no long-term or cross-model reliability is established. The [field-task protocol](../evals/delivery/README.md#repeatable-standalone-field-trials-f1-f3) prepares fresh baseline and FDEOps variants; its checker preserves evidence and never assigns customer-judgment scores automatically.
 
-A two-session Codex/GPT-6-Astra diagnostic prepared a masked meeting review, waited for explicit confirmation, applied it, and retrieved the saved action with the same aliases. External checks found the original email and phone restored in local records, no stored aliases, and no raw fixture identifiers or private marker in either model trace. This is one scripted case, not comprehensive PII or host certification.
+Keep the distinction between instructions available, agent task completed and customer benefit demonstrated. The repeated D1-D5 comparison remains unrun. Reproducible fixtures and review criteria are in [delivery evaluations](../evals/delivery/README.md); raw session traces remain local.
 
-The masking regression suite checks stable aliases, original-record preservation, confirmed proposal restoration, sourced replay, masked stderr/MCP responses, truncation boundaries, context size, and missing/corrupt/linked private state. Raw file access, upstream source tools, and unrecognized identifiers remain outside this boundary. See [privacy details](../PRIVACY.md#default-identifier-masking).
+## Host and connection coverage
 
-## Agent workflow
+| Surface | Evidence available | Still needs verification in your setup |
+|---|---|---|
+| Local CLI and task packages | Regression tests, isolated installs and selected task trials | Repository tools, environment access and applicable acceptance checks |
+| Codex | Versioned scripted diagnostics described above | Current host/model routing across all tasks and your project policy |
+| Claude Code | Plugin configuration, disk installation and hook regression checks | Current interactive plugin invocation, permissions and session lifecycle |
+| Cursor, Gemini and Copilot | Adapter generation and canonical instruction pointers | Actual invocation, tool access, task completion and record continuity in each host |
+| Windows | Portable CLI code and documented Git Bash requirement for hooks | Native host/session behavior; Linux or macOS checks are not Windows execution |
+| FDEOps ingest MCP | Automated stdio ingest tests for initialization, staging, review and confirmed apply | Each external connector's authorization, retrieval and customer-data policy |
 
-A scripted diagnostic on 2026-09-11 used Codex CLI 0.153.4 with GPT-6-Astra at medium reasoning and the current repository executable. Fresh sessions exercised messy-note review, rejection and correction, confirmed save, record-only recall and handoff, and replay of the original notes after a correction. A separate session checked a second client workspace.
+Fieldbook browser checks on the 2026-09-10 release exercised desktop and 390px mobile views, switching, search, action prompts, clipboard fallback and empty states. The fictional journeys had no page overflow, console errors or external requests. The fieldbook is a generated report; regenerate it after record changes.
 
-The agent recovered the decision and action from ordinary prose, preserved both correction sources, kept requests unagreed and staging results unaccepted, and retained the current next action. Record hashes stayed unchanged before confirmation and during the older-note replay. Private test content was absent from the five update-workflow traces. The second workspace returned its own signer and next action without reading the first client's record.
-
-An additional agent reviewed the review/save/return traces. This is one scripted longitudinal scenario and one read-only client switch, not independent human usability evidence or repeated statistical reliability. Two early runs resolved a stale global CLI and exposed the synthetic private marker. They were excluded from current-version validation; they do not establish a regression in the current executable. Use the intended executable when reproducing tests.
-
-## Fieldbook and MCP
-
-Browser checks on the 2026-09-10 release exercised dark desktop and 390px mobile views, client switching, search, action prompts, clipboard fallback, and empty states. The tested fictional journeys had no page overflow, console errors, or external requests. The fieldbook is a generated report; regenerate it after record changes.
-
-Automated stdio MCP tests exercise initialization, tool listing, staging, proposing, and explicit apply, including privacy and client boundaries. This does not certify a user's Slack, Notion, Granola, or other source connection. Test each configured connector separately.
-
-## Local models
+## Local model results
 
 Read-only trials used Ollama 0.33.1 and already-installed Qwen3 models on a 16 GiB Mac with CPU inference:
 
-- **Qwen3 1.7B:** missed a recorded next action, invented a scope record, and gave a partially correct acceptance answer with an unsupported trust assessment. [Recorded results](../evals/local-model/results/2026-09-10-qwen3-1.7b.json).
-- **Qwen3 4B:** the first attempt exceeded a 180-second deadline. Three capped reruns produced planning text without completed tool calls. [Recorded results](../evals/local-model/results/2026-09-10-qwen3-4b.json).
+- **Qwen3 1.7B:** missed a recorded next action, invented a scope record and gave an unsupported trust assessment. [Recorded results](../evals/local-model/results/2026-09-10-qwen3-1.7b.json).
+- **Qwen3 4B:** one attempt exceeded 180 seconds; three capped reruns produced planning text without completed tool calls. [Recorded results](../evals/local-model/results/2026-09-10-qwen3-4b.json).
 
-These establish connectivity, not reliable client-work judgment. The adapter exposes three read-only tools; it does not test full skill routing or writes. With an already-installed model:
+These establish connectivity, not reliable customer-work judgment. The adapter has three read-only tools; it does not test full skill routing or writes. With an already-installed model:
 
 ```bash
 FDEOPS_TEST_OLLAMA=http://127.0.0.1:11434 node evals/local-model/check.js qwen3:1.7b
 ```
 
-An expected tool call is not proof of a correct answer. Review answers and citations against the fixtures. Token totals include repeated prompts and are not comparative efficiency measurements.
+## Claims the evidence does not support yet
 
-## Plain task skills (5.0)
-
-Automated coverage checks all 14 task packages, their local reference closure, generated-file ownership and selective package isolation. Installer tests cover clean installs, repeat installs, managed-name migration, preservation of personal files, generic-name collisions, refused destinations, symlinks and hardlinks.
-
-A separate README-only reader trial correctly distinguished installing the coordinator from installing individual tasks, and understood when customer records are optional. An isolated `discover` trial used fictional meeting notes without the coordinator or CLI. After removing unnecessary setup and evidence quotas, the repeat trial returned a focused result with reported timings, unmeasured baselines and unconfirmed ownership kept distinct. Separate implementation review found no blocking migration or schema defect.
-
-These are automated checks and simulated agent trials. They do not demonstrate independent customer adoption, every host's skill-selection behavior, or reliability across all enterprise environments.
-
-## Unified skill catalog (5.1)
-
-The public catalog is generated from the same metadata used for packaging. Checks require every routed task to have an installable entry, every entry to route to its correct instruction, and every advertised path and count to match. All 35 task packages pass isolated reference-closure checks. Migration tests preserve the original 14 upgrade names and leave unrelated prefixed skills alone.
-
-Separate fictional trials exercised planning and runbook drafting from supplied facts without the coordinator installed. The revised instructions preserved unknown ownership, unmeasured baselines and untested recovery procedures, and completed useful drafts without setup, messages or production actions. These were manual agent trials and dependency checks, not independent customer studies or statistically repeated model evaluations.
-
-The public-file audit found no tracked private prompts or temporary authoring outputs. Regression tests, fictional examples and license notices remain intentionally public; they are not removed to make the repository look smaller.
-
-## What remains unproven
-
-Independent users' maintenance time, repeated benefit, and continued use have not been demonstrated. Neither have universal host compatibility or superiority over other workflows. The [delivery evaluation protocol](../evals/delivery/README.md) describes repeated, blinded comparisons for testing those claims.
+Independent users' maintenance time, repeated benefit and continued use have not been demonstrated. Neither have universal host compatibility, enterprise certification or superiority over other skill packs. A scoped successful trial is evidence for that task under those conditions. Record failures, unknowns and the actual environment before generalizing it.

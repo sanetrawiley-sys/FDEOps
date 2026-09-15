@@ -1,6 +1,6 @@
 # Skill routing pack
 
-Cheap eval for `@fde` (inspired by “don’t ship skills without evals”).
+Routing checks for `@fde`, with CLI smoke tests and separate model-selection trials.
 
 | Layer | What it proves |
 |-------|----------------|

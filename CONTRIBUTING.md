@@ -28,7 +28,7 @@ Skills should be **specific** (actionable steps), **verifiable** (a concrete art
 
 Adversarial CLI notes (resolution, hooks, `<private>`, non-regular files) live in [`evals/testing-fieldbook.md`](evals/testing-fieldbook.md). That file is not a skill. Public skill entry points are generated from the canonical catalog.
 
-**What we won't build:** SaaS sync; Slack/Notion/Granola **push** inside the CLI; CRM as core; hardware capture; generic code-craft packs. You may **pull** via *your* MCP.
+**What we won't build:** SaaS sync; Slack/Notion/Granola **push** inside the CLI; CRM as core; hardware capture; unrelated general-purpose skill catalogs. You may **pull** via *your* MCP.
 
 ---
 

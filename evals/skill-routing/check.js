@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * Skill-routing contract check (cheap Philip-style pack).
+ * Skill-routing contract check.
  *
  * Static gate: every happy case still has a documented CLI route in SKILL.md.
  * Live gate: print the negative pack for a human/agent trial (non-deterministic).

@@ -122,3 +122,66 @@ Supply ordinary notes sourced to meeting `atlas-42`: “We settled on delaying t
 5. Reintroduce the original notes. Check that Tuesday survives, the existing priority remains, and no duplicate facts are saved.
 
 Inspect actual tool calls for raw private reads, unconfirmed writes, invented acceptance, and reliance on previous answers. The engineer's save confirmation is not customer approval. A successful scripted run does not measure independent users' time savings.
+
+## Repeatable standalone field trials (F1-F3)
+
+`field.js` is a provider-neutral companion to the D1-D5 materializer. It prepares
+inputs and records artifact evidence; it never invokes an AI host, downloads
+packages, scores prose, or infers that an agent ran from a passing check.
+
+| Case | Standalone treatment | Task | Reviewer acceptance |
+|---|---|---|---|
+| F1 | `who-decides` | Scope authority, operational influence and a delayed reply | Sources support distinct authorities; leave does not become a trust failure; new requests stay proposed |
+| F2 | `build` | Investigate an inherited replay guard and add regression coverage | Preserve duplicate prevention and retry after failed apply; distinguish supplied history from verified Git history |
+| F3 | `integrate` | Repair timeout reconciliation with a stale lookup | Stale absence stays unknown, confirmed presence resolves, authoritative absence permits only one retry |
+
+Prepare a new run directory for every attempt, including retries:
+
+```bash
+node evals/delivery/field.js prepare /private/tmp/fde-field-F3-a F3 baseline
+node evals/delivery/field.js prepare /private/tmp/fde-field-F3-b F3 fdeops
+```
+
+Run directories must not already exist; their parent must exist. The treatment
+copies only the selected standalone skill with its local references. Baseline
+has identical application inputs and task request without that skill instruction.
+No coordinator, engagement, external skill pack or customer setup is needed.
+
+Give a fresh executor only `executor/`, starting with `prompt.txt`. Do not give it
+this README, `field-cases.json`, `field-contract.js`, `reviewer/` or prior outputs.
+These are evaluator-side materials. Directory separation is not access control:
+use host filesystem restrictions or copy only the executor directory into the
+host's accessible workspace. No other skills should be loaded for a standalone
+trial; record unavoidable host/system guidance in the run metadata. Restrict
+network and external writes in the host. Copy resulting artifacts back into the
+original executor directory if the host ran a separate copy.
+
+Fill `run.json` with the actual host/model/settings, budget, source revision,
+available tools/other skills, elapsed/tokens (or leave unavailable), transcript
+location and execution status. Save the full raw tool trace outside `executor/`.
+Do not rewrite original input hashes. Keep unsuccessful and interrupted runs;
+use the repeated randomized comparison protocol above for comparative claims.
+
+After the executor finishes, capture evidence:
+
+```bash
+node evals/delivery/field.js check /private/tmp/fde-field-F3-b
+node --test test/field-evaluation.test.js
+```
+
+Each check writes a new `reviewer/check-*.json`, retaining earlier failures. It
+records input changes, artifact hashes and whether `answer.md` exists. Presence
+is not correctness. For F3 it executes the resulting adapter in a separate local
+Node process with a ten-second timeout and evaluator-only contract assertions;
+exit 1 means those checks failed. The child runs with the executor workspace as its working directory. The
+child process and timeout are not a sandbox: candidate JavaScript runs with the
+caller's local permissions. Use only permitted fictional code and the same
+disposable restricted environment as the trial. F1/F2 require trace/diff review; the harness does not keyword-score their
+judgments or silently run arbitrary generated test commands. Review the actual
+commands and results reported by the executor.
+
+A reviewer uses `reviewer/rubric.md`, the raw trace, artifact changes and the
+result record above. Record judgment and citations separately; deterministic
+passes cannot award stakeholder judgment credit. F3 checks do not prove a real
+backend supplies the fictional linearizable lookup contract. These fixtures and
+harness tests are evaluation infrastructure, not completed model trials.
