@@ -1,9 +1,0 @@
-{
-  "generator": "bin/generate-skills.js",
-  "version": 1,
-  "files": {
-    "SKILL.md": "50f085f1199bdd7325f1628f61bf34d74018bde6f6bc0e629d1d3df1ddb36132",
-    "references/hold-scope.md": "42b3823f6b49b87b432f81208b0a61115f22340f6a922a4e858012e908c6643d",
-    "references/task-context.md": "8ec90708522e512a50a57ab2a377a7472e93bae169c6f075a93fa603ce2ad780"
-  }
-}

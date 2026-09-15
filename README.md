@@ -1,333 +1,174 @@
 # FDEOps
 
-**Forward deployed engineering skills for AI coding agents.**
+**Forward deployed engineering skills for your AI coding agent.**
 
 <a name="why-use-it"></a>
 
-Take a customer request from discovery through implementation, verification and handoff. Use one task skill for the work in front of you, or `@fde` to coordinate the engagement and keep its decisions and evidence together.
+Work through a customer project from the first conversation to a system their team can run. FDEOps helps your agent clarify the problem, compare solutions, write and test code, connect customer systems, and prepare delivery and handover evidence.
 
-Notes stay on your laptop, in a separate record for each client. Review the agent's proposed changes before saving them.
+A **skill** is a set of instructions your AI coding agent follows. FDEOps includes **14 task skills** you can use individually and **one `fde` coordinator** that chooses the right task as a customer project progresses.
 
-Implementation, integration, debugging and QA are included. Use your existing repository tools; no additional skill pack is required. Credentials, infrastructure and production authority still come from the customer.
+Use it for a single integration, a small client project, or work within a larger enterprise team. You bring the customer context, repository tools and access. FDEOps supplies the working method; you and the responsible teams make the decisions.
 
-[Quick start](#quick-start) · [Daily fieldbook](#your-daily-fieldbook) · [Task skills](#task-skills) · [Documentation](docs/README.md)
+[Get started](#quick-start) · [Choose a task](#task-skills) · [Keep a customer record](#keep-a-customer-record) · [Documentation](docs/README.md)
 
-<img width="960" height="640" alt="FDEOps: client delivery from the first meeting to handover" src="https://github.com/user-attachments/assets/2bcb8739-55ee-445d-8a1a-8b38433b7b58" />
+## Quick start
 
----
+You need an AI coding agent that supports skills. The installation commands and FDEOps CLI require **Node.js 18+ and Git** on your machine.
 
-## Task skills
+### Work on a customer project
 
-Call the task directly when you know what you need. No client folder is required for a one-off task.
-
-| Work | Skill |
-|------|-------|
-| Understand the workflow | `fde-discover` |
-| Handle a new scope request | `fde-scope` |
-| Compare approaches | `fde-options` |
-| Test a risky assumption | `fde-poc` |
-| Implement, integrate, repair | `fde-build`, `fde-integrate`, `fde-debug` |
-| Review, evaluate AI, test the journey | `fde-review`, `fde-evaluate`, `fde-qa` |
-| Release a verified increment | `fde-ship` |
-| Present evidence, transfer operation, reuse a lesson | `fde-readout`, `fde-handoff`, `fde-feedback` |
-
-For example, install just the integration skill:
-
-```bash
-npx skills add suboss87/fdeops --skill fde-integrate
-```
-
-Ask it to connect a permitted customer API and test retry behavior. It includes the references it needs. `@fde` uses those same methods when the integration is part of an ongoing engagement. [Full pack and selective installation](docs/install.md#individual-skills-and-the-full-pack).
-
-## Quick Start
-
-**Try it in a local checkout.** Requires Node.js 18+ and Git:
-
-```bash
-npx fdeops scan
-```
-
-It prints what to look at on day one and the questions to ask. The scan reads local files without changing them. `npx` may download the package.
-
-**Then install the skill:**
+Run this in your terminal and select your agent in the installer:
 
 ```bash
 npx skills add suboss87/fdeops --skill fde
 ```
 
-One chat. Name the client:
+Then start a conversation with your agent:
 
 ```text
-@fde this is client01
+@fde this is client01. Their support team reads incoming requests,
+checks internal documents, then assigns each request to another team.
+Help me prepare for the first meeting. Here is the brief: …
 ```
 
-That creates `~/fde-engagements/client01/.fde/` on your laptop. Paste kickoff notes in the same thread. `@fde` picks what to check. You still decide. After a meeting you review what changed, new asks, open questions, and next actions. Correct the proposal, then confirm the update.
+`fde` asks for the information needed next and uses the relevant instructions. As work progresses, it can help you investigate delays, compare approaches, implement a change, test it, and prepare a customer update. You do not have to choose a skill at each step.
 
-### Make it fit your work
+Naming the customer starts a local project record at `~/fde-engagements/client01/.fde/`. It keeps the brief, decisions, evidence and next actions together. Review proposed agreements and corrections before saving them. [How customer records work](#keep-a-customer-record).
 
-Setup asks three short questions: how you work, what would help first, and what to mask before sharing context with your agent. Review your choices before saving; change them anytime.
+### Use just one task
+
+For example, install only `discover`:
 
 ```bash
-npx fdeops@latest setup
+npx skills add suboss87/fdeops --skill discover
 ```
 
-[See the choices and custom masking options](docs/USAGE.md#make-fdeops-fit-your-day).
-
-Open the engagement fieldbook:
-
-```bash
-npx fdeops dashboard --open
-```
-
-Read-only HTML of the record - promised, measured, accepted, and evidence. Regenerate after you change memory. Day to day: [docs/USAGE.md](docs/USAGE.md).
-
-<details>
-<summary><b>Claude Code</b></summary>
+Then ask your agent:
 
 ```text
-/plugin marketplace add suboss87/fdeops
-/plugin install fdeops@fdeops
+Use FDEOps discover with these meeting notes. Show how the team handles
+an incoming request today, where time goes, and what we still need to ask.
+[Paste notes you are permitted to share.]
 ```
 
-The plugin adds session hooks and the slash commands below. Skill-only installation does not add hooks. See the [installation guide](docs/install.md) for setup details.
+The agent works from your notes and returns its findings. You do not need to create a customer record for this task. Each task skill includes the instructions it needs and works without installing `fde` or another skill pack.
 
-</details>
+**Want every task available by name?** Install the full pack using the [installation guide](docs/install.md#individual-skills-and-the-full-pack). Installing `fde` alone gives the coordinator all the underlying instructions; it does not add the 14 separate names to your agent's skill menu.
 
-<details>
-<summary><b>Cursor</b></summary>
+Skill invocation differs between agents. Ask for the FDEOps skill by name or select it in your agent's skill picker. For Claude Code plugin installs, use `/fdeops:fde` or `/fdeops:discover`. See [host setup and name conflicts](docs/install.md#individual-skills-and-the-full-pack).
 
-After installing the skill, add the FDEOps instructions to the **client workspace** you have open:
+## Task skills
 
-```bash
-npx fdeops adapters .
+A customer **workflow** means the steps people and systems take to finish a job: receive a request, check its details, make a decision, and update the relevant system. These skills help with different parts of that work.
+
+| What you need to do | Skill | What you get |
+|---|---|---|
+| Find the real problem behind a customer request | `discover` | Current steps, delays, baseline and unanswered questions |
+| Decide what to do with an additional request | `scope` | Impact on agreed work and a recommended commitment |
+| Choose how to solve the problem | `options` | Feasible approaches, trade-offs and a recommendation |
+| Test an assumption before committing to a build | `poc` | A limited test, its evidence and the next decision |
+| Implement an agreed software change | `build` | Code, checks and a clear account of what changed |
+| Connect the customer's systems | `integrate` | An integration checked for mapping, permissions and failed or repeated requests |
+| Find and fix a failure | `debug` | A reproduced problem, repair and regression checks |
+| Check a proposed code change | `review` | Specific findings tied to code and expected behavior |
+| Check an AI system's answers or actions | `evaluate` | Evaluation cases, results and remaining limits |
+| Test what users actually experience | `qa` | Runtime or browser evidence, including failure cases |
+| Prepare and carry out an authorized release | `ship` | Release checks, recovery steps and deployment evidence |
+| Explain progress to the customer sponsor | `readout` | What was promised, what was measured and what was accepted |
+| Leave the team able to operate the system | `handoff` | Responsibilities, operating instructions and readiness gaps |
+| Turn a deployment lesson into reusable learning | `feedback` | A supported product recommendation or reusable pattern |
+
+These are entry points, not a required sequence. `fde` also handles meeting debriefs, stakeholder decisions, planning, incidents and other situations through its [full skill reference](docs/skills-reference.md). It loads the relevant instructions as needed.
+
+<a name="how-skills-work"></a>
+
+## Keep a customer record
+
+An **engagement** is your ongoing project with a customer. Its record lives in a separate folder on your machine, outside the customer's application code:
+
+```text
+~/fde-engagements/client01/.fde/
 ```
 
-See [adapters/](adapters/README.md).
+The files are readable Markdown. They track what the customer asked for, who can decide, what success means, what changed, and the evidence behind each result. You can inspect, copy or keep them if you stop using FDEOps.
 
-</details>
+After a meeting, paste permitted notes into the same agent conversation. It proposes the new requests, decisions, unresolved questions and next actions. Correct anything it misunderstood, then confirm the update.
 
-<details>
-<summary><b>Codex, other agents, and offline setup</b></summary>
+A request is not automatically an agreement. A passing test is not a production deployment. A measured improvement is not customer acceptance. FDEOps keeps those distinctions in the record.
 
-Use the skill installation above in a supported host. If the agent cannot create and bind the client folder, run this from the client workspace:
+At the next session, the coordinator retrieves a short summary rather than loading the full history. The default summary is capped at 16 KiB; older evidence is retrieved when needed. This cap applies to FDEOps output, not everything your agent loads.
+
+If your agent cannot start the record, run this in your terminal from the workspace where you work on that customer:
 
 ```bash
 npx fdeops resume --init client01
 ```
 
-For offline use, transfer an existing checkout to a machine with Node.js and Git, then run `node bin/install.js` from that checkout. Host adapters, local models, and advanced options are covered in [docs/install.md](docs/install.md).
-
-</details>
-
+This links that workspace to the customer's record. [Daily use and meeting walkthrough](docs/USAGE.md) · [Record format](docs/schema.md).
 
 <a name="what-a-working-day-looks-like"></a>
 
 ## Your daily fieldbook
 
-See what needs your attention before you open another client thread: an open risk, missing evidence, a result waiting for acceptance, or the next action.
+The fieldbook is a read-only browser view of your customer records. It shows next actions, open risks, missing evidence and results waiting for acceptance.
 
-![Dark FDEOps fieldbook showing next actions and delivery gaps across fictional clients](media/fieldbook-preview.png)
+![FDEOps fieldbook showing next actions and delivery gaps across fictional customers](media/fieldbook-preview.png)
+
+Run this in your terminal to view all your customers:
 
 ```bash
 npx fdeops dashboard --all --open
 ```
 
-Open a client, inspect its record, and copy an action into your agent to continue. The dashboard is a read-only snapshot; repeat the command after updating your records to refresh it.
+Open a customer's record and copy an action into your agent to continue. Run the command again after updates to refresh the view.
 
-**Want to see the whole loop first?** `npx fdeops demo` runs fictional notes through review and prints a sample fieldbook path to open. It writes and resets its own folder under `~/fde-engagements/.demo/`, needs no AI model, and can be removed with `npx fdeops demo --clean`.
+**Try a fictional example first:** `npx fdeops demo` runs sample meeting notes through review and produces a fieldbook without using an AI model. It creates or resets its demo folder under `~/fde-engagements/.demo/`. Remove that example with `npx fdeops demo --clean`.
 
-⭐ If FDEOps makes your client work easier, star the repo.
+## Fit it to the project
 
----
+For a small task, use the supplied notes or code and return the result. For an ongoing project, use the customer record. For enterprise work, include the relevant teams, access rules, release checks and operating responsibilities in the plan.
 
-<a name="from-the-first-meeting-to-handover"></a>
+The pack includes implementation, integration, debugging and QA instructions. It uses the repository's existing tools. It does not supply customer credentials, infrastructure, specialist approvals or production authority.
 
-## Commands
+Optional setup:
 
-Describe the situation to `@fde`. It selects the relevant skill. The Claude Code plugin also provides these stage commands; other hosts use the same method through `@fde`.
+- **Personal preferences:** `npx fdeops setup` records how you work and what to mask before sharing context.
+- **Repository reconnaissance:** `npx fdeops scan` reads local files and returns an initial assessment and questions. It does not change the repository.
+- **Other agent hosts:** [Adapters](adapters/README.md) add a pointer to the coordinator in your workspace.
+- **External sources:** [Connection recipes](mcp/recipes/) explain how to pull permitted material from tools you already use.
 
-| What you're doing | Command | Stage |
-|-------------------|---------|-------|
-| First days. Get the brief. Name who signs. | `/brief` | Land |
-| Check the brief is the real job. | `/discover` | Discover |
-| Sequence from done, not from the ticket. | `/plan` | Plan |
-| Prove it on their staging, then go live. | `/ship` | Ship |
-| What you promised, measured, and who accepted. | `/outcome` | Outcome |
-| Hand it over. They run it without you. | `/close` | Close |
-
-Claude Code shortcuts for the moments between stages: `/debrief` (notes into the record), `/prep` (one page before you walk in), `/trust` (process gap, or they stopped trusting you), `/receipts` (find what was recorded and where it came from), `/readout` (Friday page for the sponsor; not a seventh stage).
-
-You can also just say it: “Prep me for the sponsor meeting,” “What did we agree about scope?” or “Help me hand this over.”
-
----
-
-## Engagement workflows
-
-Thirty-four workflows, grouped by stage. Each skill gives the agent steps to follow, a record or report to produce, and a checkpoint with you. You describe the work; `@fde` finds the skill.
-
-Full detail: [docs/skills-reference.md](docs/skills-reference.md).
-
-### Land
-
-| Skill | What it does | Use when |
-|--------|--------------|----------|
-| [land](skills/fde/references/land.md) | Interrogate the brief | New client, first meeting, just got the brief |
-| [audit](skills/fde/references/audit.md) | Verify inherited claims | Taking over, previous consultant left |
-| [who-decides](skills/fde/references/who-decides.md) | Map decision rights | Need to know who matters |
-| [earn-trust](skills/fde/references/earn-trust.md) | Earn access | Need access or credibility |
-| [hold-scope](skills/fde/references/hold-scope.md) | Hold scope | "Also can you…", timeline unchanged |
-
-### Discover
-
-| Skill | What it does | Use when |
-|--------|--------------|----------|
-| [discover](skills/fde/references/discover.md) | Frame the problem | Brief feels wrong, shadow processes |
-| [test-assumptions](skills/fde/references/test-assumptions.md) | Test assumptions | Brief feels too neat |
-| [score-use-cases](skills/fde/references/score-use-cases.md) | Score use cases | Everything is P0 |
-| [poc](skills/fde/references/poc.md) | Validate the solution | POC, spike, need to de-risk |
-
-### Plan
-
-| Skill | What it does | Use when |
-|--------|--------------|----------|
-| [plan](skills/fde/references/plan.md) | Sequence the work | What order, what is done |
-| [business-case](skills/fde/references/business-case.md) | Build the business case | Defend budget or timeline |
-| [three-options](skills/fde/references/three-options.md) | Generate options | "What should we do?" |
-| [pick-three](skills/fde/references/pick-three.md) | Prioritize three | Everything is urgent |
-
-### Ship
-
-| Skill | What it does | Use when |
-|--------|--------------|----------|
-| [build](skills/fde/references/build.md) | Implement the increment | A scoped change in their repository |
-| [integrate](skills/fde/references/integrate.md) | Prove the system boundary | APIs, imports and write-back |
-| [debug](skills/fde/references/debug.md) | Reproduce and repair a failure | Unexpected behavior or a regression |
-| [qa](skills/fde/references/qa.md) | Exercise the delivered journey | Functional acceptance or browser QA |
-| [ship](skills/fde/references/ship.md) | Release with evidence | Ready for an authorized rollout |
-| [what-breaks](skills/fde/references/what-breaks.md) | Assess impact | Touching shared infrastructure |
-| [rescue](skills/fde/references/rescue.md) | Resolve the incident | Down, or they went quiet |
-| [review](skills/fde/references/review.md) | Review the change | Before merge, scope creep |
-| [rollback](skills/fde/references/rollback.md) | Rehearse rollback | "We can always revert" |
-
-### Outcome
-
-| Skill | What it does | Use when |
-|--------|--------------|----------|
-| [readout](skills/fde/references/readout.md) | Report the outcome | Friday, sponsor update |
-| [demo-prep](skills/fde/references/demo-prep.md) | Prepare the demo | Demo or exec walkthrough |
-| [debrief](skills/fde/references/debrief.md) | Capture the meeting | Just left a meeting |
-| [board-memo](skills/fde/references/board-memo.md) | Brief the board | Justify continued investment |
-| [dashboard](skills/fde/references/dashboard.md) | Open the fieldbook | This customer, or all of them |
-| [ingest](skills/fde/references/ingest.md) | Ingest sources | Transcript, Notion, Slack |
-| [connect](skills/fde/references/connect.md) | Connect a source | Connect Granola |
-
-### Close
-
-| Skill | What it does | Use when |
-|--------|--------------|----------|
-| [close](skills/fde/references/close.md) | Transfer operations | Wrapping up |
-| [runbook](skills/fde/references/runbook.md) | Write the runbook | They must operate without you |
-| [switch-clients](skills/fde/references/switch-clients.md) | Switch engagements | 2+ clients |
-| [encode-pattern](skills/fde/references/encode-pattern.md) | Encode the pattern | It will apply again |
-| [red-team](skills/fde/references/red-team.md) | Challenge the plan | "Poke holes in this" |
-
-Overlays (on signal, not on request): [ai](skills/fde/references/ai.md) · [artifacts](skills/fde/references/artifacts.md) · [fintech](skills/fde/references/fintech.md) · [healthcare](skills/fde/references/healthcare.md) · [gov](skills/fde/references/gov.md). AI companion (not a sixth overlay): [eval-pack](skills/fde/references/eval-pack.md).
-
-Optional pull: you add the source MCP; we **pull** on request. [mcp/recipes/](mcp/recipes/)
-
----
-
-<a name="use-the-cli-directly"></a>
-
-## How Skills Work
-
-One `@fde`. One file per situation. One folder per client.
-
-Tell the agent what is happening. It reads the client record, opens the relevant skill, and works through the situation with you. After a meeting, it proposes the decisions, open questions, and next action. You correct what it misunderstood and confirm the update.
-
-A request stays a request until agreed. A staging result stays separate from production. Recording a result does not mean the customer accepted it.
-
-At the next session, FDEOps supplies a short summary instead of the whole history. Older detail stays on disk; `recall` finds relevant records when needed. The default summary is capped at 16 KiB, which limits FDEOps output rather than everything your agent loads.
-
-Before a sponsor meeting, `npx fdeops defend` separates recorded acceptance from claims and missing evidence. For a successor, `npx fdeops handoff --out successor.md` creates a portable summary with risks and sources.
-
-For free-form notes, start with `@fde`. The CLI's `debrief --smart` recognizes common phrases; it can miss details that your agent needs to help interpret. [Follow the notes → review → apply walkthrough](docs/USAGE.md#new-here-5-minutes).
-
----
-
-## Engagement memory (`.fde/`)
-
-One folder per client. Plain markdown. Grep it, copy it, take it into a meeting.
-
-| File | Holds |
-|------|-------|
-| `context.md` | Where you are |
-| `brief.md` / `success.md` | What they asked; what “done” is and who signs |
-| `reality.md` / `terrain.md` | The real problem; the map |
-| `stakeholders.md` | `[signal:green\|amber\|red]` - worst active signal wins; empty is **new**, not green |
-| `trust-profile.md` | Sacred data, AI policy, approval chain |
-| `decisions.md` / `risks.md` / `delivery.md` | Dated choices; live risks; what shipped, evidence, rollback, acceptance |
-
-Schema: [docs/schema.md](docs/schema.md). Fieldbook: `npx fdeops dashboard --open` (bound) or `--all --open` (portfolio).
-
----
-
-## Who this is for
-
-Forward deployed engineers, independent consultants, and small agencies working with customer teams. You need to carry the brief, decisions, delivery evidence, and handover across meetings, repositories, and sometimes several clients.
-
-If your work has no client commitments or operating handover to track, a simpler project note may be enough.
+Use the [installation guide](docs/install.md) for the full pack, Claude Code hooks, offline setup and upgrading from earlier versions.
 
 <a name="your-records-your-control"></a>
 
 ## Your data stays yours
 
-The CLI works with local files and Git, without network calls or telemetry. Client records remain readable Markdown if you stop using FDEOps.
+The CLI reads local files and Git, with no network calls or telemetry. Installation through `npx` may download packages. Your AI host may send material it reads to its configured model.
 
-Your AI host may send the material it reads to its configured model. CLI context and smart proposals mask common email, phone, SSN-shaped, and credential patterns locally; this is not complete PII detection. FDEOps redacts `<private>` blocks from CLI, dashboard, and hook outputs; do not load those raw blocks through the agent's file tools. Review reports before sharing client information.
+FDEOps masks common sensitive patterns and excludes `<private>` blocks from CLI, dashboard and hook outputs. This is not complete sensitive-data detection. Do not ask the agent to read private blocks directly, and use only material allowed by the customer's AI policy.
 
-You review proposed decisions. Enabled session hooks can save where the session left off automatically; direct CLI write commands update records when you run them.
+You review proposed decisions. Enabled session hooks can save mechanical session progress automatically; direct CLI write commands update records when you run them.
 
-The CLI and dashboard need no model. AI-assisted local use needs an agent with file and command access. Our small local-model tests produced wrong or incomplete answers, so check the [verification results](docs/verification.md) before relying on one for client work.
+[Privacy](PRIVACY.md) · [Security](SECURITY.md) · [What has been tested and its limits](docs/verification.md)
 
-[Privacy](PRIVACY.md) · [Security](SECURITY.md)
+## Who this is for
 
-## Principles
+Forward deployed engineers, consultants and small delivery teams working with customers across meetings, codebases and operating environments. The pack supports the engineering and customer work together. Its checks help expose missing evidence; they do not replace professional judgment or prove every deployment safe.
 
-- **Who signs** - name who can accept the work.
-- **Brief vs real job** - check what happens on the floor, not only the slide.
-- **Back from done** - agree how you will test success before planning the build.
-- **Their staging, then live** - prove the change and agree the release and rollback.
-- **Promised, measured, accepted** - keep each separate, with its evidence.
-- **They run it** - hand over the knowledge and ownership, not just the code.
-- **The kit says what to check. You still decide.**
-
----
-
-<a name="find-your-way-around"></a>
-
-## Project Structure
+## Find your way around
 
 | You want to… | Start here |
 |---|---|
-| Install or use FDEOps | [docs/](docs/README.md) |
-| Understand or change a workflow | [skills/fde/](skills/fde/SKILL.md) and its `references/` |
-| Work on the CLI or fieldbook | [bin/](bin/) and [test/](test/) |
-| Walk through a client engagement | [examples/](examples/) |
-| Check what has been tested | [evals/](evals/) and [verification](docs/verification.md) |
+| Install or upgrade | [Installation](docs/install.md) |
+| Work through your first customer project | [Usage](docs/USAGE.md) and [examples](examples/) |
+| Explore the instructions | [Skill reference](docs/skills-reference.md) |
+| Understand the repository | [Repository layout](docs/REPO_LAYOUT.md) |
+| Check the test evidence | [Verification](docs/verification.md) |
+| Improve the pack | [Contributing](CONTRIBUTING.md) |
 
-[Full repository map](docs/REPO_LAYOUT.md).
-
----
-
-<a name="contribute"></a>
-
-## Contributing
-
-**[Subash Natarajan](https://www.linkedin.com/in/subashn/)**. [Issues](https://github.com/suboss87/fdeops/issues) · [Discussions](https://github.com/suboss87/fdeops/discussions) · [CONTRIBUTING.md](CONTRIBUTING.md) · [Code of Conduct](CODE_OF_CONDUCT.md)
-
-Skills should be **specific** (actionable steps), **verifiable** (an artifact in `.fde/`), and **minimal**. The `fde` CLI stays local-only.
+Built by [Subash Natarajan](https://www.linkedin.com/in/subashn/). [Issues](https://github.com/suboss87/fdeops/issues) · [Discussions](https://github.com/suboss87/fdeops/discussions)
 
 ## License
 
-MIT - use these skills on client work.
+MIT. Use FDEOps in your customer work. See [LICENSE](LICENSE).

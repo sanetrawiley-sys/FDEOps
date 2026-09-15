@@ -63,12 +63,12 @@ function generate(check = false, options = {}) {
   const items = options.catalog || catalog
   const wanted = new Map()
   for (const item of items) {
-    if (!/^fde-[a-z-]+$/.test(item.name) || wanted.has(item.name)) throw new Error(`Invalid generated skill name: ${item.name}`)
+    if (!/^[a-z][a-z-]*$/.test(item.name) || item.name === 'fde' || item.name.startsWith('fde-') || wanted.has(item.name)) throw new Error(`Invalid generated skill name: ${item.name}`)
     wanted.set(item.name, expectedFiles(item, referenceRoot))
   }
   const rootStat = stat(skillRoot)
   if (rootStat && (!rootStat.isDirectory() || rootStat.isSymbolicLink())) throw new Error(`Unsafe skills root: ${skillRoot}`)
-  const names = new Set([...wanted.keys(), ...(rootStat ? fs.readdirSync(skillRoot).filter(n => /^fde-[a-z-]+$/.test(n)) : [])])
+  const names = new Set([...wanted.keys(), ...(rootStat ? fs.readdirSync(skillRoot).filter(n => n !== 'fde' && /^[a-z][a-z-]*$/.test(n)) : [])])
   const errors = []
   const plans = []
   for (const name of names) {

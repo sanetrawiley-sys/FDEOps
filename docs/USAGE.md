@@ -4,7 +4,7 @@
 
 **Terminology:** [README § Who this is for](../README.md#who-this-is-for) - **"agent" = AI software, not a human.**
 
-**Start here:** [README](../README.md) - Quick Start → Commands → All 30 Skills.
+**Start here:** [README](../README.md) - installation, task choices and customer records.
 
 <p align="center"><img alt="A recorded fdeops session: kickoff notes routed into dated memory after you confirm" src="../media/session.gif" width="900" /></p>
 
@@ -385,3 +385,23 @@ fde setup --view current --context compact --privacy reports --save
 ```
 
 Custom terms and preferences live in `<engagements-root>/.preferences.json`, protected locally and excluded from normal engagement commits. Do not share this file or load it into an agent. Include it and the private alias dictionary in your retention and backup controls. Corrupt settings stop output rather than silently dropping protection; repair them locally. Setup does not configure a provider or grant permission to share client data. Raw file reads, pasted messages and other tools bypass masking. Existing exports are not rewritten, and masking does not guarantee anonymity.
+
+## Claude Code engagement shortcuts
+
+The plugin provides these shortcuts for work coordinated by `fde`. In Claude Code, prefix them with `fdeops:` when invoking the plugin, for example `/fdeops:brief`. Plain task names such as `discover` also work directly from supplied notes or code.
+
+| Shortcut | Use it to… |
+|---|---|
+| `/brief` | Clarify the initial request, success criteria and decision makers |
+| `/discover` | Understand how the customer completes the task today |
+| `/plan` | Sequence work around the agreed outcome |
+| `/ship` | Prepare and verify an authorized release |
+| `/outcome` | Compare promises, measurements and acceptance |
+| `/close` | Transfer operation to the responsible team |
+| `/debrief` | Review meeting notes before updating the record |
+| `/prep` | Prepare for a customer meeting |
+| `/trust` | Investigate a relationship or process concern |
+| `/receipts` | Find a recorded claim and its source |
+| `/readout` | Draft an evidence-backed sponsor update |
+
+You can also describe the situation to `fde` in ordinary language. See [installation and name conflicts](install.md#individual-skills-and-the-full-pack).

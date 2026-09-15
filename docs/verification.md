@@ -70,6 +70,14 @@ FDEOPS_TEST_OLLAMA=http://127.0.0.1:11434 node evals/local-model/check.js qwen3:
 
 An expected tool call is not proof of a correct answer. Review answers and citations against the fixtures. Token totals include repeated prompts and are not comparative efficiency measurements.
 
+## Plain task skills (5.0)
+
+Automated coverage checks all 14 task packages, their local reference closure, generated-file ownership and selective package isolation. Installer tests cover clean installs, repeat installs, managed-name migration, preservation of personal files, generic-name collisions, refused destinations, symlinks and hardlinks.
+
+A separate README-only reader trial correctly distinguished installing the coordinator from installing individual tasks, and understood when customer records are optional. An isolated `discover` trial used fictional meeting notes without the coordinator or CLI. After removing unnecessary setup and evidence quotas, the repeat trial returned a focused result with reported timings, unmeasured baselines and unconfirmed ownership kept distinct. Separate implementation review found no blocking migration or schema defect.
+
+These are automated checks and simulated agent trials. They do not demonstrate independent customer adoption, every host's skill-selection behavior, or reliability across all enterprise environments.
+
 ## What remains unproven
 
 Independent users' maintenance time, repeated benefit, and continued use have not been demonstrated. Neither have universal host compatibility or superiority over other workflows. The [delivery evaluation protocol](../evals/delivery/README.md) describes repeated, blinded comparisons for testing those claims.

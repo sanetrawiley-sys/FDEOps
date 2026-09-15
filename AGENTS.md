@@ -1,10 +1,10 @@
 # AGENTS.md - working in the fdeops repository
 
-This repository **is** fdeops - the engagement record for Forward Deployed Engineers. One `@fde` skill, the `fde` CLI for deterministic work, and per-customer memory in `.fde/` as a side effect of the work (you still confirm judgment).
+This repository **is** FDEOps: skills for Forward Deployed Engineers. The `fde` coordinator selects the relevant instructions for customer work. Fourteen task skills also work individually. The local CLI manages customer records in `.fde/` files; users confirm consequential judgments.
 
 ## If you are helping use fdeops in an engagement
 
-Route via **`@fde`** - read `skills/fde/SKILL.md` (the single source of truth), route to one `references/*.md`, do the work, and write `.fde/` memory. Never ask the human to pick a skill. Other tools get the same behavior through thin pointer files in [`adapters/`](adapters/README.md).
+For ongoing customer work, use **`@fde`**: read `skills/fde/SKILL.md`, select the relevant instructions, and follow its record rules. When the user selects a task such as `discover` or `build`, run that task directly with the supplied context; a customer record is optional. Do not make users choose a task when they have asked the coordinator for help. Other tools use thin pointer files in [`adapters/`](adapters/README.md).
 
 ## If you are contributing to this repository
 

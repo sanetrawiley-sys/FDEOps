@@ -45,7 +45,8 @@ test('catalog names are unique and standalone methods are routed by the coordina
   assert.equal(new Set(catalog.map(s => s.name)).size, catalog.length)
   const router = fs.readFileSync(path.resolve(source, '../SKILL.md'), 'utf8')
   for (const item of catalog) {
-    assert.match(item.name, /^fde-[a-z-]+$/)
+    assert.match(item.name, /^[a-z][a-z-]*$/)
+    assert.ok(!item.name.startsWith('fde-'))
     assert.ok(router.includes(`references/${item.method}.md`), item.name)
   }
 })
@@ -57,9 +58,9 @@ function generationFixture(t) {
   fs.mkdirSync(referenceRoot, { recursive: true })
   fs.writeFileSync(path.join(root, 'skills/fde/SKILL.md'), 'canonical coordinator')
   for (const [name, body] of Object.entries({ 'task-context.md': 'context', 'start.md': '[extra](extra.md)', 'extra.md': 'extra' })) fs.writeFileSync(path.join(referenceRoot, name), body)
-  const catalog = [{ name: 'fde-example', method: 'start', description: 'Example task' }]
+  const catalog = [{ name: 'example', method: 'start', description: 'Example task' }]
   const options = { root, referenceRoot, catalog }
-  return { root, referenceRoot, options, dest: path.join(root, 'skills/fde-example') }
+  return { root, referenceRoot, options, dest: path.join(root, 'skills/example') }
 }
 
 function snapshot(dir) {
@@ -108,7 +109,7 @@ test('legacy generated packages migrate safely and can be removed', t => {
 test('unknown additions and unrelated skills are preserved, including on removal', t => {
   const f = generationFixture(t)
   generate(false, f.options)
-  const other = path.join(f.root, 'skills/fde-personal')
+  const other = path.join(f.root, 'skills/personal')
   fs.mkdirSync(other)
   fs.writeFileSync(path.join(other, 'SKILL.md'), 'personal instructions')
   generate(false, f.options)
@@ -124,7 +125,7 @@ test('unknown additions and unrelated skills are preserved, including on removal
   fs.mkdirSync(path.join(f.dest, 'personal'))
   assert.throws(() => generate(false, f.options), /Unowned generated directory/)
   assert.ok(fs.existsSync(path.join(f.dest, 'personal')))
-  assert.throws(() => generate(false, { ...f.options, catalog: [{ ...f.options.catalog[0], name: 'fde-personal' }] }), /Unowned skill/)
+  assert.throws(() => generate(false, { ...f.options, catalog: [{ ...f.options.catalog[0], name: 'personal' }] }), /Unowned skill/)
 })
 
 test('modified obsolete files and unrecognized legacy references are preserved', t => {
@@ -178,4 +179,35 @@ test('generation refuses hard links without changing either path', t => {
       assert.deepEqual(snapshot(f.root), before)
     }
   }
+})
+
+
+test('all fourteen task names are plain public entry points', () => {
+  assert.deepEqual(catalog.map(item => item.name), ['discover', 'scope', 'options', 'poc', 'build', 'integrate', 'debug', 'review', 'evaluate', 'qa', 'ship', 'readout', 'handoff', 'feedback'])
+})
+
+test('generation migrates owned prefixed packages without duplicate entries', t => {
+  const f = generationFixture(t)
+  generate(false, f.options)
+  const old = path.join(f.root, 'skills/fde-example')
+  fs.renameSync(f.dest, old)
+  const before = snapshot(f.root)
+  assert.throws(() => generate(true, f.options), /Obsolete generated file/)
+  assert.deepEqual(snapshot(f.root), before)
+  generate(false, f.options)
+  assert.equal(fs.existsSync(old), false)
+  assert.equal(fs.existsSync(path.join(f.dest, 'SKILL.md')), true)
+  generate(true, f.options)
+})
+
+test('a generic collision prevents any old generated package removal', t => {
+  const f = generationFixture(t)
+  generate(false, f.options)
+  const old = path.join(f.root, 'skills/fde-example')
+  fs.renameSync(f.dest, old)
+  fs.mkdirSync(f.dest)
+  fs.writeFileSync(path.join(f.dest, 'SKILL.md'), 'personal task')
+  const before = snapshot(f.root)
+  assert.throws(() => generate(false, f.options), /Unowned skill/)
+  assert.deepEqual(snapshot(f.root), before)
 })

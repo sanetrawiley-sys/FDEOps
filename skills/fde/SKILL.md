@@ -11,7 +11,7 @@ The **engagement record** for one client, from first meeting to signed outcome. 
 
 ## Task entry
 
-Read `references/task-context.md` first. An explicitly selected `fde-*` task runs directly; do not wrap it in another coordinator or repeat entry. For a one-off task with supplied context, use the relevant method without initializing `.fde/`. For ongoing client work use the bounded entry and memory contract below. Missing record files alone are not a reason to restart discovery.
+Read `references/task-context.md` first. An explicitly selected task skill (such as `discover` or `build`) runs directly; do not wrap it in another coordinator or repeat entry. For a one-off task with supplied context, use the relevant method without initializing `.fde/`. For ongoing client work use the bounded entry and memory contract below. Missing record files alone are not a reason to restart discovery.
 
 ## When to use
 
@@ -54,7 +54,7 @@ Use `references/build.md` for implementation, `references/integrate.md` for cust
 
 ## Human surface vs agent plumbing
 
-**FDE (human):** `@fde` + English, or `/brief` `/discover` `/plan` `/ship` `/outcome` `/close` `/debrief` `/prep` `/trust` `/receipts` `/readout`. They may also invoke an individual `fde-*` skill directly.
+**FDE (human):** `@fde` + English, or `/brief` `/discover` `/plan` `/ship` `/outcome` `/close` `/debrief` `/prep` `/trust` `/receipts` `/readout`. They may also invoke an individual task skill directly.
 
 **You (agent):** run the CLI. **Never tell the FDE to type** `fde …`. If unbound, you run `fde resume --init` after one question. Never ask them to run the CLI.
 

@@ -1,5 +1,13 @@
 # Changelog
 
+## 5.0.0
+
+- **Plain task names:** use `discover`, `scope`, `options`, `poc`, `build`, `integrate`, `debug`, `review`, `evaluate`, `qa`, `ship`, `readout`, `handoff` and `feedback`. These replace the `fde-` prefixed names; `fde` remains the coordinator. Update selective-install commands and prompts that name an old task.
+- **Safe disk upgrades:** install each replacement before archiving its old managed directory. Preserve personal additions and report generic-name conflicts or unmarked old installs instead of deleting them.
+- **Clear first use:** the README explains individual tasks, ongoing customer projects and local records with concrete examples. Host installation, name conflicts and upgrade details live in the installation guide.
+- **Proportionate discovery:** notes-only discovery returns sourced findings and unknowns without mandatory code scans, named approvers or workshops. Explicit confirmation replaces assumed agreement.
+- **Consistent shortcuts:** discovery, release and sponsor-update shortcuts follow the same task contract as individual skills, without requiring an unrelated customer-record setup.
+
 ## 4.1.1 - 2026-09-15
 
 - Make standalone sponsor readouts and handoffs explicitly use supplied context without engagement-only CLI gates.

@@ -173,7 +173,7 @@ test('macOS system temporary-directory aliases remain usable', { skip: process.p
 test('reintroduced standalone entries survive reinstall without deleting personal additions', t => {
   const f = fixture(t)
   assert.equal(f.run().status, 0)
-  const skill = path.join(f.home, '.claude/skills/fde-build')
+  const skill = path.join(f.home, '.claude/skills/build')
   const notes = path.join(skill, 'personal-notes.md')
   fs.writeFileSync(notes, 'retain my field checklist')
   assert.equal(f.run().status, 0)
@@ -184,11 +184,120 @@ test('reintroduced standalone entries survive reinstall without deleting persona
 
 test('standalone catalog preserves a conflicting user-owned skill', t => {
   const f = fixture(t)
-  const skill = path.join(f.home, '.claude/skills/fde-build')
+  const skill = path.join(f.home, '.claude/skills/build')
   fs.mkdirSync(skill, { recursive: true })
   fs.writeFileSync(path.join(skill, 'SKILL.md'), '# My personal builder\n')
   const result = f.run()
   assert.equal(fs.readFileSync(path.join(skill, 'SKILL.md'), 'utf8'), '# My personal builder\n')
-  assert.match(result.stdout + result.stderr, /fde-build/)
+  assert.match(result.stdout + result.stderr, /build/)
   assert.equal(fs.existsSync(path.join(skill, 'references')), false)
+})
+
+
+function previousTask(f, name, managed = true) {
+  const dir = path.join(f.home, '.claude/skills', `fde-${name}`)
+  fs.mkdirSync(dir, { recursive: true })
+  fs.writeFileSync(path.join(dir, 'SKILL.md'), `personalized old ${name}`)
+  fs.mkdirSync(path.join(dir, 'personal'))
+  fs.writeFileSync(path.join(dir, 'personal/notes.md'), 'retain all my notes')
+  if (managed) fs.writeFileSync(path.join(dir, '.fdeops-managed'), 'managed-by: fdeops\nversion: 4.1.1\n')
+  return dir
+}
+
+test('upgrade archives all fourteen managed names and personalized files after successful replacement', t => {
+  const f = fixture(t)
+  const catalog = require('../bin/skill-catalog')
+  for (const { name } of catalog) previousTask(f, name)
+  const result = f.run()
+  assert.equal(result.status, 0, result.stdout + result.stderr)
+  const backups = path.join(f.home, '.claude/fdeops/skill-backups')
+  const archives = fs.readdirSync(backups)
+  assert.equal(archives.length, 14)
+  for (const { name } of catalog) {
+    assert.equal(fs.existsSync(path.join(f.home, '.claude/skills', `fde-${name}`)), false)
+    assert.ok(fs.existsSync(path.join(f.home, '.claude/skills', name, 'SKILL.md')))
+    const archived = path.join(backups, archives.find(entry => entry.startsWith(`fde-${name}-`)), `fde-${name}`)
+    assert.equal(fs.readFileSync(path.join(archived, 'SKILL.md'), 'utf8'), `personalized old ${name}`)
+    assert.equal(fs.readFileSync(path.join(archived, 'personal/notes.md'), 'utf8'), 'retain all my notes')
+  }
+  assert.equal(f.run().status, 0)
+  assert.deepEqual(fs.readdirSync(backups), archives)
+})
+
+for (const name of ['build', 'review', 'discover']) {
+  test(`generic ${name} collision preserves both user skill and old managed task`, t => {
+    const f = fixture(t)
+    const old = previousTask(f, name)
+    const dest = path.join(f.home, '.claude/skills', name)
+    fs.mkdirSync(dest)
+    fs.writeFileSync(path.join(dest, 'SKILL.md'), 'my existing task')
+    const result = f.run()
+    assert.equal(result.status, 1)
+    assert.equal(fs.readFileSync(path.join(dest, 'SKILL.md'), 'utf8'), 'my existing task')
+    assert.equal(fs.readFileSync(path.join(old, 'personal/notes.md'), 'utf8'), 'retain all my notes')
+    assert.ok(fs.existsSync(path.join(old, 'SKILL.md')))
+    assert.equal(fs.existsSync(path.join(f.home, '.claude/fdeops/skill-backups')), false)
+  })
+}
+
+for (const kind of ['symlink', 'hardlink', 'file']) {
+  test(`refused ${kind} replacement preserves the old managed task`, t => {
+    const f = fixture(t)
+    const old = previousTask(f, 'build')
+    const dest = path.join(f.home, '.claude/skills/build')
+    if (kind === 'file') fs.writeFileSync(dest, 'user file')
+    else {
+      fs.mkdirSync(dest)
+      fs.writeFileSync(path.join(dest, '.fdeops-managed'), 'managed-by: fdeops\n')
+      if (kind === 'symlink') fs.symlinkSync(f.sentinel, path.join(dest, 'SKILL.md'))
+      else fs.linkSync(f.sentinel, path.join(dest, 'SKILL.md'))
+    }
+    const result = f.run()
+    assert.equal(result.status, 1, result.stdout + result.stderr)
+    assert.equal(fs.readFileSync(path.join(old, 'SKILL.md'), 'utf8'), 'personalized old build')
+    assert.equal(fs.readFileSync(path.join(old, 'personal/notes.md'), 'utf8'), 'retain all my notes')
+    assert.equal(fs.readFileSync(f.sentinel, 'utf8'), 'user-owned evidence\n')
+  })
+}
+
+test('unmarked prefixed skills require manual cleanup even with force', t => {
+  const f = fixture(t)
+  const old = previousTask(f, 'build', false)
+  for (const args of [[], ['--force']]) {
+    const result = f.run(...args)
+    assert.equal(result.status, 1)
+    assert.match(result.stdout, /ownership unknown.*manually/)
+    assert.equal(fs.readFileSync(path.join(old, 'SKILL.md'), 'utf8'), 'personalized old build')
+  }
+})
+
+for (const kind of ['symlink', 'hardlink']) {
+  test(`migration leaves unsafe old ${kind} content untouched`, t => {
+    const f = fixture(t)
+    const old = previousTask(f, 'build')
+    const target = path.join(old, 'personal/external.md')
+    if (kind === 'symlink') fs.symlinkSync(f.sentinel, target)
+    else fs.linkSync(f.sentinel, target)
+    const result = f.run()
+    assert.equal(result.status, 1)
+    assert.ok(fs.existsSync(path.join(old, 'SKILL.md')))
+    assert.equal(fs.readFileSync(f.sentinel, 'utf8'), 'user-owned evidence\n')
+  })
+}
+
+
+test('a permission failure during copy never retires the old task', { skip: process.getuid?.() === 0 }, t => {
+  const f = fixture(t)
+  const old = previousTask(f, 'build')
+  const dest = path.join(f.home, '.claude/skills/build')
+  fs.mkdirSync(dest)
+  fs.writeFileSync(path.join(dest, '.fdeops-managed'), 'managed-by: fdeops\n')
+  fs.chmodSync(dest, 0o500)
+  try {
+    const result = f.run()
+    assert.equal(result.status, 1)
+    assert.match(result.stdout, /permission denied/)
+    assert.equal(fs.readFileSync(path.join(old, 'SKILL.md'), 'utf8'), 'personalized old build')
+    assert.equal(fs.readFileSync(path.join(old, 'personal/notes.md'), 'utf8'), 'retain all my notes')
+  } finally { fs.chmodSync(dest, 0o700) }
 })
