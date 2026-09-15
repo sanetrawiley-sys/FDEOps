@@ -14,7 +14,7 @@ async function scenario(label, lookup, second, expected, count) {
       if (second instanceof Error) throw second
       return second
     },
-    async lookup() { if (lookup instanceof Error) throw lookup; return lookup }
+    async lookup(key) { assert.equal(key, 'stable-key', label + ' lookup key'); if (lookup instanceof Error) throw lookup; return lookup }
   }
   assert.deepEqual(await submitOnce(client, 'stable-key', payload), expected, label)
   assert.equal(calls.length, count, label + ' attempt count')

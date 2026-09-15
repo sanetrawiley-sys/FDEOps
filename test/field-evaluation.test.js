@@ -23,10 +23,10 @@ test('all standalone cases prepare both variants without exposing evaluator rubr
 test('prepare refuses reusing a run and preserves prior failure evidence', t => {
   const root = temporary(t), run = path.join(root, 'run')
   prepare(run, 'F3', 'baseline')
-  const before = check(run)
+  const before = check(run, { executeContract: true })
   assert.equal(before.contract.status, 'failed')
   assert.throws(() => prepare(run, 'F3', 'fdeops'), /EEXIST/)
-  assert.equal(check(run).contract.status, 'failed')
+  assert.equal(check(run, { executeContract: true }).contract.status, 'failed')
   assert.equal(fs.readdirSync(path.join(run, 'reviewer')).filter(x => x.startsWith('check-')).length, 2)
   assert.ok(fs.existsSync(before.output))
 })
@@ -35,7 +35,7 @@ test('checker distinguishes artifacts from judgment and records changed input', 
   prepare(run, 'F1', 'baseline')
   fs.appendFileSync(path.join(run, 'executor/notes.md'), 'changed\n')
   fs.writeFileSync(path.join(run, 'executor/answer.md'), 'invented acceptance')
-  const result = check(run)
+  const result = check(run, { executeContract: true })
   assert.deepEqual(result.changedInputs, ['notes.md'])
   assert.equal(result.answerPresent, true)
   assert.equal(result.judgment, 'pending human review')
@@ -47,6 +47,7 @@ test('uncertain-write contract accepts a bounded implementation without claiming
   prepare(run, 'F3', 'baseline')
   fs.writeFileSync(path.join(run, 'executor/runtime-config.json'), JSON.stringify({ enabled: true }))
   fs.writeFileSync(path.join(run, 'executor/adapter.js'), `// Simulate an adapter that loads local runtime configuration relative to cwd.
+  require('node:fs').writeFileSync('operations.json', '{}')
   const config = JSON.parse(require('node:fs').readFileSync('runtime-config.json', 'utf8'))
   if (!config.enabled) throw new Error('disabled fixture')
   exports.submitOnce = async (client, key, payload) => {
@@ -59,8 +60,12 @@ test('uncertain-write contract accepts a bounded implementation without claiming
     try { return {status:'confirmed',id:(await client.create(key,payload)).id} }
     catch(e) { if(e.code !== 'TIMEOUT') throw e; return {status:'unknown'} }
   }`)
-  const result = check(run)
+  const result = check(run, { executeContract: true })
   assert.equal(result.contract.status, 'passed', result.contract.stderr)
+  assert.equal(fs.existsSync(path.join(run, 'executor/operations.json')), false)
+  const candidate = fs.readFileSync(path.join(run, 'executor/adapter.js'), 'utf8')
+  fs.writeFileSync(path.join(run, 'executor/adapter.js'), candidate.replace('client.lookup(key)', 'client.lookup()'))
+  assert.equal(check(run, { executeContract: true }).contract.status, 'failed')
   assert.equal(result.execution, 'not established by checker')
   assert.equal(result.judgment, 'pending human review')
 })
@@ -69,7 +74,7 @@ test('unknown variants and symlinked artifacts are rejected', t => {
   assert.throws(() => prepare(run, 'F1', 'unknown'), /variant/)
   prepare(run, 'F1', 'baseline')
   fs.symlinkSync(path.join(run, 'run.json'), path.join(run, 'executor/link'))
-  assert.throws(() => check(run), /symlink/)
+  assert.throws(() => check(run, { executeContract: true }), /symlink/)
 })
 
 for (const [label, body] of [
@@ -80,10 +85,18 @@ for (const [label, body] of [
     const root = temporary(t), run = path.join(root, 'run')
     prepare(run, 'F3', 'baseline')
     fs.writeFileSync(path.join(run, 'executor/adapter.js'), body)
-    const result = check(run)
+    const result = check(run, { executeContract: true })
     assert.equal(result.contract.status, 'failed')
     assert.equal(result.contract.completed, false)
     if (label === 'early clean exit') assert.equal(result.contract.exitStatus, 0)
     assert.equal(result.judgment, 'pending human review')
   })
 }
+
+test('default evidence check never executes candidate code', t => {
+  const root = temporary(t), run = path.join(root, 'run')
+  prepare(run, 'F3', 'baseline')
+  fs.writeFileSync(path.join(run, 'executor/adapter.js'), `require('node:fs').writeFileSync('executed', 'yes'); process.exit(0)`)
+  assert.equal(check(run).contract.status, 'not run')
+  assert.equal(fs.existsSync(path.join(run, 'executor/executed')), false)
+})

@@ -166,15 +166,19 @@ After the executor finishes, capture evidence:
 
 ```bash
 node evals/delivery/field.js check /private/tmp/fde-field-F3-b
+# After inspecting the code, inside a disposable restricted environment:
+node evals/delivery/field.js check /private/tmp/fde-field-F3-b --execute-contract
 node --test test/field-evaluation.test.js
 ```
 
 Each check writes a new `reviewer/check-*.json`, retaining earlier failures. It
 records input changes, artifact hashes and whether `answer.md` exists. Presence
-is not correctness. For F3 it executes the resulting adapter in a separate local
-Node process with a ten-second timeout and evaluator-only contract assertions;
-exit 1 means those checks failed. The child runs with the executor workspace as its working directory. The
-child process and timeout are not a sandbox: candidate JavaScript runs with the
+is not correctness. By default it does not execute candidate code. For F3,
+`--execute-contract` explicitly runs the adapter in a disposable copy of the
+executor workspace, preserving original artifacts. It uses a separate local Node
+process with a ten-second timeout and evaluator-only contract assertions; exit 1
+means those checks failed. The copy, child process and timeout are not a sandbox:
+candidate JavaScript runs with the
 caller's local permissions. Use only permitted fictional code and the same
 disposable restricted environment as the trial. F1/F2 require trace/diff review; the harness does not keyword-score their
 judgments or silently run arbitrary generated test commands. Review the actual

@@ -3,6 +3,7 @@
 // Provider-neutral preparation and evidence capture. Never starts an AI host.
 const fs = require('fs')
 const path = require('path')
+const os = require('os')
 const crypto = require('crypto')
 const { spawnSync } = require('child_process')
 const catalog = require('./field-cases.json')
@@ -40,7 +41,7 @@ function prepare(dest, id, variant) {
   fs.writeFileSync(path.join(root, 'run.json'), JSON.stringify(receipt, null, 2) + '\n', { flag: 'wx' })
   return receipt
 }
-function check(dest) {
+function check(dest, options = {}) {
   const root = path.resolve(dest)
   const receipt = JSON.parse(fs.readFileSync(path.join(root, 'run.json'), 'utf8'))
   if (!catalog.cases.some(c => c.id === receipt.case)) throw new Error('unknown case')
@@ -52,9 +53,16 @@ function check(dest) {
     changedInputs: Object.keys(receipt.inputHashes).filter(f => hashes[f] !== receipt.inputHashes[f]),
     addedFiles: Object.keys(hashes).filter(f => !Object.hasOwn(receipt.inputHashes, f)), hashes,
     contract: { status: 'not applicable', note: 'No automated judgment scoring' } }
-  if (receipt.case === 'F3') {
-    const run = spawnSync(process.execPath, [path.join(__dirname, 'field-contract.js'), path.join(workspace, 'adapter.js')],
-      { cwd: workspace, encoding: 'utf8', timeout: 10000, maxBuffer: 1024 * 1024 })
+  if (receipt.case === 'F3') result.contract = { status: 'not run', note: 'Inspect candidate code, then opt in with --execute-contract inside a restricted environment' }
+  if (receipt.case === 'F3' && options.executeContract === true) {
+    const temporary = fs.mkdtempSync(path.join(os.tmpdir(), 'fde-contract-'))
+    const copy = path.join(temporary, 'executor')
+    let run
+    try {
+      fs.cpSync(workspace, copy, { recursive: true })
+      run = spawnSync(process.execPath, [path.join(__dirname, 'field-contract.js'), path.join(copy, 'adapter.js')],
+        { cwd: copy, encoding: 'utf8', timeout: 10000, maxBuffer: 1024 * 1024 })
+    } finally { fs.rmSync(temporary, { recursive: true, force: true }) }
     const completed = (run.stdout || '').split(/\r?\n/).includes('FDEOPS_FIELD_CONTRACT_COMPLETE')
     result.contract = { status: run.status === 0 && completed ? 'passed' : 'failed', completed, exitStatus: run.status,
       stdout: run.stdout, stderr: run.stderr, error: run.error ? run.error.message : null,
@@ -68,8 +76,9 @@ module.exports = { prepare, check }
 if (require.main === module) {
   try {
     const [command, dest, id, variant] = process.argv.slice(2)
-    if (!dest || !['prepare', 'check'].includes(command)) throw new Error('usage: field.js prepare <new-run-dir> <F1|F2|F3> <baseline|fdeops> OR field.js check <run-dir>')
-    const result = command === 'prepare' ? prepare(dest, id, variant) : check(dest)
+    if (!dest || !['prepare', 'check'].includes(command)) throw new Error('usage: field.js prepare <new-run-dir> <F1|F2|F3> <baseline|fdeops> OR field.js check <run-dir> [--execute-contract]')
+    if (command === 'check' && (variant || (id && id !== '--execute-contract'))) throw new Error('unknown check option')
+    const result = command === 'prepare' ? prepare(dest, id, variant) : check(dest, { executeContract: id === '--execute-contract' })
     console.log(JSON.stringify(result, null, 2))
     if (result.contract && result.contract.status === 'failed') process.exitCode = 1
   } catch (error) { console.error(error.message); process.exitCode = 2 }
