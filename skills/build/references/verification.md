@@ -13,6 +13,8 @@ Use [task context](task-context.md). This method returns evidence directly or wr
 5. After a change, rerun checks whose behavior or assumptions were affected. Reuse prior evidence only when the relevant code, dependencies, data, and environment remain applicable; cite the original run and reason. Never imply reused evidence was rerun.
 6. Label every required check **passed**, **failed**, **blocked**, or **not run**. Include why blocked/not run, impact, and next step. Missing evidence is unproven; it is not an observed failure or a pass.
 
+For performance claims, identify the measured bottleneck and compare before/after runs under comparable workload, environment and cache conditions. Repeat enough to distinguish a change from noise, retain correctness checks, and report unmatched conditions or uncertainty rather than claiming an unsupported improvement. Use the project's existing profiling and benchmark tools.
+
 ## Receipt
 
 Use one compact entry per check or a table with these fields:

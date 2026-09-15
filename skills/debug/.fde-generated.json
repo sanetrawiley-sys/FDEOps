@@ -3,7 +3,7 @@
   "version": 1,
   "files": {
     "SKILL.md": "7862670d5c023f0195e0b3fa8b52a3b33796813e53aaad083ae82a9a469e0faa",
-    "references/build.md": "b2027776d4d66f9bc88731d2b7d0c23b33679da21dbc6bb591c75035e2478d62",
+    "references/build.md": "3f8b5e52eb874ee4e99db5e0b70d1ccca1134f667a39279d6b4e55629832ae75",
     "references/debug.md": "c3bb344d38cc3552cb4e230c601a9be3fe173af2b2efb89aab6b7b04339f24f4",
     "references/eval-pack.md": "0590b85d3cae0903c6b1274540c92eaa2a4373047e8a0548d6942516ef0bb9e1",
     "references/integrate.md": "d0de35a783902ca8b4762e3a42a14f467766d56a928c3a5cf11adac2a6ba90ba",
@@ -11,6 +11,6 @@
     "references/review.md": "63a007f78288089cc84cccc72647e8ce6721b7efa0f4f8d6774c0f0af594749d",
     "references/ship.md": "8cdcb2d4d6eb57e0adf3f1996bc02ae66920852ca304d2afd778fa483b7e969a",
     "references/task-context.md": "28684273e9d6edf1d05fb02c96caf4223e19b73e7ae840bdec2ff0bf06e3bc27",
-    "references/verification.md": "d453c075b849437375338fd23782ca7fe6d427b05137a2b10fc2f724aaf7f8a9"
+    "references/verification.md": "62bb4fb40d9b71c6481c57a4564bcc98c4014a8be5d4aedfe1eb3f7f90d5e1f7"
   }
 }
