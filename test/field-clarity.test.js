@@ -31,6 +31,19 @@ test('scan includes modern JS/TS modules and counts only code test paths', t => 
   assert.match(r.stdout, /COVERAGE/)
   assert.doesNotMatch(r.stdout, /clean scan/)
 })
+test('scan recognizes test naming conventions without counting latest or specification', t => {
+  const f = fixture(t)
+  const names = ['src/latest.js', 'contest/router.js', 'specification/parser.ts',
+    'src/ModelTest.java', 'test/fixture.mjs', 'src/request_test.go', 'tests/helper.py',
+    'src/test_reader.py', '__tests__/adapter.cjs', 'src/route.spec.ts', 'src/route.test.js']
+  for (const name of names) {
+    const file = path.join(f.workspace, name)
+    fs.mkdirSync(path.dirname(file), { recursive: true }); fs.writeFileSync(file, '// fixture\n')
+  }
+  const r = f.run(['scan'])
+  assert.equal(r.status, 0, r.stderr)
+  assert.match(r.stdout, /8 test file\(s\) across 11 code files/)
+})
 test('scan with unsupported files states its limits instead of clean assurance', t => {
   const f = fixture(t)
   fs.writeFileSync(path.join(f.workspace, 'app.custom'), 'FIXME not inspected')

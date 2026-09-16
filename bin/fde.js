@@ -77,6 +77,14 @@ function maskedSections(sections, maxBytes = context.DEFAULT_BYTES, heading = ''
 }
 const DEBRIEF_MAX_BYTES = 256 * 1024
 const CODE_EXT = ['.js', '.mjs', '.cjs', '.ts', '.mts', '.cts', '.tsx', '.jsx', '.py', '.java', '.go', '.rb', '.cs', '.php']
+function isTestCodeFile(file, cwd) {
+  if (!CODE_EXT.includes(path.extname(file))) return false
+  const parts = path.relative(cwd, file).split(path.sep)
+  const name = path.basename(parts.pop(), path.extname(file))
+  return parts.some(part => /^(?:tests?|specs?|__tests__)$/i.test(part))
+    || /(?:^|[._-])(?:test|spec)(?:[._-]|$)/i.test(name)
+    || /(?:Tests?|Specs?)$/.test(name)
+}
 const CONF_EXT = CODE_EXT.concat(['.env', '.yaml', '.yml', '.json'])
 // Bare "inference" is banned here: TypeScript codebases are full of "type
 // inference" comments and the false positives poison the day-1 questions.
@@ -1272,7 +1280,7 @@ function cmdScan() {
     const counts = {}
     churn.split('\n').filter(Boolean).forEach(f => { counts[f] = (counts[f] || 0) + 1 })
     const top = Object.entries(counts).sort((a, b) => b[1] - a[1]).slice(0, 8)
-    const testFiles = files.filter(f => CODE_EXT.includes(path.extname(f)) && /test|spec/i.test(path.relative(cwd, f)))
+    const testFiles = files.filter(f => isTestCodeFile(f, cwd))
     if (top.length === 0) out.push('  (no commits in the last 90 days)')
     for (const [f, n] of top) {
       const base = path.basename(f).replace(/\.[^.]+$/, '')
@@ -1321,7 +1329,7 @@ function cmdScan() {
   if (!reverts && readmeHits.length === 0) out.push('  none visible')
 
   // test landscape
-  const testCount = codeFiles.filter(f => /test|spec/i.test(path.relative(cwd, f))).length
+  const testCount = codeFiles.filter(f => isTestCodeFile(f, cwd)).length
   out.push(`\nTEST LANDSCAPE  ${testCount} test file(s) across ${codeFiles.length} code files`)
 
   // day-1 questions - each one earned by a finding above, skipped when empty
