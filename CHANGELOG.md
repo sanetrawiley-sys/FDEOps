@@ -1,5 +1,12 @@
 # Changelog
 
+## 5.1.4 - 2026-09-16
+
+- Include JavaScript and TypeScript module extensions in reconnaissance, disclose scan limits, and avoid unsupported clean-scan claims.
+- Separate pending meeting updates from saved delivery results during review.
+- Label unaccepted evidence as a reported result without implying measured customer value.
+- Explain standalone handoff drafts separately from record exports.
+
 ## 5.1.3 - 2026-09-15
 
 - Order migrations by contract compatibility and choose tested recovery appropriate to persistent effects.

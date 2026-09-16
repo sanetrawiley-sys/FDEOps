@@ -332,6 +332,8 @@ Measure the synthetic long-history behavior with `node evals/context-budget/chec
 
 ## Sponsor readout and successor packet
 
+For a standalone draft, ask your agent to use the `handoff` skill with your notes and project evidence. No customer record is required. The commands below export an existing customer record.
+
 Run `fde defend` for accepted assertions, claims, source references, and gaps. Run `fde handoff --out successor.md` for a new portable Markdown snapshot; review it before sharing. Both are bounded and private-redacted, with no writes unless `--out` is explicit. They do not authenticate sources or confer customer approval.
 
 Before planning or building, run `fde doctor --ready`. Record an observable pass/fail test and the named customer-side signer; vague improvement, a number alone, or a role is insufficient. This checks readiness without changing the phase.

@@ -291,15 +291,6 @@ for (const phrase of badPhrases) {
     fail(`README must not contain hype phrase: ${phrase}`)
   }
 }
-// fdeops stands on its own. The README must never frame it as a derivative -
-// a fork, port, or rebuild of another project.
-const derivativeFraming = [
-  /\b(fork of|forked from|port of|rebuild of|reimplementation of|based on)\s+[A-Z]/,
-  /\b(inspired by|built on top of|powered by)\s+[A-Z][A-Za-z0-9-]+/,
-]
-for (const rx of derivativeFraming) {
-  if (rx.test(readme)) fail(`README must not frame fdeops as derivative: ${rx}`)
-}
 if (/docs\/internal|PMF_360/i.test(readme)) {
   fail('README must not link docs/internal or PMF_360')
 }

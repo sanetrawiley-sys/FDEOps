@@ -17,7 +17,7 @@ function deliverySummary(e) {
   const unmeasured = rows.filter(r => r.state === 'unmeasured').length
   if (unmeasured) add('measurement', `${unmeasured} outcome${unmeasured === 1 ? '' : 's'} not yet measured`, 'Agree how to measure the outcome and collect the result', 'delivery.md')
   const claimed = rows.filter(r => r.state === 'claimed').length
-  if (claimed) add('acceptance', `${claimed} measured outcome${claimed === 1 ? '' : 's'} awaiting acceptance`, 'Ask the acceptance owner to review the measured outcome', 'delivery.md')
+  if (claimed) add('acceptance', `${claimed} reported result${claimed === 1 ? '' : 's'} awaiting acceptance`, 'Ask the acceptance owner to review the reported result and its evidence', 'delivery.md')
   if (signals.trust === 'amber') add('trust', 'Check in with the customer: trust is watch', 'Check the customer concern and agree the next step', 'stakeholders.md')
   if (signals.stale) add('stale-trust', 'Reconfirm the dated trust signal', 'Check whether the recorded customer signal still applies', 'stakeholders.md')
   if (!e.hasNext) add('next', 'Set the next action', 'Set one next action with an owner and completion check', 'context.md')

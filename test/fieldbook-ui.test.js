@@ -124,7 +124,7 @@ test('overview recommends one action while client detail preserves the recorded 
   const html = render([client({ valueRows: [{ state: 'claimed', slice: 'Retry', evidenceMissing: false }] })])
   const overview = html.slice(html.indexOf('id="view-today"'), html.indexOf('id="view-eng-acme"'))
   assert.match(overview, /Recommended first actions/)
-  assert.match(overview, /Ask the acceptance owner to review the measured outcome/)
+  assert.match(overview, /Ask the acceptance owner to review the reported result and its evidence/)
   assert.match(overview, /awaiting acceptance &middot; delivery.md/)
   assert.equal((overview.match(/class="fb-row fb-queue-row"/g) || []).length, 1)
   assert.match(html.slice(html.indexOf('id="view-eng-acme"')), /Review staging evidence with Maya/)

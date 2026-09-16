@@ -2,6 +2,8 @@
 
 **Context:** apply [task context and evidence](task-context.md) before using the named records below.
 
+For a standalone handoff draft, use the supplied notes and project evidence; no customer record is required. The `fde handoff` CLI exports an existing record. Use it only when a record is selected, not to create one merely for a draft.
+
 **Enter when:** the engagement is ending - the customer team must run this without the FDE.
 
 **Read first:** for standalone work, use the supplied permitted operating notes, evidence and ownership; no engagement binding or CLI command is required. For a bound engagement, use bounded `fde handoff` or `fde resume`, then targeted `fde recall` for missing evidence. Never initialize records merely to draft a handoff. Build the picture through relevant excerpts, not a full-directory load. Consult `terrain.md` only for code paths needed by the successor.
