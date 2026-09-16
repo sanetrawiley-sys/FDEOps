@@ -16,17 +16,19 @@ Use it for a single integration, a small client project, or work within a larger
 
 ## Quick start
 
-You need an AI coding agent that supports skills. The installation commands and FDEOps CLI require **Node.js 18+ and Git** on your machine.
+Use FDEOps with an AI coding agent that supports skills. Start with one task, or let `fde` coordinate a customer project.
 
 ### Work on a customer project
 
-Run this in your terminal and select your agent in the installer:
+Run this in the terminal where your coding agent runs, then select your agent in the installer:
 
 ```bash
 npx skills add suboss87/fdeops --skill fde
 ```
 
-Then start a conversation with your agent:
+This installation method uses Node.js (which includes `npx`) and Git. If either is missing, ask your agent to help with setup. The FDEOps CLI requires Node.js 18 or later. See [installation options](docs/install.md) for your agent.
+
+Then select `fde` in your agent and start a conversation. In agents that support `@fde`, use:
 
 ```text
 @fde this is client01. Their support team reads incoming requests,
