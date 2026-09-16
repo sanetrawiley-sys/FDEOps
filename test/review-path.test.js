@@ -29,7 +29,7 @@ test('messy intake shows asks, scope, explicit signer and gaps before applying a
     '<private>CONFIDENTIAL_INTAKE</private>',
   ].join('\n'))
   assert.equal(proposed.status, 0, proposed.stderr)
-  for (const expected of ['REVIEW', 'stated asks:', 'proposed scope:', 'named signer', 'Priya Shah', 'next action:', 'measurement: missing', 'evidence: missing', 'customer approval: missing']) assert.ok(proposed.stdout.includes(expected), expected)
+  for (const expected of ['REVIEW', 'stated asks:', 'proposed scope:', 'named signer', 'Priya Shah', 'next action:', 'PENDING UPDATE - not yet saved', 'SAVED RECORD - before this update', 'No delivery results saved yet', 'not customer acceptance']) assert.ok(proposed.stdout.includes(expected), expected)
   assert.doesNotMatch(proposed.stdout, /CONFIDENTIAL_INTAKE/)
   assert.equal(fs.readFileSync(path.join(f.eng, 'decisions.md'), 'utf8'), before)
   const proposal = fs.readFileSync(path.join(f.eng, '.debrief-propose'), 'utf8')

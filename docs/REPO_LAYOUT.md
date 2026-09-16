@@ -26,7 +26,7 @@
 ## Where to start
 
 - **Use the tool:** [installation](install.md), then the [five-minute walkthrough](USAGE.md#new-here-5-minutes).
-- **Change a skill:** edit the relevant `skills/fde/references/` file and its routing evaluation. Keep methods canonical; run `node bin/generate-skills.js` after changing references. `bin/skill-catalog.js` defines standalone entry points; generated task copies under `skills/` must never be edited independently.
+- **Change a skill:** edit the relevant `skills/fde/references/` file and its routing evaluation. Keep methods canonical; run `node bin/generate-skills.js` after changing references. Do not hand-edit generated task copies.
 - **Change records or reports:** start in `bin/fde.js` and `bin/lib/`, with regressions in `test/`. Document record changes in [schema.md](schema.md).
 - **Change host setup:** use `bin/install.js`, `adapters/`, or `hooks/`; verify automatic and manual host behavior separately.
 - **Change public instructions:** keep README concise; use [USAGE.md](USAGE.md) for routines and [install.md](install.md) for setup.
@@ -39,9 +39,3 @@ Keep customer `.fde/` records outside this repository. Examples and tests use fi
 
 
 Keep one-off plans, designer briefs, session notes, and raw host traces outside Git. Public validation belongs in [verification.md](verification.md); reusable fixtures and model results belong in `evals/`.
-
-## One source for each instruction
-
-Users browse `skills/<name>/SKILL.md` or the generated [catalog](skills-reference.md). Contributors edit `skills/fde/references/` and `bin/skill-catalog.js`, then run `npm run generate:skills`. The generated task copies keep selective installs self-contained; checks reject stale copies or catalog drift. Do not edit them independently.
-
-`bin/catalog-doc.js` renders the public catalog from the same metadata the installer uses. Tests and fictional examples remain in the repository; private working notes stay ignored and outside the published package.

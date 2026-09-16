@@ -76,7 +76,15 @@ function maskedSections(sections, maxBytes = context.DEFAULT_BYTES, heading = ''
   return prefix + context.boundedSections(sections.map(text => masking.mask(text)), maxBytes - Buffer.byteLength(prefix))
 }
 const DEBRIEF_MAX_BYTES = 256 * 1024
-const CODE_EXT = ['.js', '.ts', '.tsx', '.jsx', '.py', '.java', '.go', '.rb', '.cs', '.php']
+const CODE_EXT = ['.js', '.mjs', '.cjs', '.ts', '.mts', '.cts', '.tsx', '.jsx', '.py', '.java', '.go', '.rb', '.cs', '.php']
+function isTestCodeFile(file, cwd) {
+  if (!CODE_EXT.includes(path.extname(file))) return false
+  const parts = path.relative(cwd, file).split(path.sep)
+  const name = path.basename(parts.pop(), path.extname(file))
+  return parts.some(part => /^(?:tests?|specs?|__tests__)$/i.test(part))
+    || /(?:^|[._-])(?:test|spec)(?:[._-]|$)/i.test(name)
+    || /(?:Tests?|Specs?)$/.test(name)
+}
 const CONF_EXT = CODE_EXT.concat(['.env', '.yaml', '.yml', '.json'])
 // Bare "inference" is banned here: TypeScript codebases are full of "type
 // inference" comments and the false positives poison the day-1 questions.
@@ -1252,7 +1260,11 @@ function cmdScan() {
   out.push('='.repeat(60))
 
   // stack + age
-  const files = walk(cwd, CONF_EXT.concat(['.md']), 5000)
+  const candidates = walk(cwd, CONF_EXT.concat(['.md']), 5001)
+  const files = candidates.slice(0, 5000)
+  out.push(`COVERAGE  ${files.length} supported files selected${candidates.length > 5000 ? ' - 5,000-file limit reached; scan is partial' : ''}`)
+  out.push('  Hidden/generated directories, files over 1 MiB and unsupported formats are not inspected.')
+  out.push('  Findings are capped per section. Absence of findings does not establish test coverage or production readiness.')
   const extCount = {}
   for (const f of files) { const e = path.extname(f); extCount[e] = (extCount[e] || 0) + 1 }
   const langs = Object.entries(extCount).sort((a, b) => b[1] - a[1]).slice(0, 4).map(([e, n]) => `${e}:${n}`).join(' ')
@@ -1268,7 +1280,7 @@ function cmdScan() {
     const counts = {}
     churn.split('\n').filter(Boolean).forEach(f => { counts[f] = (counts[f] || 0) + 1 })
     const top = Object.entries(counts).sort((a, b) => b[1] - a[1]).slice(0, 8)
-    const testFiles = files.filter(f => /test|spec/i.test(f))
+    const testFiles = files.filter(f => isTestCodeFile(f, cwd))
     if (top.length === 0) out.push('  (no commits in the last 90 days)')
     for (const [f, n] of top) {
       const base = path.basename(f).replace(/\.[^.]+$/, '')
@@ -1317,7 +1329,7 @@ function cmdScan() {
   if (!reverts && readmeHits.length === 0) out.push('  none visible')
 
   // test landscape
-  const testCount = files.filter(f => /test|spec/i.test(f)).length
+  const testCount = codeFiles.filter(f => isTestCodeFile(f, cwd)).length
   out.push(`\nTEST LANDSCAPE  ${testCount} test file(s) across ${codeFiles.length} code files`)
 
   // day-1 questions - each one earned by a finding above, skipped when empty
@@ -1330,7 +1342,7 @@ function cmdScan() {
   if (tmp.length) asks.push("Which of these 'temporary' fixes are now load-bearing contracts?")
   asks.length
     ? asks.slice(0, 5).forEach((q, i) => out.push(`  ${i + 1}. ${q}`))
-    : out.push('  (clean scan - ask what the last engineer wished they had known)')
+    : out.push(codeFiles.length ? '  No additional questions from these heuristics; inspect the untested paths with the team.' : '  No supported code files inspected; identify the application files before relying on this scan.')
 
   out.push('\n' + '-'.repeat(60))
   out.push("Facts only - interpretation is the FDE's (or @fde's) job.")
@@ -1969,6 +1981,7 @@ function printDebriefReview(text, eng) {
     }
   }
   console.log('REVIEW (one screen - confirm once, then apply)\n')
+  console.log('PENDING UPDATE - not yet saved. Review these proposed changes:\n')
   const order = [
     ['decided', buckets.decided],
     ['stated asks', buckets.asked],
@@ -1994,10 +2007,14 @@ function printDebriefReview(text, eng) {
   const measured = recorded.some(row => row.state !== 'unmeasured')
   const evidenced = recorded.some(row => !row.evidenceMissing)
   const accepted = recorded.some(row => row.state === 'accepted')
-  console.log('  delivery picture (existing record; this proposal does not certify it):')
-  console.log(`    - measurement: ${measured ? 'recorded; check the value ledger' : 'missing - record the observed result'}`)
-  console.log(`    - evidence: ${evidenced ? 'recorded; review its source' : 'missing - cite the test, artifact, or source'}`)
-  console.log(`    - customer approval: ${accepted ? 'recorded for a prior outcome; not this proposal' : 'missing - request explicit acceptance after evidence review'}`)
+  console.log('\nSAVED RECORD - before this update; pending changes above are not included:')
+  if (!recorded.length) {
+    console.log('  No delivery results saved yet. Review the proposed delivery above before applying.')
+  } else {
+    console.log(`  - result: ${measured ? 'recorded; check its scope in the value ledger' : 'not yet recorded'}`)
+    console.log(`  - evidence: ${evidenced ? 'recorded; review its source' : 'not yet recorded'}`)
+    console.log(`  - customer approval: ${accepted ? 'recorded for a prior result; not this proposal' : 'not yet recorded'}`)
+  }
   console.log('  Saving this update confirms your record, not customer acceptance.\n')
 }
 
@@ -2610,7 +2627,11 @@ function cmdHandoff(args, label = 'Handoff') {
     out = path.resolve(parsed.args[1])
   }
   const eng = resolveEngagement()
-  if (!eng) { console.error('no engagement - run: fde resume --init <name>'); process.exit(2) }
+  if (!eng) {
+    const skill = label === 'Handoff' ? 'handoff' : 'readout'
+    console.error(`This command exports an existing customer record; none is selected.\nFor a standalone draft, ask your agent to use the ${skill} skill with supplied notes; no record is required.\nTo keep an ongoing customer record, run: fde resume --init <name>`)
+    process.exit(2)
+  }
   const success = stripTemplateNoise(readClean(eng, 'success.md'))
   const signer = ((success.match(/^\*\*Stakeholder who signs off:\*\*[^\S\n]*(.*)$/m) || [])[1] || '').trim()
   const ledger = parseValueLedger(eng).rows
