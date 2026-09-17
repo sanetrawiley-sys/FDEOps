@@ -197,3 +197,28 @@ test('nested checkpoint headings survive history trimming and an empty replaceme
   const cleared = f.run(['resume'])
   assert.doesNotMatch(cleared.stdout, /SAVED IMPLEMENTATION CHECKPOINT|Old task/)
 })
+
+test('checkpoint extraction ignores fenced and indented Markdown examples', () => {
+  const { implementationCheckpoint } = require('../bin/lib/context')
+  for (const fence of ['```sh', '~~~~text']) {
+    const close = fence.startsWith('`') ? '```' : '~~~~'
+    const body = ['Next action: run TASK-90 check', fence, '## setup', '# sample', '## Implementation checkpoint', 'example only', close,
+      '    ## Implementation checkpoint', '\t## Implementation checkpoint', 'Pending: real review'].join('\n')
+    const outside = ['## Notes', '```md', '## Implementation checkpoint', 'outside example', '```', '    ## Implementation checkpoint', '    indented example'].join('\n')
+    const text = '## Implementation checkpoint ##\n' + body + '\n' + outside
+    const result = implementationCheckpoint(text)
+    assert.equal(result.checkpoint, body)
+    assert.equal(result.remaining, outside)
+  }
+  const unclosed = 'Next action: test\n````md\n```\n## Implementation checkpoint\nexample'
+  assert.equal(implementationCheckpoint('## Implementation checkpoint\n' + unclosed).checkpoint, unclosed)
+})
+
+
+test('list examples cannot replace or end the top-level recovery checkpoint', () => {
+  const { implementationCheckpoint } = require('../bin/lib/context')
+  const example = '- ```md\n  ## Implementation checkpoint\n  Next: example only\n  ```'
+  const body = 'Next: real\n' + example + '\nPending: real review'
+  const notes = '## Notes\n' + example
+  assert.deepEqual(implementationCheckpoint('## Implementation checkpoint\n' + body + '\n' + notes), { checkpoint: body, remaining: notes })
+})

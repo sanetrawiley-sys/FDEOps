@@ -2,7 +2,7 @@
 
 ## 5.1.6 - 2026-09-17
 
-- Surface optional implementation checkpoints in bounded resume without opening linked task files; retain nested headings and clear superseded progress.
+- Surface optional implementation checkpoints in bounded resume without opening linked task files; retain nested headings, ignore headings inside code examples and clear superseded progress.
 - Keep substantial work resumable in existing task records, with applicable evidence and an explicit next action.
 - Make consequential trust-boundary reviews and operator-response evidence explicit in existing methods.
 - Consolidate coordinator guidance and make standalone task entry explicit.
