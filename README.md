@@ -12,7 +12,9 @@ FDEOps brings that context into the work, from the first meeting to a system the
 
 [Get started](#quick-start) · [What it helps with](#three-things-it-helps-with) · [Choose a skill](#task-skills) · [Data boundaries](#your-records-your-control) · [Docs](docs/README.md)
 
-<img width="1000" height="586" alt="FDEOps engagement flow from customer discovery through delivery and handover" src="https://github.com/user-attachments/assets/12bbec6a-d0b3-4d03-81aa-4b842731a044" />
+![FDEOps conversation: resume Garvey’s rollout, prepare its release review, then switch to Kesterman’s project](media/chat-demo.gif)
+
+*Fictional customer records. Actual agent responses, shortened and replayed. [Read the conversation](media/chat-demo.md) · [View a still](media/chat-demo.png).*
 
 ## Quick start
 

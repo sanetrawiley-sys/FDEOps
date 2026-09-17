@@ -194,11 +194,11 @@ if (read('package.json').includes('postinstall')) {
 }
 
 const readme = read('README.md')
-if (/session\.gif|demo\.gif/i.test(readme)) {
-  fail('README must not embed session.gif or demo.gif - the recording lives in docs/USAGE.md')
-} else if (/<img /i.test(readme) && !/user-attachments\/assets/.test(readme)) {
-  fail('README <img> must be the GitHub poster (user-attachments), not a local gif')
-} else ok('README is text (no gif)')
+if (!readme.includes('media/chat-demo.gif') || !readme.includes('media/chat-demo.md') || !readme.includes('Fictional customer records')) {
+  fail('README must include the chat walkthrough, text alternative and fictional-record disclosure')
+} else if (['chat-demo.gif', 'chat-demo.png', 'chat-demo.json', 'chat-demo.md', 'render-chat-demo.py'].some(name => !fs.existsSync(path.join(root, 'media', name)))) {
+  fail('chat walkthrough must include rendered assets, text, source and renderer')
+} else ok('README chat walkthrough has accessible text and reproducible source')
 
 const usage = read('docs/USAGE.md')
 if (!usage.includes('media/session.gif') || !usage.includes('media/record-session.sh')) {
