@@ -1,54 +1,68 @@
 {
-  "description": "A scripted workday performed by an agent on fictional records and a real local code fixture. Edited replay; no production deployment.",
+  "description": "Continuous edited terminal replay combining two scripted FDEOps runs. Real local code, tests, approved record writes and handover draft; fictional customers, no production deployment.",
   "scenes": [
     {
       "customer": "Garvey Payment Systems",
-      "label": "Turn the workshop into a build",
-      "prompt": "@fde Workshop done. Finance wants retries without duplicates.",
-      "answer": "Saved PAY-42: stop duplicate payment retries.\nUse the receiver’s idempotency API.\nKeep the ledger unchanged.",
-      "receipt": "Agreed scope saved | PAY-42\nChecks: retries, restart, tenant isolation, concurrency",
-      "activity": "Recording the agreed scope..."
+      "label": "01/07  Discovery",
+      "prompt": "@fde Workshop done. Finance keeps reprocessing payments. Where do we start?",
+      "answer": "Trace one failed payment with finance: delivery, acknowledgement, write.\nCheck whether retries cause duplicates. Measure the recovery work first.",
+      "receipt": "Customer failure pattern and business baseline still need evidence.",
+      "activity": "skill: discover | Working from the workshop notes",
+      "hold_ms": 11000
     },
     {
       "customer": "Garvey Payment Systems",
-      "label": "Build, then preserve the next step",
-      "prompt": "@fde Start PAY-42. I have a customer meeting in five minutes.",
-      "answer": "Changed retry.js: validate identity and deduplicate\nby tenant + event ID. Checkpoint saved.\nNext: run the full local test suite.",
-      "receipt": "Baseline: 3 passed, 4 failed\nChange saved | Post-change verification pending",
-      "activity": "Running baseline checks and implementing PAY-42..."
+      "label": "02/07  Scope",
+      "prompt": "@fde Finance approved retry fixes. Keep the ledger unchanged.",
+      "answer": "Saved PAY-42: one payment write per customer and event, even after retries.\nNo ledger redesign. Check repeat delivery, restart and customer separation.",
+      "receipt": "Approved scope saved to Garvey’s record.",
+      "activity": "skill: plan | Defining the slice and acceptance checks",
+      "hold_ms": 11000
+    },
+    {
+      "customer": "Garvey Payment Systems",
+      "label": "03/07  Build",
+      "prompt": "@fde Build PAY-42. Save my place before the customer call.",
+      "answer": "Updated retry.js to validate identity and prevent duplicate writes.\nCheckpoint saved. The next step is to run the full local suite.",
+      "receipt": "Baseline: 3 passed, 4 failed | Post-change checks pending.",
+      "activity": "skill: build | Implementing the agreed slice",
+      "hold_ms": 11000
     },
     {
       "customer": "Kesterman Freight Lines",
-      "label": "Handle the other customer’s meeting",
-      "prompt": "@fde Switch to Kesterman. Brief me for Denise’s meeting.",
-      "answer": "Decision for Denise: defer Nashville role views,\nor trade scope and timeline. Reconfirm the demo.",
-      "receipt": "Kesterman context loaded | Read-only, temporary selection\nGarvey’s unfinished work preserved",
-      "activity": "Loading Kesterman’s meeting context..."
+      "label": "04/07  Switch customer",
+      "prompt": "@fde Switch to Kesterman. What does Denise need to decide?",
+      "answer": "Defer Nashville role views, or trade scope and timeline. Reconfirm the demo.\nGarvey’s unfinished work is preserved.",
+      "receipt": "Kesterman context loaded | Temporary selection, read-only.",
+      "activity": "skill: switch-clients | Loading Kesterman’s meeting context",
+      "hold_ms": 11000
     },
     {
       "customer": "Garvey Payment Systems",
-      "label": "Return to the exact next action",
-      "prompt": "@fde Back to Garvey. Continue where we stopped.",
-      "answer": "Recovered PAY-42 and confirmed the code is unchanged.\nAll 7 local tests pass. The customer receiver\nstill needs a staging check.",
-      "receipt": "Tests: 7 | Passed: 7 | Failed: 0\nEnvironment: local receiver mock",
-      "activity": "Recovering the checkpoint and running tests..."
+      "label": "05/07  Resume and test",
+      "prompt": "@fde Back to Garvey. Continue and test the change.",
+      "answer": "Recovered PAY-42 and checked that the code is unchanged.\nAll 7 local tests pass. The real customer receiver still needs verification.",
+      "receipt": "Tests: 7 | Passed: 7 | Failed: 0 | Local receiver mock.",
+      "activity": "skill: build | Recovering the checkpoint and verifying the change",
+      "hold_ms": 11000
     },
     {
       "customer": "Garvey Payment Systems",
-      "label": "Separate passing tests from rollout approval",
-      "prompt": "@fde Tests pass. Can we roll this out?",
-      "answer": "Not yet. Replay retries against the durable receiver\non customer staging. Security, CTO approval\nand finance acceptance are still pending.",
-      "receipt": "Local checks passed | Customer staging not tested\nNo production action taken",
-      "activity": "Checking release evidence and approvals..."
+      "label": "06/07  Rollout decision",
+      "prompt": "@fde Seven tests pass. Are we ready for production?",
+      "answer": "Not yet. Replay retries against the durable receiver on customer staging.\nSecurity, CTO approval and finance acceptance remain pending.",
+      "receipt": "Local evidence is ready. Nothing has been deployed.",
+      "activity": "skill: ship | Checking evidence and release authority",
+      "hold_ms": 11000
     },
     {
       "customer": "Garvey Payment Systems",
-      "label": "Leave tomorrow’s work ready to resume",
-      "prompt": "@fde Save where we are for tomorrow.",
-      "answer": "Saved the implementation, test evidence and blockers.\nNext: arrange the authorised staging replay.",
-      "receipt": "Checkpoint saved and verified\nSaved next action: arrange staging replay",
-      "activity": "Saving and verifying the customer checkpoint...",
-      "hold_ms": 5500
+      "label": "07/07  Handover preparation",
+      "prompt": "@fde Prepare the handover and save tomorrow’s next step.",
+      "answer": "Handover draft ready: staging checks, operating owner and rollback needs.\nSaved next action: arrange the authorised staging replay.",
+      "receipt": "handover-draft.md created | Production and handover acceptance pending.",
+      "activity": "skill: runbook + handoff | Preparing the operator’s next steps",
+      "hold_ms": 11000
     }
   ]
 }

@@ -1,53 +1,78 @@
-from PIL import Image, ImageDraw, ImageFont
-from pathlib import Path
-import json, textwrap
+"""Render an edited terminal replay from chat-demo.json (requires Pillow)."""
 import argparse
-parser=argparse.ArgumentParser(description='Render the fictional FDEOps chat walkthrough (requires Pillow).')
-parser.add_argument('--font',required=True,help='Path to a monospace TrueType font')
-args=parser.parse_args()
-ROOT=Path(__file__).resolve().parents[1]
-FONT=args.font
-W,H=1280,760
-BG='#090c0d'; PANEL='#101617'; FG='#ededed'; MUTED='#9daaad'; GREEN='#22ff9c'
-def font(size): return ImageFont.truetype(FONT,size)
-def draw_scene(scene,index,reveal=True,typed=None):
- im=Image.new('RGB',(W,H),BG);d=ImageDraw.Draw(im)
- d.text((48,28),'FDEOps',font=font(27),fill=GREEN)
- d.text((202,34),'One workday. Two customers.',font=font(20),fill=FG)
- d.rounded_rectangle((32,86,1248,669),radius=15,fill=PANEL,outline='#344044',width=1)
- for x,c in [(57,'#ef7069'),(80,'#eabd5b'),(103,'#55bd7b')]:d.ellipse((x,108,x+12,120),fill=c)
- d.text((149,104),'agent / '+scene['customer'],font=font(18),fill=MUTED)
- d.line((33,142,1247,142),fill='#344044')
- d.text((64,175),'YOU',font=font(18),fill=GREEN)
- y=211
- for line in textwrap.wrap(scene['prompt'] if typed is None else typed,width=70):
-  d.text((64,y),line,font=font(26),fill=FG);y+=38
- y+=28
- if typed is None: d.text((64,y),'FDE',font=font(18),fill=GREEN)
- y+=36
- if reveal:
-  for para in scene['answer'].split('\n'):
-   for line in textwrap.wrap(para,width=72):
-    assert y<625, (scene['customer'],y)
-    d.text((64,y),line,font=font(25),fill=FG);y+=35
-   y+=12
-  if scene.get('receipt'):
-   y=max(y+12,510)
-   d.line((64,y,1216,y),fill='#344044');y+=20
-   for line in scene['receipt'].split('\n'):
-    assert y<639, (scene['customer'],y)
-    d.text((64,y),line,font=font(20),fill=MUTED);y+=30
- elif typed is None:d.text((64,y),scene.get('activity','Reading the customer record...'),font=font(23),fill=MUTED)
- d.text((48,693),f"{index+1:02d} / {len(scenes):02d}   {scene['label']}",font=font(20),fill=GREEN)
- d.text((48,728),'Fictional customers | Real local code + tests | Edited replay, not production footage',font=font(15),fill=MUTED)
- return im
-scenes=json.loads((ROOT/'media/chat-demo.json').read_text())['scenes']
-frames=[];dur=[]
-for n,s in enumerate(scenes):
- for end in range(4,len(s['prompt']),5):
-  frames.append(draw_scene(s,n,False,s['prompt'][:end]));dur.append(60)
- frames.extend([draw_scene(s,n,False),draw_scene(s,n)]);dur.extend([350,s.get('hold_ms',6000)])
+import json
+import textwrap
+from pathlib import Path
+from PIL import Image, ImageDraw, ImageFont
 
-draw_scene(scenes[0],0).save(ROOT/'media/chat-demo.png')
-frames[0].save(ROOT/'media/chat-demo.gif',save_all=True,append_images=frames[1:],duration=dur,loop=0,optimize=True)
-print('Rendered',len(frames),'frames',sum(dur)/1000,'seconds')
+parser = argparse.ArgumentParser(description=__doc__)
+parser.add_argument('--font', required=True, help='Path to a monospace TrueType font')
+args = parser.parse_args()
+root = Path(__file__).resolve().parents[1]
+scenes = json.loads((root / 'media/chat-demo.json').read_text())['scenes']
+width, height = 1120, 520
+background = '#101617'
+foreground = '#ededed'
+muted = '#a3b1b4'
+green = '#22ff9c'
+fonts = {size: ImageFont.truetype(args.font, size) for size in (15, 17, 22)}
+line_height = 31
+visible_lines = 12
+history = [
+    ('FDEOps  /  customer work in your AI coding agent', green),
+    ('Garvey Payment Systems | fictional customer, local workspace', muted),
+    ('', muted),
+]
+frames, durations = [], []
+
+
+def render(lines, customer, stage):
+    image = Image.new('RGB', (width, height), background)
+    draw = ImageDraw.Draw(image)
+    draw.rectangle((0, 0, width, 42), fill='#1b2325')
+    for x, color in ((18, '#ef7069'), (38, '#eabd5b'), (58, '#55bd7b')):
+        draw.ellipse((x, 16, x + 10, 26), fill=color)
+    draw.text((92, 12), 'AI agent / ' + customer, font=fonts[17], fill=muted)
+    for index, (line, color) in enumerate(lines[-visible_lines:]):
+        assert draw.textlength(line, font=fonts[22]) <= width - 48, line
+        draw.text((24, 60 + index * line_height), line, font=fonts[22], fill=color)
+    draw.line((24, 450, width - 24, 450), fill='#344044')
+    draw.text((24, 462), stage, font=fonts[17], fill=green)
+    draw.text((24, 494), 'Fictional customers | Edited terminal replay | Local tests, not production footage',
+              font=fonts[15], fill=muted)
+    return image
+
+
+def add_frame(lines, scene, duration):
+    image = render(lines, scene['customer'], scene['label'])
+    frames.append(image.convert('P', palette=Image.Palette.ADAPTIVE, colors=96))
+    durations.append(duration)
+
+
+def wrap(text, color):
+    return [(line, color) for line in textwrap.wrap(text, width=79)] or [('', color)]
+
+
+for index, scene in enumerate(scenes):
+    prompt = '> ' + scene['prompt']
+    for end in range(3, len(prompt), 3):
+        add_frame(history + wrap(prompt[:end] + '_', green), scene, 80)
+    history.extend(wrap(prompt, green))
+    history.extend(wrap('  ' + scene['activity'], muted))
+    add_frame(history, scene, 1000)
+    for paragraph in scene['answer'].split('\n'):
+        for line in wrap(paragraph, foreground):
+            history.append(line)
+            add_frame(history, scene, 350)
+    for paragraph in scene.get('receipt', '').split('\n'):
+        if paragraph:
+            history.extend(wrap('  ' + paragraph, muted))
+            add_frame(history, scene, 350)
+    add_frame(history, scene, scene.get('hold_ms', 10500))
+    if index == 2:
+        render(history, scene['customer'], scene['label']).save(root / 'media/chat-demo.png')
+    history.append(('', muted))
+
+frames[0].save(root / 'media/chat-demo.gif', save_all=True, append_images=frames[1:],
+               duration=durations, loop=0, optimize=True)
+print(f'Rendered {len(frames)} frames, {sum(durations) / 1000:.1f} seconds')

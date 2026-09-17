@@ -1,56 +1,64 @@
-# One workday. Two customers.
+# From workshop to handover preparation
 
-An FDE turns a payments workshop into a scoped code change, pauses for a freight-customer meeting, then resumes testing and prepares the next release decision.
+One terminal conversation: discovery, scope, build, a second customer's meeting, resumed tests, rollout decision and handover preparation. Users speak naturally; the small activity lines show which FDEOps method applies.
 
-The GIF is a terminal-style replay of a scripted agent run, not a screen recording or customer production footage. The code edit, local tests, record saves and customer-context reads actually ran. Customer records are fictional. Responses are shortened; typing and pauses are staged.
+This is an edited terminal replay combining two scripted agent runs, not an unedited recording of Claude Code or Codex. It uses actual local code changes, test results, approved record saves, customer-context reads and a generated handover draft. Customers are fictional. Wording is condensed and reordered; typing, activity labels and reading pauses are staged. No production system was accessed.
 
-## 1. Turn the workshop into a build
+## 01/07  Discovery
 
-> @fde Workshop done. Finance wants retries without duplicates.
+> @fde Workshop done. Finance keeps reprocessing payments. Where do we start?
 
-Saved PAY-42: stop duplicate payment retries. Use the receiver’s idempotency API. Keep the ledger unchanged.
+Trace one failed payment with finance: delivery, acknowledgement, write. Check whether retries cause duplicates. Measure the recovery work first.
 
-Agreed scope saved | PAY-42. Checks: retries, restart, tenant isolation, concurrency.
+Customer failure pattern and business baseline still need evidence.
 
-## 2. Build, then preserve the next step
+## 02/07  Scope
 
-> @fde Start PAY-42. I have a customer meeting in five minutes.
+> @fde Finance approved retry fixes. Keep the ledger unchanged.
 
-Changed retry.js: validate identity and deduplicate by tenant + event ID. Checkpoint saved. Next: run the full local test suite.
+Saved PAY-42: one payment write per customer and event, even after retries. No ledger redesign. Check repeat delivery, restart and customer separation.
 
-Baseline: 3 passed, 4 failed. Change saved | Post-change verification pending.
+Approved scope saved to Garvey’s record.
 
-## 3. Handle the other customer’s meeting
+## 03/07  Build
 
-> @fde Switch to Kesterman. Brief me for Denise’s meeting.
+> @fde Build PAY-42. Save my place before the customer call.
 
-Decision for Denise: defer Nashville role views, or trade scope and timeline. Reconfirm the demo.
+Updated retry.js to validate identity and prevent duplicate writes. Checkpoint saved. The next step is to run the full local suite.
 
-Kesterman context loaded | Read-only, temporary selection. Garvey’s unfinished work preserved.
+Baseline: 3 passed, 4 failed | Post-change checks pending.
 
-## 4. Return to the exact next action
+## 04/07  Switch customer
 
-> @fde Back to Garvey. Continue where we stopped.
+> @fde Switch to Kesterman. What does Denise need to decide?
 
-Recovered PAY-42 and confirmed the code is unchanged. All 7 local tests pass. The customer receiver still needs a staging check.
+Defer Nashville role views, or trade scope and timeline. Reconfirm the demo. Garvey’s unfinished work is preserved.
 
-Tests: 7 | Passed: 7 | Failed: 0. Environment: local receiver mock.
+Kesterman context loaded | Temporary selection, read-only.
 
-## 5. Separate passing tests from rollout approval
+## 05/07  Resume and test
 
-> @fde Tests pass. Can we roll this out?
+> @fde Back to Garvey. Continue and test the change.
 
-Not yet. Replay retries against the durable receiver on customer staging. Security, CTO approval and finance acceptance are still pending.
+Recovered PAY-42 and checked that the code is unchanged. All 7 local tests pass. The real customer receiver still needs verification.
 
-Local checks passed | Customer staging not tested. No production action taken.
+Tests: 7 | Passed: 7 | Failed: 0 | Local receiver mock.
 
-## 6. Leave tomorrow’s work ready to resume
+## 06/07  Rollout decision
 
-> @fde Save where we are for tomorrow.
+> @fde Seven tests pass. Are we ready for production?
 
-Saved the implementation, test evidence and blockers. Next: arrange the authorised staging replay.
+Not yet. Replay retries against the durable receiver on customer staging. Security, CTO approval and finance acceptance remain pending.
 
-Checkpoint saved and verified. Saved next action: arrange staging replay.
+Local evidence is ready. Nothing has been deployed.
+
+## 07/07  Handover preparation
+
+> @fde Prepare the handover and save tomorrow’s next step.
+
+Handover draft ready: staging checks, operating owner and rollback needs. Saved next action: arrange the authorised staging replay.
+
+handover-draft.md created | Production and handover acceptance pending.
 
 ## Full captured answer
 
@@ -80,6 +88,12 @@ node --test media/workday-fixture/retry.test.js
 
 The receiver is an in-memory mock. Atomic durable writes are an assumed receiver contract, not verified infrastructure. This run does not demonstrate real staging integration, production deployment, customer acceptance, cross-session recovery or a reliability rate. The customer interruption happened within one agent session; checkpoints were saved and read back.
 
+## Discovery and handover capture
+
+A second run read the discovery, planning, runbook and handoff methods using the same synthetic scope and local implementation. It recommended tracing a failed payment with finance before treating the supplied duplicate-write hypothesis as a verified customer incident. It reran all seven local tests and created [handover-draft.md](workday-fixture/handover-draft.md).
+
+The generated draft was reconciled with Garvey’s existing record: June Porter owns acceptance, using a full-week EU replay, audit-log evidence and written acceptance. The historical baseline still needs to be validated for this rollout. The draft lists staging replay, security/CTO review, finance acceptance, operating owner and rollback evidence still required. It is a preparation artifact, not an accepted handover or completed production lifecycle. No additional customer record writes were made in this second run. Method labels in the animation are explanatory labels, not a host UI feature or exact tool-event transcript.
+
 ## Render the animation
 
 With Python, Pillow and a monospace font:
@@ -88,4 +102,4 @@ With Python, Pillow and a monospace font:
 python3 media/render-chat-demo.py --font /path/to/monospace.ttf
 ```
 
-The [scene text](chat-demo.json), [still image](chat-demo.png) and this transcript provide alternatives to watching the loop. The detailed [CLI recording](../docs/USAGE.md) remains available.
+[Scene text](chat-demo.json) · [Still image](chat-demo.png) · [CLI recording](../docs/USAGE.md)
