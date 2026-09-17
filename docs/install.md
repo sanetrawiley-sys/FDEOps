@@ -144,7 +144,7 @@ The format covers packaging only - it defines no install mechanism, permissions,
 
 Once registered in the host, the hooks honor the workspace registry written by `fde resume --init`. Binding selects the client; binding alone does not enable hooks. You still confirm judgment; the fieldbook is not self-maintaining without you.
 
-**Windows:** the CLI and `hooks/run-hook.cmd` work on Windows. The session hooks themselves are `#!/bin/bash` scripts - on Windows you need Git Bash (or another bash) available for Claude Code hooks to run. The `fde` CLI (Node) does not require bash.
+**Windows:** native Windows CLI and host/session behavior have not been verified. The CLI uses Node and does not require Bash; session hooks are Bash scripts and require a compatible shell plus host hook configuration. Installing Git Bash alone does not establish that the hooks work in your host.
 
 ---
 

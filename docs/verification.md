@@ -60,6 +60,16 @@ On 2026-09-17, three fresh Codex CLI 0.154.0 sessions used unchanged 5.1.7 skill
 
 These are single, explicitly cued diagnostics, not proof that client code can never be loaded. The exact model identifier was unavailable. They do not cover other hosts/models, all entry routes, or source automatically attached by an IDE before the skill runs. Enforce file and outbound-access restrictions in the host; a skill instruction is not isolation. [F10-F12 protocol and limitations](../evals/delivery/README.md#policy-before-source-diagnostic-f10-f12).
 
+## Field reliability release diagnostics
+
+On the 5.1.10 candidate, five fresh isolated Codex CLI 0.154.0 runs covered customer switching (F13), minimum access (F14), stale verification (F4), unapproved scope (F8) and unknown AI policy (F10). The latter three reused existing fictional cases. Each used only its prepared task instructions and fixtures; an independent reviewer inspected ordered tool calls, answers and input hashes. The exact model identifier was not exposed by the host.
+
+F14 retained authorised local work while staging access remained blocked. F4 actually ran the failing current test and rejected the historical passing receipt without repairing code. F8 preserved agreed acceptance and tracker dependencies despite pressure to weaken them. F10 asked for AI-policy approval before any source read. These four added only their answer files.
+
+The first F13 run changed only the authorised workspace binding and answer file against complete existing records. Review found that `resume --init` can also populate missing templates or initialise memory Git. The method was corrected, and a fresh F13 repeat used an existing target with a missing record file and no authority to repair it. The agent selected that customer through a command-scoped override, verified its fresh identity, preserved all input hashes and left the missing file absent. It reported persistent rebinding as blocked, not completed. This demonstrates safe temporary selection, not a binding-only CLI capability.
+
+These are single, strongly cued synthetic diagnostics, including a review-driven repeat. They do not establish automatic skill selection, production integration, model reliability rates, customer acceptance or benefit over working without FDEOps. The local-model settings test uses a loopback protocol fixture, not model inference. Historical local-model trials were not rerun.
+
 ## Host and connection coverage
 
 | Surface | Evidence available | Still needs verification in your setup |
@@ -86,7 +96,7 @@ Historical measurements from 2026-09-10, one run per case:
 
 The 1.7B model missed a recorded next action, invented a scope record, and added an unsupported trust assessment to an otherwise correct acceptance distinction. Its historical keyword-based `pass: true` is therefore only a partial result under manual review. The 4B model produced planning text without completed tool calls; an earlier attempt exceeded 180 seconds and is separate from the three reruns. Output caps differed (512 versus 256 tokens), so these timings are observations, not a speed comparison. These historical trials were not rerun for 5.1.7.
 
-These establish connectivity, not reliable customer-work judgment. The adapter has three read-only tools; it does not test full skill routing or writes. With an already-installed model:
+These establish connectivity, not reliable customer-work judgment. The trials load a generic system prompt and three read-only tool definitions, with no FDEOps methods. They do not test full skill routing or writes. Future runner output records the inference settings used for each run; historical result files remain unchanged. With an already-installed model:
 
 ```bash
 FDEOPS_TEST_OLLAMA=http://127.0.0.1:11434 node evals/local-model/check.js qwen3:1.7b

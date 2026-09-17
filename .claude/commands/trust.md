@@ -2,7 +2,7 @@
 description: Diagnose trust. Process gap, or they stopped trusting you.
 ---
 
-Load `@fde` (`skills/fde/SKILL.md`) and follow its **First-use preferences** and **Entry (every session)** once. Situation: **they went quiet**.
+Load `@fde` (`skills/fde/SKILL.md`) and follow its **Entry (every session)** once. Situation: **they went quiet**.
 
 If `fde resume` shows NO ENGAGEMENT: ask "What should we call this client?" once, then **you** run `fde resume --init`. Never tell the human to type the CLI.
 

@@ -316,7 +316,7 @@ The skills guide investigation and delivery; they do not make business decisions
 - [OPERATIONS.md](./OPERATIONS.md) - operating rules
 - [schema.md](./schema.md) - `.fde/` files
 - [skills.md](./skills.md) - the skills matrix + overlays
-- [skills-reference.md](./skills-reference.md) - the 30 skills
+- [skills-reference.md](./skills-reference.md) - the 35 task skills
 
 ## Working context that stays small
 

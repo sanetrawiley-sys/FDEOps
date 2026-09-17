@@ -13,7 +13,7 @@
 | Gemini CLI | `GEMINI.md` | `GEMINI.md` |
 | Cursor | `.cursor/rules/fde.mdc` | `cursor.fde.mdc` |
 | GitHub Copilot | `.github/copilot-instructions.md` | `copilot-instructions.md` |
-| Local LLMs (Ollama, LM Studio, llama.cpp, vLLM) | Load `SKILL.md` as system prompt | [`LOCAL-LLM.md`](LOCAL-LLM.md) (guide) |
+| Local LLMs (Ollama, LM Studio, llama.cpp, vLLM) | Capable agent host with `SKILL.md`, its references, and approved CLI access | [`LOCAL-LLM.md`](LOCAL-LLM.md) (guide) |
 
 `AGENTS.md` is the emerging cross-tool standard - many agents read it, so it doubles as the universal fallback. For local/self-hosted models, see [`LOCAL-LLM.md`](LOCAL-LLM.md).
 
@@ -31,4 +31,4 @@ Defaults to the current directory if no path is given. Existing files are never 
 
 ## The principle
 
-The adapter only tells the tool **where the brain is and how to behave**. All 30 skills, the overlays, and the memory contract live once in `skills/fde/SKILL.md`. Update the brain, every platform gets it. That's why fdeops feels native in whatever the FDE already uses, without five things to keep in sync.
+The adapter only tells the tool **where the brain is and how to behave**. The 35 task methods and supporting guidance live in `skills/fde/references/`; `skills/fde/SKILL.md` coordinates them and the memory contract. Update the brain, every platform gets it. That's why fdeops feels native in whatever the FDE already uses, without five things to keep in sync.

@@ -1,5 +1,13 @@
 # Changelog
 
+## 5.1.10 - 2026-09-17
+
+- Verify customer identity after switching, preserve unfinished work and use sanitized CLI records under existing authority.
+- Remove unsupported trust timelines and automatic commit/stash instructions from customer switching.
+- Correct stale setup links, skill counts, local-model instructions and Windows support wording; remove the unused broken Windows wrapper.
+- Record inference settings in future local-model results without changing historical evidence.
+- Show resume output and distinct evidence claims in the README; add focused switching and blocked-access diagnostics.
+
 ## 5.1.9 - 2026-09-17
 
 - Add optional Codex display names, short descriptions and starting prompts to self-contained skill packages.
