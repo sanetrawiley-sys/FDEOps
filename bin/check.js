@@ -194,7 +194,7 @@ if (read('package.json').includes('postinstall')) {
 }
 
 const readme = read('README.md')
-if (!readme.includes('media/chat-demo.gif') || !readme.includes('media/chat-demo.md') || !readme.includes('Fictional customer records')) {
+if (!readme.includes('media/chat-demo.gif') || !readme.includes('media/chat-demo.md') || !readme.includes('Fictional customers')) {
   fail('README must include the chat walkthrough, text alternative and fictional-record disclosure')
 } else if (['chat-demo.gif', 'chat-demo.png', 'chat-demo.json', 'chat-demo.md', 'render-chat-demo.py'].some(name => !fs.existsSync(path.join(root, 'media', name)))) {
   fail('chat walkthrough must include rendered assets, text, source and renderer')
