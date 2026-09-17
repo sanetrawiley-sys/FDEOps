@@ -1,18 +1,33 @@
 # debug - Find and repair the cause
 
-**Enter when:** a reproducible failure, regression, incident symptom, or misleading output needs investigation.
+A useful repair explains the customer's failure and shows why the changed path now behaves correctly.
 
-Use [task context](task-context.md). Work from supplied permitted evidence without requiring `.fde/`. During an active incident, follow the authorized containment procedure before diagnosis; investigation authority alone does not authorize production writes.
+**Use when:** a failure, regression, incident symptom, or misleading output needs investigation, whether or not it can yet be reproduced.
 
-## Method
+Follow [task context](task-context.md); permitted supplied evidence is enough without `.fde/`. During an incident, follow authorized containment procedures before diagnosis. Investigation authority does not authorize production writes.
 
-1. Capture expected and observed behavior, exact input or trigger, affected revision/environment, and the last known working state. Preserve useful errors and timestamps without copying secrets or raw private data. Mark reports you have not reproduced as reports.
-2. Inspect the failing path, callers, recent relevant changes, and existing tests. Reproduce in a permitted environment with the smallest representative case. If reproduction is unavailable, identify what observation would distinguish causes and gather safe evidence; do not claim a hypothesis is proven.
-3. Keep a short hypothesis list. For each, name the predicted observation and a discriminating check. Change one relevant variable at a time. Trace values and control flow across the actual boundary instead of repeatedly changing code until the symptom disappears.
-4. Fix the cause at the appropriate layer. Check whether the proposed fix changes behavior for other callers, stale data, retries, concurrency, or permissions. Preserve evidence of the original failure and avoid unrelated cleanup.
-5. Add a regression check when it can meaningfully reproduce the bug; show that it fails before the fix and passes after when practical. If the check cannot run against the before-state, say so. Run affected adjacent and required checks using [verification](verification.md).
-6. Review the final diff and exercise the original journey. For substantial or risky fixes use [review](review.md). After two unsuccessful repair cycles, reassess the hypothesis and evidence instead of repeating the same attempt; continue useful investigation and isolate the missing decision or access.
+## Establish what failed
 
-## Deliverable and acceptance
+Capture expected and observed behavior, the trigger or input, revision, environment, and last known working state. Keep useful errors and timestamps, without secrets or raw private data. Label unverified reports as reports.
 
-Report the cause with its evidence, the fix, the original reproducer's result, adjacent checks, and unresolved uncertainty. A disappearing symptom with no discriminating evidence is a mitigation, not a demonstrated root cause. In engagement mode record the incident/fix receipt in the appropriate existing record; standalone work may return it directly. Release or rollback requires the existing operational authority and [ship](ship.md) or recovery procedure.
+Inspect the affected path, callers, relevant changes, and existing tests. Reproduce with the smallest representative case in a permitted environment when practical. If reproduction is unavailable, state the gap and use traces or other safe observations to distinguish causes. Keep investigating without promoting a hypothesis to a finding.
+
+## Test the explanation
+
+Keep a short hypothesis list with a predicted observation and a discriminating check for each. Trace values and control flow across the actual boundary. Change one relevant variable at a time so the result tells you something.
+
+After two unsuccessful repair cycles, reassess the evidence and approach. That is a signal to reconsider, not proof that a hypothesis is false. Continue useful investigation and identify any missing decision or access.
+
+## Repair and verify the affected path
+
+Fix the cause at the appropriate layer, preserving evidence of the original failure. Consider other callers, stale data, retries, concurrency, and permissions; leave unrelated cleanup out.
+
+Add a regression check when it can meaningfully reproduce the bug. Show failure before and success after when practical, and disclose when the before-state could not be checked. Exercise the original journey and run affected adjacent and required checks using [verification](verification.md). Review the diff; use [review](review.md) for substantial or risky fixes.
+
+*Fictional example:* Northstar's imports sometimes duplicate orders. A lost-response trace suggests a retry after a committed write. If staging cannot reproduce it, report the supported hypothesis and missing evidence rather than calling a longer timeout a root-cause fix.
+
+## Completion
+
+Return the cause and evidence, repair, original journey or reproducer result, adjacent checks, and unresolved uncertainty. A disappearing symptom without discriminating evidence establishes a mitigation, not a demonstrated root cause.
+
+In an engagement, put the incident/fix receipt in the appropriate existing record under its write rules; standalone work can return it directly. Release or rollback needs the existing operational authority and [ship](ship.md) or recovery procedure.
