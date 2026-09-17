@@ -6,7 +6,7 @@ Use [task context](task-context.md). This method returns evidence directly or wr
 
 ## Method
 
-1. Translate each claim into the observation that would support or reject it. Reuse agreed acceptance criteria and required repository checks. Select focused checks for changed behavior before broadening to release requirements.
+1. Translate each claim into the observation that would support or reject it. Cite the agreed acceptance criteria and required repository checks. Compare the checks being run with that agreement; flag any weakened threshold or removed requirement without an attributed approval from the appropriate decision-maker. Select focused checks for changed behavior before broadening to release requirements.
 2. Identify the actual repository commands, fixtures, runtime, and environment. Read command behavior before executing it, especially when it can write externally. Use authorized environments and avoid leaking secrets through logs or diagnostic commands.
 3. Run the checks and inspect results, including exit status and relevant output. A running job, test discovery, a mocked response, and a successful real request are different evidence. Record asynchronous completion before claiming success. Describe a command as executed only when its actual invocation and result are available; an inferred result is not a run.
 4. Bind evidence to the tested revision and working tree. For uncommitted changes record the base revision plus changed paths and an available diff digest or snapshot identifier. For browser/manual checks record the steps, inputs, observed result, and inspected evidence.

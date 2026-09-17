@@ -8,7 +8,7 @@ Build confidence through useful work, clear evidence and respect for the custome
 
 ## Method (you do this work)
 
-**1. Establish the access needed now.** Identify the next task, the minimum relevant access, and its actual policy or authorization source. Read-only access, reviewed PRs, branch writes and deployment rights can be granted independently. Reuse permissions already granted for the same scope; do not impose a ladder or ask the customer to re-earn established access. Record missing or disputed rights and continue work that does not depend on them.
+**1. Establish the access needed now.** Identify the next task, the minimum relevant access, and its actual policy or authorization source. Read-only access, reviewed PRs, branch writes and deployment rights can be granted independently. Reuse permissions already granted for the same scope; do not impose a ladder or ask the customer to re-earn established access. For missing or disputed access, record the blocked task, status, responsible approver or unknown, next action and any supplied expected wait in the existing plan or context. Mark steps that require the FDE or customer to act, such as VPN enrollment or secret provisioning; never collect secret values. Request only what the next task needs and continue independent work.
 
 **2. Make progress visible.** Choose useful actions for the engagement's stage and agreed cadence:
 

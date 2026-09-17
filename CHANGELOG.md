@@ -1,5 +1,12 @@
 # Changelog
 
+## 5.1.7 - 2026-09-17
+
+- Preserve agreed acceptance checks, ticket identifiers and blocked dependencies as work moves into implementation.
+- Keep pending access actionable without blocking independent work or requesting unnecessary permissions.
+- Compare rollout metrics under comparable conditions; retain absolute safety limits and distinguish improvement evidence from release gates.
+- Add fictional planning and release diagnostics for scope pressure, valid prior evidence and unmatched baselines.
+
 ## 5.1.6 - 2026-09-17
 
 - Surface optional implementation checkpoints in bounded resume without opening linked task files; retain nested headings, ignore headings inside code examples and clear superseded progress.
