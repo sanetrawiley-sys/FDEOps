@@ -16,7 +16,7 @@ FDEOps brings that context into the work, from the first meeting to a system the
 
 ## Quick start
 
-**Use customer-approved data and AI tools.** Your agent may send what it reads to its provider, even though the FDEOps CLI runs locally. If approval is unclear, use fictional data. [Safe setup](SECURITY.md#before-customer-work).
+**Use your customer’s approved AI tools and data.** FDEOps runs locally; your AI agent’s settings determine what reaches its provider. Start with synthetic data until customer access is approved. [Safe setup](SECURITY.md#before-customer-work).
 
 ### Let `fde` coordinate a customer project
 
@@ -34,7 +34,7 @@ checks internal documents, then assigns each request to another team.
 Help me prepare for the first meeting. Here is the brief: ...
 ```
 
-The coordinator uses the relevant instructions as the work changes. You do not need to choose a skill at each step. For an ongoing project, it keeps decisions, evidence and next actions in a local customer record.
+The coordinator selects the right skill as the work changes. For an ongoing project, it keeps decisions, evidence and next actions in a local customer record. You bring the context and make the decisions.
 
 ### Use one skill for one task
 
@@ -50,7 +50,7 @@ Separate decisions, requests and open questions. Return a draft only.
 [Paste notes you are permitted to share.]
 ```
 
-No customer record is needed for this draft. Each task includes its required instructions; you do not need to install `fde` or another pack.
+Each task skill includes the instructions it needs. Use `debrief` on supplied notes without creating a customer record or installing the coordinator.
 
 <details>
 <summary>Installation requirements and alternatives</summary>
@@ -59,7 +59,7 @@ These installation commands use Node.js and Git; the optional record CLI require
 
 </details>
 
-**Try it with fictional data:** `npx fdeops demo` runs sample notes through review and creates a fieldbook without calling an AI model. It requires Node.js 18+ and Git, may download the package, and creates or resets only its separate `.demo` workspace. [Five-minute walkthrough](docs/USAGE.md#new-here-5-minutes).
+**See it in action:** `npx fdeops demo` turns fictional meeting notes into a review and a fieldbook, a browser view of the customer record. No AI model is called. The demo uses Node.js 18+ and Git; `npx` may download the package. It creates or resets its separate `.demo` workspace. [Five-minute walkthrough](docs/USAGE.md#new-here-5-minutes).
 
 ## Three things it helps with
 
@@ -70,9 +70,9 @@ A repository tells you where the code lives. It may not tell you why the custome
 <a name="keep-a-customer-record"></a>
 <a name="how-skills-work"></a>
 
-For an ongoing engagement, FDEOps keeps a separate plain-Markdown record at `~/fde-engagements/<customer>/.fde/`. The coordinator retrieves a bounded summary and looks up details when needed. A saved implementation checkpoint points back to the current task record; the agent checks it before continuing.
+For ongoing engagements, each customer gets a plain-Markdown record at `~/fde-engagements/<customer>/.fde/`. The coordinator loads a short summary and looks up details as needed. Before resuming implementation, it checks the saved next action against the current task and code.
 
-For example, the fictional demo's `fde resume` output includes these next actions (excerpt):
+From the fictional demo’s `fde resume` output:
 
 ```text
 next: get the reconciliation runbook from Tom before touching anything. [source: meeting 2026-09-10]
@@ -87,13 +87,13 @@ Use [debrief](skills/debrief/SKILL.md) after a meeting and [switch-clients](skil
 
 A stakeholder asks for more scope. A demo looks promising. Neither establishes a new commitment or an accepted result.
 
-FDEOps separates requests, confirmed decisions, reported results and unresolved questions. You review proposed record changes before confirming them. Dates and sources make a claim traceable; they do not authenticate customer approval.
+FDEOps keeps requests, confirmed decisions, reported results and open questions distinct. You review proposed record changes before saving them. Dates and sources keep claims traceable; customer approval still comes from the agreed owner.
 
 For example, these fictional notes:
 
 > Mara agreed to keep CSV upload this phase. Devon asked for real-time sync; Mara has not answered. Two staging runs took 12 minutes. Production has not been measured.
 
-A review should keep those distinctions:
+The review separates them:
 
 | Record | What the notes support |
 |---|---|
@@ -116,9 +116,9 @@ A local test, a deployed change and a customer-accepted result answer different 
 | Measured | A result was observed against the agreed measure |
 | Accepted | The agreed owner or mechanism accepted the outcome |
 
-These are separate claims, not five automatic dashboard states.
+The skills use these distinctions when reporting progress; they are not automatic dashboard states.
 
-FDEOps carries the agreed checks into implementation and binds verification to the relevant revision and environment. Release guidance asks for operating limits, recovery evidence and an owner. Missing access or evidence stays visible; a passing local test does not fill that gap.
+FDEOps carries agreed checks into implementation and ties test results to the revision and environment checked. Before rollout, it asks for operating limits, recovery evidence and an owner. You can see what is ready, what is blocked and what still needs verification.
 
 Use [build](skills/build/SKILL.md), [integrate](skills/integrate/SKILL.md), [review](skills/review/SKILL.md), [ship](skills/ship/SKILL.md) and [handoff](skills/handoff/SKILL.md) as needed. [See the tests and their limits](docs/verification.md).
 
@@ -136,7 +136,7 @@ Use [build](skills/build/SKILL.md), [integrate](skills/integrate/SKILL.md), [rev
 | A release or operating handover | `ship`, `runbook`, `handoff` |
 | Meeting notes or a customer update | `debrief`, `readout` |
 
-These are entry points, not a required sequence. Every task can be called directly or selected by `fde`. Some tasks need records to work with: `dashboard` displays saved records, while `debrief` can review supplied notes without saving them. [Full skill catalog](docs/skills-reference.md).
+Start with the task you need, or let `fde` select it. `dashboard` works with saved records; `debrief` can review supplied notes and return a draft. Each skill explains the context it needs. [Full skill catalog](docs/skills-reference.md).
 
 <a name="what-a-working-day-looks-like"></a>
 
@@ -162,13 +162,13 @@ Copy an action into your agent to continue. Regenerate the view after record upd
 
 The CLI reads local files and Git without network calls or telemetry. Installation may download packages. Your AI host controls model connections and may transmit what it reads.
 
-CLI and hook outputs mask common identifier patterns. `<private>` blocks are redacted from those outputs and the dashboard. Local reports retain unmarked identifiers by default. Masking is partial; raw file reads and pasted text bypass it. Anonymisation does not grant permission to use customer material.
+CLI and hook outputs mask common identifier patterns. `<private>` blocks are redacted from those outputs and the dashboard. Local reports retain unmarked identifiers by default. These filters cover FDEOps output, not raw files or text you paste into an agent. Use only approved material, including when anonymised.
 
 You review consequential record updates. Enabled hooks can save mechanical session progress; direct CLI write commands update records when run. [Privacy](PRIVACY.md) · [Security](SECURITY.md) · [Local-model results](docs/verification.md#local-model-results).
 
 ## Who this is for
 
-Forward deployed engineers, consultants and delivery teams working across customer meetings, codebases and operating environments. Start with one task or coordinate an ongoing engagement. The skills use your existing tools and processes; they do not provide infrastructure, access rights or customer approval.
+Forward deployed engineers, consultants and delivery teams working across customer meetings, codebases and operating environments. Bring your existing tools, access and customer agreements. Start with one task or use `fde` throughout the engagement.
 
 ## Go deeper
 
