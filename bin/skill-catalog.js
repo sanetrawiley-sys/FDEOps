@@ -116,7 +116,7 @@ module.exports = [
   {
     "name": "build",
     "method": "build",
-    "description": "Implement a scoped customer-facing software change in the existing repository and verify its behavior. Use for delivery work with an understood outcome, not incident response.",
+    "description": "Implement a scoped software change for a customer and verify its behavior. Use for delivery work with an understood outcome, not incident response.",
     "group": "Build and verify",
     "result": "An implemented change with verification evidence.",
     "inputMode": "context"
@@ -132,7 +132,7 @@ module.exports = [
   {
     "name": "debug",
     "method": "debug",
-    "description": "Investigate and repair a reproducible failure in a customer integration or application. Use for diagnosis and regression prevention; follow incident authority for live mitigation.",
+    "description": "Investigate a failure, regression or incorrect result in an integration or application, even before it can be reproduced. Use for diagnosis and repair; follow incident authority for live mitigation.",
     "group": "Build and verify",
     "result": "A diagnosed failure, repair and regression evidence.",
     "inputMode": "context"

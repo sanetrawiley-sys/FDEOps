@@ -5,6 +5,7 @@
 | `skills/fde/` | Coordinator (`SKILL.md`) and the canonical instructions used by every task under `references/` |
 | `skills/<task>/` | Generated self-contained task skills; load only the relevant references |
 | `bin/skill-catalog.js`, `bin/generate-skills.js` | One task catalog and deterministic packaging with reference closure |
+| `bin/skill-ui.js`, `skills/*/agents/openai.yaml` | Optional Codex display metadata; task copies are generated, with no change to invocation or authority |
 | `.claude/commands/` | Compatibility shortcuts for `/outcome`, `/close`, `/prep`, `/trust` and `/receipts`, routed through `fde`. Task commands come directly from their skill folders. |
 | `adapters/` | Thin per-tool pointers (Codex/`AGENTS.md`, Gemini, Cursor, Copilot, local LLMs) - `node bin/install.js adapters <dir>` |
 | `templates/.fde/` | Core memory templates for `fde resume --init` (phase artifacts are created by phases on demand; `evals.md` is optional) |

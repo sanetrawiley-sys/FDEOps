@@ -1,5 +1,12 @@
 # Changelog
 
+## 5.1.9 - 2026-09-17
+
+- Add optional Codex display names, short descriptions and starting prompts to self-contained skill packages.
+- Keep automatic selection and stable installation paths unchanged.
+- Clarify debugging before reproduction and implementation of internal customer systems in task descriptions.
+- Add concise contributor guidance for clear triggers, useful supporting files and evidence-based completion.
+
 ## 5.1.8 - 2026-09-17
 
 - Explain individual skills, project coordination and customer records through a shorter, problem-led README.
