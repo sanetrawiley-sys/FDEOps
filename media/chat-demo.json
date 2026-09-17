@@ -1,23 +1,54 @@
 {
-  "description": "Terminal-style replay of an actual FDEOps agent run against fictional public example records. Responses shortened for readability. No production actions or record writes.",
+  "description": "A scripted workday performed by an agent on fictional records and a real local code fixture. Edited replay; no production deployment.",
   "scenes": [
     {
       "customer": "Garvey Payment Systems",
-      "label": "Resume the customer project",
-      "prompt": "@fde Pick up Garvey. What is stopping the rollout?",
-      "answer": "Security sign-off blocks the production canary.\nCTO phase approval is also required.\nStaging is recorded; deployment is unproven."
+      "label": "Turn the workshop into a build",
+      "prompt": "@fde Workshop done. Finance wants retries without duplicates.",
+      "answer": "Saved PAY-42: stop duplicate payment retries.\nUse the receiver’s idempotency API.\nKeep the ledger unchanged.",
+      "receipt": "Agreed scope saved | PAY-42\nChecks: retries, restart, tenant isolation, concurrency",
+      "activity": "Recording the agreed scope..."
     },
     {
       "customer": "Garvey Payment Systems",
-      "label": "Prepare the next decision",
-      "prompt": "@fde What should I take to the release review?",
-      "answer": "Bring staging evidence, security-ticket status,\nCTO approval status and the rollback plan.\nAcceptance: a full week of EU failures replayed,\nzero manual reprocessing in the audit log,\nand June Porter’s written acceptance."
+      "label": "Build, then preserve the next step",
+      "prompt": "@fde Start PAY-42. I have a customer meeting in five minutes.",
+      "answer": "Changed retry.js: validate identity and deduplicate\nby tenant + event ID. Checkpoint saved.\nNext: run the full local test suite.",
+      "receipt": "Baseline: 3 passed, 4 failed\nChange saved | Post-change verification pending",
+      "activity": "Running baseline checks and implementing PAY-42..."
     },
     {
       "customer": "Kesterman Freight Lines",
-      "label": "Switch customers with the right context",
-      "prompt": "@fde Switch to Kesterman. What needs my attention?",
-      "answer": "Karen’s write-back race review needs attention.\nDenise needs to decide scope: three additions,\nunchanged timeline.\nTemporary customer selection. No records changed."
+      "label": "Handle the other customer’s meeting",
+      "prompt": "@fde Switch to Kesterman. Brief me for Denise’s meeting.",
+      "answer": "Decision for Denise: defer Nashville role views,\nor trade scope and timeline. Reconfirm the demo.",
+      "receipt": "Kesterman context loaded | Read-only, temporary selection\nGarvey’s unfinished work preserved",
+      "activity": "Loading Kesterman’s meeting context..."
+    },
+    {
+      "customer": "Garvey Payment Systems",
+      "label": "Return to the exact next action",
+      "prompt": "@fde Back to Garvey. Continue where we stopped.",
+      "answer": "Recovered PAY-42 and confirmed the code is unchanged.\nAll 7 local tests pass. The customer receiver\nstill needs a staging check.",
+      "receipt": "Tests: 7 | Passed: 7 | Failed: 0\nEnvironment: local receiver mock",
+      "activity": "Recovering the checkpoint and running tests..."
+    },
+    {
+      "customer": "Garvey Payment Systems",
+      "label": "Separate passing tests from rollout approval",
+      "prompt": "@fde Tests pass. Can we roll this out?",
+      "answer": "Not yet. Replay retries against the durable receiver\non customer staging. Security, CTO approval\nand finance acceptance are still pending.",
+      "receipt": "Local checks passed | Customer staging not tested\nNo production action taken",
+      "activity": "Checking release evidence and approvals..."
+    },
+    {
+      "customer": "Garvey Payment Systems",
+      "label": "Leave tomorrow’s work ready to resume",
+      "prompt": "@fde Save where we are for tomorrow.",
+      "answer": "Saved the implementation, test evidence and blockers.\nNext: arrange the authorised staging replay.",
+      "receipt": "Checkpoint saved and verified\nSaved next action: arrange staging replay",
+      "activity": "Saving and verifying the customer checkpoint...",
+      "hold_ms": 5500
     }
   ]
 }
