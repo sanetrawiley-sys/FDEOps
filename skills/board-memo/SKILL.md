@@ -11,7 +11,11 @@ description: Draft a board or executive summary of an engagement using outcomes,
 
 Draft a board or executive summary of an engagement using outcomes, risks and investment decisions. Use when the sponsor needs to brief senior leadership.
 
-Read [the task context contract](references/task-context.md), then [the method](references/board-memo.md). Load further references only when the task needs them. Everything linked is included in this skill; no other skill pack is required.
+Before investigating or acting:
+1. Read [the task context contract](references/task-context.md).
+2. Read [the method](references/board-memo.md).
+
+Load further references only when the task needs them. Everything linked is included in this skill; no other skill pack is required.
 
 ## Principles
 

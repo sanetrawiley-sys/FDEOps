@@ -11,7 +11,11 @@ description: Switch between existing customer engagements and triage competing n
 
 Switch between existing customer engagements and triage competing needs. Use when context switching causes confusion; requires engagement records and preserves one client per write.
 
-Read [the task context contract](references/task-context.md), then [the method](references/switch-clients.md). Load further references only when the task needs them. Everything linked is included in this skill; no other skill pack is required.
+Before investigating or acting:
+1. Read [the task context contract](references/task-context.md).
+2. Read [the method](references/switch-clients.md).
+
+Load further references only when the task needs them. Everything linked is included in this skill; no other skill pack is required.
 
 ## Principles
 

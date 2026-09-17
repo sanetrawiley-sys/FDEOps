@@ -22,6 +22,8 @@ Trace the changed path through its consumers and failure cases:
 - **AI behavior:** outputs remain untrusted, tools enforce allowed actions, and [eval evidence](eval-pack.md) covers the changed behavior and documented authority. Preserve privacy-safe source evidence and concise rationale, never hidden reasoning.
 - **Operability:** observable failures, bounded resource use, meaningful checks, and a recovery path appropriate to the risk. Deployment readiness is assessed separately in [ship](ship.md).
 
+For changes with consequential security impact, map the affected assets, actors and permissions, and trust boundaries. Trace plausible abuse paths through the changed code, identify the controls that stop them, and check those controls or record the missing evidence. Keep this assessment with the existing review receipt and proportional to the change; use a formal threat-model framework only when the project requires or benefits from it.
+
 ## Findings and repair
 
 For each actionable finding give the path/line or precise location, concrete trigger, observed or reasoned failure, impact, and focused correction. Distinguish proven bugs from hypotheses that need a check. Prioritize release blockers over minor concerns; avoid speculative style work.

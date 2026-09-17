@@ -6,9 +6,9 @@ const os = require('node:os')
 const path = require('node:path')
 const { prepare, check } = require('../evals/delivery/field')
 function temporary(t) { const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'fde-field-')); t.after(() => fs.rmSync(dir, { recursive: true, force: true })); return dir }
-test('all standalone cases prepare both variants without exposing evaluator rubric', t => {
+test('all field cases prepare both variants without exposing evaluator rubric', t => {
   const root = temporary(t)
-  for (const id of ['F1', 'F2', 'F3']) for (const variant of ['baseline', 'fdeops']) {
+  for (const { id } of require('../evals/delivery/field-cases.json').cases) for (const variant of ['baseline', 'fdeops']) {
     const run = path.join(root, id + '-' + variant)
     const receipt = prepare(run, id, variant)
     assert.equal(receipt.execution, 'not recorded')

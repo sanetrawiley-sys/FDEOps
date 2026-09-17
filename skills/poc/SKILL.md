@@ -11,7 +11,11 @@ description: Run a bounded customer proof of concept to test a consequential unc
 
 Run a bounded customer proof of concept to test a consequential uncertainty. Use for a spike or pilot with a question and decision deadline, not a full rollout.
 
-Read [the task context contract](references/task-context.md), then [the method](references/poc.md). Load further references only when the task needs them. Everything linked is included in this skill; no other skill pack is required.
+Before investigating or acting:
+1. Read [the task context contract](references/task-context.md).
+2. Read [the method](references/poc.md).
+
+Load further references only when the task needs them. Everything linked is included in this skill; no other skill pack is required.
 
 ## Principles
 

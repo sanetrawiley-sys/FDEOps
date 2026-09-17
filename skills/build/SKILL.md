@@ -11,7 +11,11 @@ description: Implement a scoped customer-facing software change in the existing 
 
 Implement a scoped customer-facing software change in the existing repository and verify its behavior. Use for delivery work with an understood outcome, not incident response.
 
-Read [the task context contract](references/task-context.md), then [the method](references/build.md). Load further references only when the task needs them. Everything linked is included in this skill; no other skill pack is required.
+Before investigating or acting:
+1. Read [the task context contract](references/task-context.md).
+2. Read [the method](references/build.md).
+
+Load further references only when the task needs them. Everything linked is included in this skill; no other skill pack is required.
 
 ## Principles
 

@@ -189,3 +189,18 @@ result record above. Record judgment and citations separately; deterministic
 passes cannot award stakeholder judgment credit. F3 checks do not prove a real
 backend supplies the fictional linearizable lookup contract. These fixtures and
 harness tests are evaluation infrastructure, not completed model trials.
+
+## Continuity and evidence diagnostics (F4-F7)
+
+The same `field.js prepare <new-directory> <case-id> fdeops` and `field.js check <directory>` commands prepare and inventory these cases. Rubrics remain outside the executor workspace. Review actual tool calls and file changes; artifact presence or matching words cannot establish correct behavior.
+
+| Case | Skill | Judgment being exercised |
+|---|---|---|
+| F4 | build | Reject a stale passing receipt when the current check fails; report only commands actually run; preserve report-only scope |
+| F5 | ship | Separate configured alerts from delivery/acknowledgment, and local evidence from deployment and handoff |
+| F6 | review | Reproduce a concrete tenant authorization bypass and explain the boundary with evidence |
+| F7 | fde | Recover a saved checkpoint through the CLI, reconcile the newer task record and preserve pending checks |
+
+For F7, set `FDEOPS_CLI` to the absolute path of the candidate `bin/fde.js`, `FDEOPS_ENGAGEMENT` to the prepared `executor/.fde`, and `FDEOPS_ENGAGEMENTS_ROOT` to an isolated directory such as `executor/.record-config`. Before starting the reader, use that environment to run `node "$FDEOPS_CLI" setup --view current --context compact --privacy agent --save`, then `node "$FDEOPS_CLI" preserve`. These are evaluator setup operations on fictional data. Record their changes separately from the reader's file inventory. Start a fresh agent with no prior conversation, the prepared prompt and those variables. The reader may write only `answer.md`; verify no record mutation or pending task execution. Keep the same approved host/tool restrictions when comparing candidates.
+
+Use isolated host preferences and inventory other installed skills to avoid accidentally testing a different global installation. Save exact source/skill hashes, host version, model identifier when available, raw traces and reviewer decisions locally. Preserve failed attempts; a successful rerun does not erase an earlier unsupported claim. Single runs establish diagnostic observations only, not reliability rates or superiority.

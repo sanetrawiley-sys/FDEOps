@@ -103,7 +103,7 @@ After a meeting, paste permitted notes into the same agent conversation. It prop
 
 A request is not automatically an agreement. A passing test is not a production deployment. A measured improvement is not customer acceptance. FDEOps keeps those distinctions in the record.
 
-At the next session, the coordinator retrieves a short summary rather than loading the full history. The default summary is capped at 16 KiB; older evidence is retrieved when needed. This cap applies to FDEOps output, not everything your agent loads.
+At the next session, the coordinator retrieves a short summary rather than loading the full history. The default summary is capped at 16 KiB; older evidence is retrieved when needed. For interrupted implementation, it also surfaces a saved checkpoint when one exists, then checks the current task record before continuing. This cap applies to FDEOps output, not everything your agent loads.
 
 If your agent cannot start the record, run this in your terminal from the workspace where you work on that customer:
 

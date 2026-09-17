@@ -98,4 +98,39 @@ function recallSections(documents, query, maxHits = 12, outputText = text => tex
     sections: selected.map(h => `${h.file}:${h.line}-${h.end} (lines in redacted view)\n${h.text}`),
   }
 }
-module.exports = { DEFAULT_BYTES, clipUtf8, clipMaskedUtf8, budgetArgs, boundedSections, recallSections }
+// Extract one optional unindented H2 section without losing nested headings. Last occurrence
+// wins, including an empty one that clears older progress. Input is sanitized.
+function implementationCheckpoint(text) {
+  const lines = String(text || '').split('\n')
+  const retained = []
+  let checkpoint = ''
+  let active = false
+  let body = []
+  let fence = null
+  for (const line of lines) {
+    let heading = null
+    if (fence) {
+      if (new RegExp(`^[\\t ]*${fence.char}{${fence.length},}[\\t ]*$`).test(line)) fence = null
+    } else {
+      // Track list fences too so their closing line cannot open a new block.
+      const opening = line.match(/^ {0,3}(?:(?:[-+*]|\d{1,9}[.)])[\t ]+)?(`{3,}|~{3,})(.*)$/)
+      if (opening && (opening[1][0] !== '`' || !opening[2].includes('`'))) {
+        fence = { char: opening[1][0], length: opening[1].length }
+      } else {
+        // Record sections start at column zero; list/container examples are content.
+        heading = line.match(/^(#{1,2})(?:[\t ]+|$)(.*)$/)
+      }
+    }
+    if (heading) {
+      if (active) checkpoint = body.join('\n').trim()
+      active = heading[1] === '##' && /^Implementation checkpoint$/i.test(heading[2].replace(/[\t ]+#+[\t ]*$/, '').trim())
+      body = []
+      if (active) continue
+    }
+    if (active) body.push(line)
+    else retained.push(line)
+  }
+  if (active) checkpoint = body.join('\n').trim()
+  return { checkpoint, remaining: retained.join('\n') }
+}
+module.exports = { DEFAULT_BYTES, clipUtf8, clipMaskedUtf8, budgetArgs, boundedSections, recallSections, implementationCheckpoint }

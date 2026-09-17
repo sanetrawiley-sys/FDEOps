@@ -11,7 +11,11 @@ description: Configure or diagnose access to a requested source using available 
 
 Configure or diagnose access to a requested source using available host tools. Use for source MCP setup; source configuration needs no engagement record and credentials stay with the host.
 
-Read [the task context contract](references/task-context.md), then [the method](references/connect.md). Load further references only when the task needs them. Everything linked is included in this skill; no other skill pack is required.
+Before investigating or acting:
+1. Read [the task context contract](references/task-context.md).
+2. Read [the method](references/connect.md).
+
+Load further references only when the task needs them. Everything linked is included in this skill; no other skill pack is required.
 
 ## Principles
 

@@ -11,7 +11,11 @@ description: Exercise the delivered customer journey using real runtime or brows
 
 Exercise the delivered customer journey using real runtime or browser evidence. Use for functional acceptance testing after implementation, including failure paths.
 
-Read [the task context contract](references/task-context.md), then [the method](references/qa.md). Load further references only when the task needs them. Everything linked is included in this skill; no other skill pack is required.
+Before investigating or acting:
+1. Read [the task context contract](references/task-context.md).
+2. Read [the method](references/qa.md).
+
+Load further references only when the task needs them. Everything linked is included in this skill; no other skill pack is required.
 
 ## Principles
 

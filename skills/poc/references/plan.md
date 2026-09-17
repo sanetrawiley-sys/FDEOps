@@ -30,6 +30,8 @@ An FDE plan is not a sprint backlog. The technical sequence is the easy part. Th
 
 **Reuse check.** Before sequencing a build, compare the requested solution with the smallest existing capability or operating change that could satisfy the same acceptance test. Cite the relevant repo/config/workaround evidence. Record why reuse is sufficient or insufficient in `decisions.md`; include “no new code” when supported. A request for AI does not establish that a model is needed. If a host engineering pack already has an approved implementation plan, reference it from `decisions.md`; do not generate a parallel user-story backlog.
 
+Use existing ticket identifiers when they help connect the plan to implementation and evidence. Reuse the customer's domain terms; define a term in the existing plan or glossary only when ambiguity could change behavior or acceptance. Do not introduce another ticket scheme or glossary by default.
+
 **1. Work backwards from success.** What's the last thing that must be true before done? And before that? That's the dependency chain - not a wish list.
 
 **2. Front-load the fragile.** Check `terrain.md` hotspots. Risky modules go early - fail fast, not in week three.
@@ -138,7 +140,7 @@ Never quietly update tasks. Name the reset: update `reality.md` and `success.md`
 
 Acme, after discover: the reconciliation job is unowned, Marco's spreadsheet is the real fallback.
 
-**Now** is three tasks, not eight. Task 1 is *failures reach a named human* - delivers a page to a rota, accepts "kill the job mid-run → the on-call is paged within 15 min", touches the job wrapper and the alert config, rollback is re-disable the route, **Kill if:** a real failure page is acked by nobody on the rota (the *finance would act* assumption, DISPROVED if Marco is the only name that answers), verify by killing it in staging. Value promised: `risk-mitigation - a silent failure becomes a 15-minute one`.
+**Now** is three tasks, not eight. Task 1 is *failures reach a named human* - delivers a page to a rota, accepts "a permitted staging failure → the agreed operator receives the test alert within 15 min", touches the job wrapper and the alert config, rollback is re-disable the route, **Kill if:** the approved drill alert is acked by nobody on the rota (the *finance would act* assumption, DISPROVED if Marco is the only name that answers), verify in an approved staging drill with the operator and route agreed beforehand. Record configured, delivered and acknowledged separately; the drill does not authorize production paging. Value promised: `risk-mitigation - a silent failure becomes a 15-minute one`.
 
 The kill list in `decisions.md` is where the plan earns its keep: the rewrite of the reconciliation service that Tom keeps proposing goes there - *deferred, the failure mode is ownership not architecture (Priya accepted, Jun 12)* - along with the finance dashboard finance asked for directly. Both stay visible so the same argument is not re-litigated in week 4 without a receipt.
 

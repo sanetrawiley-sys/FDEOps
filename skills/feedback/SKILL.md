@@ -11,7 +11,11 @@ description: Assess a field lesson for reuse or product feedback without exposin
 
 Assess a field lesson for reuse or product feedback without exposing customer context. Use for recurring deployment lessons; distinguish a hypothesis from a validated pattern.
 
-Read [the task context contract](references/task-context.md), then [the method](references/encode-pattern.md). Load further references only when the task needs them. Everything linked is included in this skill; no other skill pack is required.
+Before investigating or acting:
+1. Read [the task context contract](references/task-context.md).
+2. Read [the method](references/encode-pattern.md).
+
+Load further references only when the task needs them. Everything linked is included in this skill; no other skill pack is required.
 
 ## Principles
 

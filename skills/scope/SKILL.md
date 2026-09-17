@@ -11,7 +11,11 @@ description: Assess a new customer request against agreed scope, trade-offs and 
 
 Assess a new customer request against agreed scope, trade-offs and ownership. Use when an engagement expands or a custom feature needs a commitment decision.
 
-Read [the task context contract](references/task-context.md), then [the method](references/hold-scope.md). Load further references only when the task needs them. Everything linked is included in this skill; no other skill pack is required.
+Before investigating or acting:
+1. Read [the task context contract](references/task-context.md).
+2. Read [the method](references/hold-scope.md).
+
+Load further references only when the task needs them. Everything linked is included in this skill; no other skill pack is required.
 
 ## Principles
 
