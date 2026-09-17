@@ -1,12 +1,54 @@
 {
-  "description": "A concise terminal replay of one client engagement. Local code and checks; no production deployment.",
+  "description": "Illustrative terminal conversation. Real local routing tests; no live email integration or deployment.",
   "scenes": [
-    {"customer":"Support team","label":"01/07  Discover","prompt":"@fde The queue is growing. Where do we start?","answer":"Trace one request from arrival to assignment.\nMeasure delay, rework and wrong routes.","receipt":"Next: map the current work","activity":"discover | map the work","hold_ms":3500},
-    {"customer":"Support team","label":"02/07  Scope","prompt":"@fde Make the first slice small.","answer":"Route three request types to existing queues.\nSend everything else to a person.","receipt":"Scope saved | human fallback","activity":"scope | set the boundary","hold_ms":3500},
-    {"customer":"Support team","label":"03/07  Build","prompt":"@fde Build it and save my place.","answer":"triage.js changed.\nCheckpoint saved. Tests are next.","receipt":"Baseline: 2/6 passed","activity":"build | make the change","hold_ms":3500},
-    {"customer":"Another customer","label":"04/07  Switch","prompt":"@fde I have another customer call. Save this.","answer":"Saved. This work stays intact.\nBrief ready for the next customer.","receipt":"Switch complete | no records changed","activity":"switch | keep both projects clear","hold_ms":3500},
-    {"customer":"Support team","label":"05/07  Resume","prompt":"@fde Back to the support team. Run the checks.","answer":"Checkpoint recovered.\n6/6 local cases pass. Staging is next.","receipt":"Passed: 6 | Failed: 0 | Local","activity":"verify | resume the next action","hold_ms":3500},
-    {"customer":"Support team","label":"06/07  Rollout","prompt":"@fde Can we roll it out?","answer":"Not yet. Test representative requests in staging.\nName the operator, rollback and approver.","receipt":"Evidence ready | Nothing deployed","activity":"ship | check evidence and ownership","hold_ms":3500},
-    {"customer":"Support team","label":"07/07  Handover","prompt":"@fde Prepare handover.","answer":"Runbook ready: operate, review, roll back.\nNext: authorised staging replay.","receipt":"Handover ready | Acceptance pending","activity":"close | leave a runnable system","hold_ms":3500}
+    {
+      "customer": "Email project",
+      "label": "Understand",
+      "prompt": "@fde Our customer sorts support emails by hand. Help me improve it.",
+      "answer": "Where does the team lose time: reading emails, choosing a team, or waiting for replies?",
+      "hold_ms": 4500
+    },
+    {
+      "customer": "Email project",
+      "label": "Agree the work",
+      "prompt": "Choosing a team. Start with billing, login problems and outages.",
+      "answer": "We can route those three types to the right team. Anything unclear stays with a person. Shall I build that?",
+      "hold_ms": 4500
+    },
+    {
+      "customer": "Email project",
+      "label": "Build",
+      "prompt": "Yes. Build the routing part first.",
+      "answer": "Added triage.js: billing to Billing, login problems to IT, outages to Support. Next: test the routes.",
+      "hold_ms": 4500
+    },
+    {
+      "customer": "Other client",
+      "label": "Switch customer",
+      "prompt": "@fde Save my place. I have a website meeting with my other client.",
+      "answer": "Saved: email routing is built; tests are next. Switching to your other client's notes for the meeting.",
+      "hold_ms": 4500
+    },
+    {
+      "customer": "Email project",
+      "label": "Resume and test",
+      "prompt": "@fde Back to the email project. Continue where we stopped.",
+      "answer": "Resumed the tests. All 6 local checks pass, including sending unknown types to a person.",
+      "hold_ms": 4500
+    },
+    {
+      "customer": "Email project",
+      "label": "Prepare rollout",
+      "prompt": "Can the customer use it now?",
+      "answer": "The routing code passes. We still need to connect their inbox and test with approved sample emails before going live.",
+      "hold_ms": 4500
+    },
+    {
+      "customer": "Email project",
+      "label": "Prepare handover",
+      "prompt": "Prepare the handover and save what is left.",
+      "answer": "Draft saved: team routes, manual review and how to stop routing. Next session: connect and test the inbox.",
+      "hold_ms": 4500
+    }
   ]
 }

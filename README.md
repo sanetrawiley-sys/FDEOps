@@ -14,7 +14,7 @@ FDEOps brings that context into the work, from the first meeting to a system the
 
 ![FDEOps terminal: discover, build, verify and hand over a client workflow](media/chat-demo.gif)
 
-*Fictional customers; one workflow. Real local routing code, tests, saved checkpoints and a handover draft. Edited terminal replay; no production deployment. [Read the conversation](media/chat-demo.md) · [View a still](media/chat-demo.png).*
+*Fictional customers. Illustrative conversation with real local routing tests. No live inbox or production deployment. [Read the conversation](media/chat-demo.md) · [View a still](media/chat-demo.png).*
 
 ## Quick start
 
