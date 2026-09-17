@@ -11,7 +11,11 @@ description: Stress-test a plan, brief or delivery claim against evidence and pl
 
 Stress-test a plan, brief or delivery claim against evidence and plausible failure modes. Use when the user asks for a red team or preparation for a consequential decision.
 
-Read [the task context contract](references/task-context.md), then [the method](references/red-team.md). Load further references only when the task needs them. Everything linked is included in this skill; no other skill pack is required.
+Before investigating or acting:
+1. Read [the task context contract](references/task-context.md).
+2. Read [the method](references/red-team.md).
+
+Load further references only when the task needs them. Everything linked is included in this skill; no other skill pack is required.
 
 ## Principles
 

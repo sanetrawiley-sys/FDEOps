@@ -11,7 +11,11 @@ description: Map stakeholders, decision rights, influence and blockers from supp
 
 Map stakeholders, decision rights, influence and blockers from supplied evidence. Use when ownership is unclear or the stakeholder landscape changes.
 
-Read [the task context contract](references/task-context.md), then [the method](references/who-decides.md). Load further references only when the task needs them. Everything linked is included in this skill; no other skill pack is required.
+Before investigating or acting:
+1. Read [the task context contract](references/task-context.md).
+2. Read [the method](references/who-decides.md).
+
+Load further references only when the task needs them. Everything linked is included in this skill; no other skill pack is required.
 
 ## Principles
 

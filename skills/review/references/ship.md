@@ -30,7 +30,7 @@ Before deployment, establish these facts from existing evidence or a necessary c
 | Acceptance | Replayable check and agreed decision-maker/mechanism; record actual acceptance separately from readiness |
 | Data and policy | Permitted data, applicable security/residency/change-window requirements, necessary approvals already recorded or obtained |
 | Recovery | Applicable tested rollback, restore, compensation, or roll-forward within agreed recovery-time/data-loss limits; explicit authority for irreversible effects |
-| Operations | Named release/recovery owner, runbook appropriate to risk, health and business signals, stop thresholds, observation coverage |
+| Operations | Named release/recovery owner, runbook appropriate to risk, health and business signals, stop thresholds, observation coverage; applicable [failure-signal delivery evidence](verification.md#operator-response) for paths whose readiness depends on operator response |
 | AI, when applicable | Current applicable SHIP eval evidence, critical failures zero, enforced action boundary and required human review or documented bounded automation |
 
 Check migration compatibility, old/new version coexistence, delayed jobs, caches, and already-emitted side effects where relevant. A code revert does not undo data loss or external writes. Reuse drill evidence only when the mechanism and relevant conditions are unchanged, explaining applicability. If recovery is only a plan, exercise it in a permitted representative environment before release.
@@ -57,7 +57,7 @@ Before wider exposure, verify expected load/cost, data pipeline behavior, owners
 
 Keep these claims separate: implemented, verified, deployed, measured outcome, and accepted. Include the candidate, target, command/pipeline, applicable checks and unrun checks, review source, evaluation where needed, authority source, recovery evidence, observation, and next owner/action. Attribute acceptance to its actual source and scope. A staging measurement is not production value, and a commit is not deployment.
 
-In engagement mode, write confirmed implementation/decisions and delivery receipts under the existing record rules. Standalone work returns the same receipt or uses the repository's permitted release record. Committing, pushing, opening a PR, publishing, and notifying others are actions governed by the user's workflow, not mandatory steps imposed by this method.
+In engagement mode, write confirmed implementation/decisions and delivery receipts under the existing record rules. Standalone work returns the same receipt or uses the repository's permitted release record. If substantial work remains, retain a [recoverable checkpoint](verification.md#recoverable-checkpoint) there. Committing, pushing, opening a PR, publishing, and notifying others are actions governed by the user's workflow, not mandatory steps imposed by this method.
 
 ## Worked example
 

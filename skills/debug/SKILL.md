@@ -11,7 +11,11 @@ description: Investigate and repair a reproducible failure in a customer integra
 
 Investigate and repair a reproducible failure in a customer integration or application. Use for diagnosis and regression prevention; follow incident authority for live mitigation.
 
-Read [the task context contract](references/task-context.md), then [the method](references/debug.md). Load further references only when the task needs them. Everything linked is included in this skill; no other skill pack is required.
+Before investigating or acting:
+1. Read [the task context contract](references/task-context.md).
+2. Read [the method](references/debug.md).
+
+Load further references only when the task needs them. Everything linked is included in this skill; no other skill pack is required.
 
 ## Principles
 

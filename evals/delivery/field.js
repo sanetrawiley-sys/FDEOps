@@ -76,7 +76,7 @@ module.exports = { prepare, check }
 if (require.main === module) {
   try {
     const [command, dest, id, variant] = process.argv.slice(2)
-    if (!dest || !['prepare', 'check'].includes(command)) throw new Error('usage: field.js prepare <new-run-dir> <F1|F2|F3> <baseline|fdeops> OR field.js check <run-dir> [--execute-contract]')
+    if (!dest || !['prepare', 'check'].includes(command)) throw new Error('usage: field.js prepare <new-run-dir> <case-id> <baseline|fdeops> OR field.js check <run-dir> [--execute-contract]')
     if (command === 'check' && (variant || (id && id !== '--execute-contract'))) throw new Error('unknown check option')
     const result = command === 'prepare' ? prepare(dest, id, variant) : check(dest, { executeContract: id === '--execute-contract' })
     console.log(JSON.stringify(result, null, 2))

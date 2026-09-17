@@ -11,7 +11,11 @@ description: Fetch requested source material and prepare sourced engagement upda
 
 Fetch requested source material and prepare sourced engagement updates. Use to catch up from external notes or messages; applying updates requires a bound record and confirmation.
 
-Read [the task context contract](references/task-context.md), then [the method](references/ingest.md). Load further references only when the task needs them. Everything linked is included in this skill; no other skill pack is required.
+Before investigating or acting:
+1. Read [the task context contract](references/task-context.md).
+2. Read [the method](references/ingest.md).
+
+Load further references only when the task needs them. Everything linked is included in this skill; no other skill pack is required.
 
 ## Principles
 

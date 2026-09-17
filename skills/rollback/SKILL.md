@@ -11,7 +11,11 @@ description: Prepare and rehearse a recovery path for an intended release. Use w
 
 Prepare and rehearse a recovery path for an intended release. Use when rollback is assumed, untested or previously failed; follow the environment authority for any drill.
 
-Read [the task context contract](references/task-context.md), then [the method](references/rollback.md). Load further references only when the task needs them. Everything linked is included in this skill; no other skill pack is required.
+Before investigating or acting:
+1. Read [the task context contract](references/task-context.md).
+2. Read [the method](references/rollback.md).
+
+Load further references only when the task needs them. Everything linked is included in this skill; no other skill pack is required.
 
 ## Principles
 

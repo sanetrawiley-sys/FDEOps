@@ -54,6 +54,8 @@ For AI components, include relevant model and configuration versions, evaluation
 
 Select checks based on the system's actual consequences. For example, the receiving operator may demonstrate normal operation, diagnose a known failure, or recover a failed release in a permitted test environment.
 
+When readiness depends on a failure signal, follow the [operator-response evidence check](verification.md#operator-response). A draft can mark it untested; configuration alone does not prove delivery or response.
+
 Record each critical capability separately as verified, failed or untested, with evidence. A successful walkthrough cannot compensate for an untested recovery path. Avoid an averaged confidence score that hides a critical gap.
 
 If a procedure fails, correct the guide or system within scope and repeat the affected check. If verification is unavailable, deliver the draft with its limits and propose the next check; do not claim the handoff complete or indefinitely extend the engagement yourself.

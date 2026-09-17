@@ -6,7 +6,7 @@ Use the permitted context and authority in [task context](task-context.md). This
 
 ## Method
 
-1. Identify the repository, its instructions, working tree, relevant callers, and test commands. Inspect examples before creating abstractions. Preserve unrelated edits and state which dependencies or interfaces the change touches. Before changing an untested legacy path, capture the undocumented behavior callers depend on with targeted characterization checks; distinguish behavior to preserve from the intended change.
+1. Identify the repository, its instructions, working tree, relevant callers, and test commands. Inspect examples before creating abstractions. Follow the repository's branch policy and choose any needed checkout isolation according to that policy and overlapping work. Preserve unrelated edits and state which dependencies or interfaces the change touches. Before changing an untested legacy path, capture the undocumented behavior callers depend on with targeted characterization checks; distinguish behavior to preserve from the intended change.
 2. State the observable outcome, constraints, and acceptance checks. Reuse agreed criteria for routine fixes. If a consequential product choice is unresolved, surface that choice while continuing independent investigation; do not invent acceptance.
 3. Choose the smallest coherent path that demonstrates the outcome through the real entry point. Include the necessary storage, error handling, and interface behavior in that slice. Name the failure that stops expansion and the recovery path for stateful changes.
 4. Implement using the repository's tools and conventions. Search for existing services, fixtures, and validation before adding alternatives. Keep cleanup limited to what makes the changed path understandable; do not expand scope to repair unrelated code. When changing dependencies, inspect the package source, requested version, lockfile changes and repository install-script policy before executing package code. Use the approved package manager and bootstrap controls; do not blanket-enable scripts or apply unrelated dependency upgrades.
@@ -14,6 +14,8 @@ Use the permitted context and authority in [task context](task-context.md). This
 6. Inspect the final diff against the agreed outcome. If public behavior, interfaces, configuration or operating steps changed, update affected existing documentation and examples; exercise relevant commands or clearly mark checks that could not run. For substantial or risky work, seek [review](review.md) using an actual separate reviewer when available; identify a self-check honestly. Reverify affected behavior after fixes.
 
 ## Deliverable and acceptance
+
+For substantial work, maintain the [recoverable checkpoint](verification.md#recoverable-checkpoint) in the existing task record as slices complete or work pauses.
 
 Return the implemented behavior, relevant paths, evidence, remaining limitations, and any decision needed. Done means the agreed checks have applicable evidence and the change is reviewable; passing tests does not imply deployment or customer acceptance. Committing, opening a PR, merging, and publishing happen only when the requested workflow authorizes those actions.
 

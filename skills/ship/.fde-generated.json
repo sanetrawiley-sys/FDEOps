@@ -2,15 +2,15 @@
   "generator": "bin/generate-skills.js",
   "version": 1,
   "files": {
-    "SKILL.md": "3ed6862aac292e971af7c0a7f5a68968b89b056be60f3cdc883f51534984c1fc",
-    "references/build.md": "3f8b5e52eb874ee4e99db5e0b70d1ccca1134f667a39279d6b4e55629832ae75",
+    "SKILL.md": "545fa51462ad174899b9a2007daf61f1a56c65d0d514292a1951569d1657912a",
+    "references/build.md": "7634abd02b70011b7443a65ea3aaf3cb536ed5b051312aed188f46523deea7f9",
     "references/debug.md": "c3bb344d38cc3552cb4e230c601a9be3fe173af2b2efb89aab6b7b04339f24f4",
     "references/eval-pack.md": "0590b85d3cae0903c6b1274540c92eaa2a4373047e8a0548d6942516ef0bb9e1",
     "references/integrate.md": "d0de35a783902ca8b4762e3a42a14f467766d56a928c3a5cf11adac2a6ba90ba",
     "references/qa.md": "d8f58e6d36436469a58aeb1107037f3e27fa81ff5b82d0e4df3c23eeadaf683c",
-    "references/review.md": "63a007f78288089cc84cccc72647e8ce6721b7efa0f4f8d6774c0f0af594749d",
-    "references/ship.md": "8cdcb2d4d6eb57e0adf3f1996bc02ae66920852ca304d2afd778fa483b7e969a",
-    "references/task-context.md": "3c0b0083e63a3e667d80fa7641b10eabf88ee729e877f658580cbc07031834ec",
-    "references/verification.md": "62bb4fb40d9b71c6481c57a4564bcc98c4014a8be5d4aedfe1eb3f7f90d5e1f7"
+    "references/review.md": "55733ca868c00fb22110bc7b3ec7bb6c6451366c795073b19a2bccd30d2764c8",
+    "references/ship.md": "c7fd7774d6ba1f7e9d05b4bfd89bae124bb9bab0079d49c15a025b8b3383f157",
+    "references/task-context.md": "9066514a50043f3ad888d133d4e8b89b7132551e098cf2c80203c458a80126e5",
+    "references/verification.md": "489607db0337d65a31d335313b3c2df19eea56bfef4257e4389de11b6d7bcaaf"
   }
 }

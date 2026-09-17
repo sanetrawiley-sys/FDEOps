@@ -11,7 +11,11 @@ description: Develop a business case for an initiative using costs, benefits, ri
 
 Develop a business case for an initiative using costs, benefits, risks and evidence. Use when a sponsor needs budget or timeline justification.
 
-Read [the task context contract](references/task-context.md), then [the method](references/business-case.md). Load further references only when the task needs them. Everything linked is included in this skill; no other skill pack is required.
+Before investigating or acting:
+1. Read [the task context contract](references/task-context.md).
+2. Read [the method](references/business-case.md).
+
+Load further references only when the task needs them. Everything linked is included in this skill; no other skill pack is required.
 
 ## Principles
 

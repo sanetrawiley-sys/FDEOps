@@ -98,4 +98,21 @@ function recallSections(documents, query, maxHits = 12, outputText = text => tex
     sections: selected.map(h => `${h.file}:${h.line}-${h.end} (lines in redacted view)\n${h.text}`),
   }
 }
-module.exports = { DEFAULT_BYTES, clipUtf8, clipMaskedUtf8, budgetArgs, boundedSections, recallSections }
+// Extract one optional H2 section without losing nested headings. Last occurrence
+// wins, including an empty one that clears older progress. Input is sanitized.
+function implementationCheckpoint(text) {
+  const lines = String(text || '').split('\n')
+  const retained = []
+  let checkpoint = ''
+  for (let i = 0; i < lines.length; i++) {
+    if (!/^##\s+Implementation checkpoint\s*$/i.test(lines[i].trim())) {
+      retained.push(lines[i])
+      continue
+    }
+    const body = []
+    while (i + 1 < lines.length && !/^#{1,2}\s/.test(lines[i + 1].trim())) body.push(lines[++i])
+    checkpoint = body.join('\n').trim()
+  }
+  return { checkpoint, remaining: retained.join('\n') }
+}
+module.exports = { DEFAULT_BYTES, clipUtf8, clipMaskedUtf8, budgetArgs, boundedSections, recallSections, implementationCheckpoint }

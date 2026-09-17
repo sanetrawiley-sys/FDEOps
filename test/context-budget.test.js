@@ -142,3 +142,58 @@ test('populated compact entry keeps identity, policy and goals outside long tria
     assert.match(out.stdout, /truncated/)
   }
 })
+
+test('fresh entry recovers a saved implementation checkpoint after pre-compact without following its source', t => {
+  const f = fixture(t)
+  const source = path.join(f.dir, 'tasks.md')
+  fs.writeFileSync(source, 'UNREAD_TASK_FILE_SENTINEL\n')
+  const checkpoint = `Next action: add the timeout regression for TASK-42.\nTask record: ${source}#TASK-42\nRevision: abc123; dirty: adapter.js\nCompleted: happy-path check passed locally.\nPending: timeout check; staging; deployment.\nBlocker: staging access unavailable.\nUpdated: 2026-09-17\n<private>CHECKPOINT_PRIVATE_SENTINEL</private>`
+  f.write('trust-profile.md', '# Policy\nUse synthetic data only.\n')
+  f.write('context.md', '# Context\n**Phase:** ship\n## Next action\nContinue TASK-42\n## Session end\n' + 'Old history\n'.repeat(250) + '\n## Implementation checkpoint\n' + checkpoint + '\n## Session end\n' + 'Later history\n'.repeat(250))
+  const hook = spawnSync('bash', [path.join(__dirname, '../hooks/pre-compact')], { cwd: f.dir,
+    env: { ...process.env, HOME: f.dir, USERPROFILE: f.dir, FDEOPS_ENGAGEMENT: f.eng, FDEOS_ENGAGEMENT: '', FDEOPS_ENGAGEMENTS_ROOT: f.dir,
+      CLAUDE_PLUGIN_ROOT: path.resolve(__dirname, '..'), PATH: `${path.dirname(process.execPath)}:/usr/bin:/bin` }, encoding: 'utf8', timeout: 15000 })
+  assert.equal(hook.status, 0, hook.stderr)
+  assert.ok(fs.readFileSync(path.join(f.eng, 'context.md'), 'utf8').includes(checkpoint))
+  for (const budget of ['4096', '16384']) {
+    // Each CLI invocation starts a fresh process with no prior conversation.
+    const out = f.run(['resume', '--max-bytes', budget])
+    assert.equal(out.status, 0, out.stderr)
+    assert.ok(Buffer.byteLength(out.stdout) <= Number(budget))
+    assert.match(out.stdout, /SAVED IMPLEMENTATION CHECKPOINT/)
+    assert.match(out.stdout, /Next action: add the timeout regression for TASK-42/)
+    assert.match(out.stdout, /Pending: timeout check; staging; deployment/)
+    assert.match(out.stdout, /not fresh verification/)
+    assert.doesNotMatch(out.stdout, /CHECKPOINT_PRIVATE_SENTINEL|UNREAD_TASK_FILE_SENTINEL/)
+  }
+  assert.equal(fs.readFileSync(source, 'utf8'), 'UNREAD_TASK_FILE_SENTINEL\n')
+})
+
+test('checkpoint selection is client scoped and does not invent missing progress', t => {
+  const f = fixture(t)
+  fs.mkdirSync(path.join(f.dir, 'other', '.fde'), { recursive: true })
+  fs.writeFileSync(path.join(f.dir, 'other', '.fde', 'context.md'), '## Implementation checkpoint\nOTHER_CLIENT_CHECKPOINT\n')
+  f.write('context.md', '# Context\n## Next action\nInvestigate current customer\n')
+  const missing = f.run(['resume'])
+  assert.equal(missing.status, 0, missing.stderr)
+  assert.doesNotMatch(missing.stdout, /SAVED IMPLEMENTATION CHECKPOINT|OTHER_CLIENT_CHECKPOINT/)
+  f.write('context.md', '# Context\n## Implementation checkpoint\nOld pending action\n## Implementation checkpoint\nClosed: TASK-42 complete locally; deployment not authorized.\n')
+  const updated = f.run(['resume'])
+  assert.match(updated.stdout, /Closed: TASK-42 complete locally; deployment not authorized/)
+  assert.doesNotMatch(updated.stdout, /Old pending action|OTHER_CLIENT_CHECKPOINT/)
+})
+
+
+test('nested checkpoint headings survive history trimming and an empty replacement clears old progress', t => {
+  const f = fixture(t)
+  const history = '## Session end\n' + 'history\n'.repeat(200)
+  f.write('context.md', history + '## Implementation checkpoint\n### Next action\nRun TASK-82 timeout check\n### Task record\ntasks/plan.md#TASK-82\n### Checks\nLocal only; production not run\n' + history)
+  const out = f.run(['resume'])
+  assert.equal(out.status, 0, out.stderr)
+  assert.match(out.stdout, /SAVED IMPLEMENTATION CHECKPOINT/)
+  assert.match(out.stdout, /Run TASK-82 timeout check/)
+  assert.match(out.stdout, /tasks\/plan.md#TASK-82/)
+  f.write('context.md', '## Implementation checkpoint\nOld task\n## Implementation checkpoint\n\n## Session end\nFinished\n')
+  const cleared = f.run(['resume'])
+  assert.doesNotMatch(cleared.stdout, /SAVED IMPLEMENTATION CHECKPOINT|Old task/)
+})

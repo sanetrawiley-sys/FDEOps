@@ -11,7 +11,11 @@ description: Clarify a new customer brief, desired outcome, constraints and evid
 
 Clarify a new customer brief, desired outcome, constraints and evidence gaps. Use for kickoff or a first meeting; do not repeat discovery already supplied.
 
-Read [the task context contract](references/task-context.md), then [the method](references/land.md). Load further references only when the task needs them. Everything linked is included in this skill; no other skill pack is required.
+Before investigating or acting:
+1. Read [the task context contract](references/task-context.md).
+2. Read [the method](references/land.md).
+
+Load further references only when the task needs them. Everything linked is included in this skill; no other skill pack is required.
 
 ## Principles
 

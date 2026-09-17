@@ -2,8 +2,8 @@
   "generator": "bin/generate-skills.js",
   "version": 1,
   "files": {
-    "SKILL.md": "c4152a7ee98027f810c3ab11403dea75dee5aae26da24f84de34630c1fd529b6",
+    "SKILL.md": "a739454cd58e6beba57877e8b1c0d888d1068617b63959014c7b142fd12d68c3",
     "references/earn-trust.md": "89df253665d996e28bc7acf785346c50f3062115ffd70fb7ad3300c99eb36ead",
-    "references/task-context.md": "3c0b0083e63a3e667d80fa7641b10eabf88ee729e877f658580cbc07031834ec"
+    "references/task-context.md": "9066514a50043f3ad888d133d4e8b89b7132551e098cf2c80203c458a80126e5"
   }
 }

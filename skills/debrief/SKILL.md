@@ -11,7 +11,11 @@ description: Turn meeting notes or a transcript into sourced decisions, changes 
 
 Turn meeting notes or a transcript into sourced decisions, changes and next actions. Use after a customer conversation; review consequential record updates before saving.
 
-Read [the task context contract](references/task-context.md), then [the method](references/debrief.md). Load further references only when the task needs them. Everything linked is included in this skill; no other skill pack is required.
+Before investigating or acting:
+1. Read [the task context contract](references/task-context.md).
+2. Read [the method](references/debrief.md).
+
+Load further references only when the task needs them. Everything linked is included in this skill; no other skill pack is required.
 
 ## Principles
 

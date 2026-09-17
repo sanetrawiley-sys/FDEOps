@@ -11,7 +11,11 @@ description: Review a proposed customer code change against its intended outcome
 
 Review a proposed customer code change against its intended outcome and operational risks. Use for a diff or PR review; report evidence and actionable findings.
 
-Read [the task context contract](references/task-context.md), then [the method](references/review.md). Load further references only when the task needs them. Everything linked is included in this skill; no other skill pack is required.
+Before investigating or acting:
+1. Read [the task context contract](references/task-context.md).
+2. Read [the method](references/review.md).
+
+Load further references only when the task needs them. Everything linked is included in this skill; no other skill pack is required.
 
 ## Principles
 

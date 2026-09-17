@@ -2,11 +2,11 @@
   "generator": "bin/generate-skills.js",
   "version": 1,
   "files": {
-    "SKILL.md": "4df02c561ea8d2baf66ac373d67527c8826b72d80bf7b1fedc248c45a572adf9",
+    "SKILL.md": "631bdeb6ec45d8844f59519f9d3cca89c24e65c51721eb0a67f32fc5cfc979a2",
     "references/connect.md": "37ad703ece7fe3596be4d5d3697cc4ba5e6062615f9576733c20d055fc3e4927",
     "references/debrief.md": "2d2db9a177f5341a9a2721a9d6ea32a6d07e7e982e621429ca408a38bc5617c1",
     "references/ingest.md": "24880bc3d95cda09ec6c2f5edebd17fba99deb912f93e15c8b715a287283da84",
     "references/source-setup.md": "a28ae7c6dbb2573a66f31b30b7abca34bc52573fe34d48fff4c7490e4dc85d3e",
-    "references/task-context.md": "3c0b0083e63a3e667d80fa7641b10eabf88ee729e877f658580cbc07031834ec"
+    "references/task-context.md": "9066514a50043f3ad888d133d4e8b89b7132551e098cf2c80203c458a80126e5"
   }
 }

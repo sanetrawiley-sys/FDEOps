@@ -1464,6 +1464,8 @@ function cmdResume(args) {
   }
   const intro = [resumeTriage(eng), firstActionLine(eng), ...hygieneTriageLines(eng), ...recordDigest(eng)].join('\n')
   const ctx = readClean(eng, 'context.md')
+  const savedWork = context.implementationCheckpoint(ctx)
+  const checkpoint = stripTemplateNoise(savedWork.checkpoint).trim()
   if (args.includes('--full')) {
     console.log(`${intro}\n\nENGAGEMENT: ${eng}\n\n${ctx || '(no context.md yet)'}`)
     return
@@ -1476,11 +1478,12 @@ function cmdResume(args) {
   process.stdout.write(maskedSections([
     policy ? `CLIENT POLICY - trust-profile.md\n${policy}` : '',
     preferences.work ? `WORKING PREFERENCES: ${preferences.work}. Starting help: ${preferences.start}.\n${setup.nextStep(preferences)}\nThis is a starting preference, not a client fact; current instructions and engagement state take precedence.` : '',
+    checkpoint ? `SAVED IMPLEMENTATION CHECKPOINT - context.md\nRecheck the referenced task record and working tree before acting; this is not fresh verification.\n${checkpoint}` : '',
     intro,
     success ? `CURRENT GOALS & ACCEPTANCE - success.md\n${success}` : '',
     risks ? `OPEN RISKS - risks.md\n${extractRisks(eng).map(r => r.text).join('\n') || '(none recorded)'}` : '',
     `VALUE LEDGER - delivery.md\n${parseValueLedger(eng).rows.map(r => formatValueLedgerLine(r) + '; source: ' + (r.evidence || '(missing)')).join('\n') || '(none recorded)'}`,
-    `WORKING CONTEXT - context.md\n${ctx ? resumeView(ctx) : '(no context.md yet)'}`,
+    `WORKING CONTEXT - context.md\n${ctx ? resumeView(savedWork.remaining) : '(no context.md yet)'}`,
   ], maxBytes, `ENGAGEMENT: ${eng}`))
 }
 

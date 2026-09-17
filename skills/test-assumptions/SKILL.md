@@ -11,7 +11,11 @@ description: Challenge a proposed solution by identifying and testing consequent
 
 Challenge a proposed solution by identifying and testing consequential assumptions. Use when the brief feels too certain or discovery reveals contradictions.
 
-Read [the task context contract](references/task-context.md), then [the method](references/test-assumptions.md). Load further references only when the task needs them. Everything linked is included in this skill; no other skill pack is required.
+Before investigating or acting:
+1. Read [the task context contract](references/task-context.md).
+2. Read [the method](references/test-assumptions.md).
+
+Load further references only when the task needs them. Everything linked is included in this skill; no other skill pack is required.
 
 ## Principles
 

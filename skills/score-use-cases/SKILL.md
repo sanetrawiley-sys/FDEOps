@@ -11,7 +11,11 @@ description: Compare competing customer use cases by value, feasibility and evid
 
 Compare competing customer use cases by value, feasibility and evidence. Use when several problems compete for delivery capacity.
 
-Read [the task context contract](references/task-context.md), then [the method](references/score-use-cases.md). Load further references only when the task needs them. Everything linked is included in this skill; no other skill pack is required.
+Before investigating or acting:
+1. Read [the task context contract](references/task-context.md).
+2. Read [the method](references/score-use-cases.md).
+
+Load further references only when the task needs them. Everything linked is included in this skill; no other skill pack is required.
 
 ## Principles
 

@@ -7,79 +7,46 @@ description: Keeps the engagement record for client work. Use when they name a c
 
 ## Purpose
 
-Coordinate customer work from the first brief through implementation, verification and handoff. Select the relevant task instructions; never make the user choose a phase. Work directly on a standalone request, or maintain a confirmed `.fde/` record for an ongoing engagement. Reuse the customer’s tools, decisions and operating process.
+Coordinate customer work from the first brief through implementation, verification and handoff. Choose the relevant task; never make the user pick a phase. All task skills also work individually. Reuse the customer's tools, decisions and operating process.
 
 ## Task entry
 
-Read `references/task-context.md` first. An explicitly selected task skill (such as `discover` or `build`) runs directly; do not wrap it in another coordinator or repeat entry. For a one-off task with supplied context, use the relevant method without initializing `.fde/`. For ongoing client work use the bounded entry and memory contract below. Missing record files alone are not a reason to restart discovery.
+Read `references/task-context.md` for authority, data boundaries, CLI availability and evidence rules. An explicitly selected task runs directly without another coordinator entry.
 
-## When to use
-
-- They named a client, pasted notes, or asked what was agreed
-- The brief feels wrong, a sponsor went quiet, or Friday needs the ledger
-- For ongoing client work without a binding, use the supplied name or ask once, then **you** run `fde resume --init`. A standalone request does not enter this setup path.
-
-## When NOT to use
-
-Ordinary code edits in an unbound repository do not automatically trigger the coordinator. If the user explicitly asks `@fde` for a standalone task, follow Task entry without creating records. On a bound client, use the relevant task for POC, characterization, implementation, evaluation, release or handoff.
-
-## Use these first
-
-| What's happening | Sentence to say | You run | Then read |
-|---------|-----------------|---------|-----------|
-| **The brief is wrong** | "If this works, who in their company would have to agree that it worked?" | Current entry packet (see Entry below), then discover | `references/discover.md` |
-| **They went quiet** | "What changed, and what do we know about why?" | Review supplied evidence; confirm any signal update before `fde log contact "…" --signal amber\|red\|green` | `references/rescue.md` |
-| **When did we agree?** | Don't argue from memory. Search the record. | `fde receipts <term>` | - |
-| **What's the outcome?** | A number nobody signed is claimed, not delivered. | `fde status` | `references/readout.md` |
-
-For a bound engagement update after a meeting: the agent runs `fde debrief --smart`, interprets and reconciles the sanitized proposal, then validates it with `fde debrief --review`. Show the human one concise review of consequential changes and uncertainties → **Save this update?** → `--apply` only after confirmation → verify the saved facts. For standalone meeting analysis, use the review-only path in `references/debrief.md` without CLI setup or saving. Walk-in: `fde prep`. Friday: `fde status`.
-
-## Ground loop
-
-On someone else's site the work is not "write code, remember later." Every change on a bound client stays on `@fde`:
-
-1. **Name it** in `decisions.md` (plan), or timebox the riskiest assumption and record what the POC proves.
-2. **Characterise their code** before you change it. Brownfield: their tests, their runner. Greenfield: the empty tree, first path they can click.
-3. **Verify, then prove delivery.** Use their checks and the agreed representative environment; at the delivery checkpoint the signer in `success.md` can replay and reject the acceptance check. See `ship` for evidence requirements.
-4. **If a model judges:** `evals.md` Verdict SHIP before that change is done (eval-pack).
-5. **Log delivery.** Outcome is promised → measured → accepted, not a green CI. Then go live with a tested recovery path (`ship`).
-
-Scale the loop to the change. A routine, reversible fix within confirmed scope reuses the existing outcome, signer, acceptance criteria, and engineering plan; batch its verification into a concise delivery receipt. It does not need a new sponsor decision or staging ceremony per edit. New outcomes, changed acceptance or authority, and production release decisions still need the relevant confirmation and evidence. This does not bypass confirmation for judgment written into the engagement record.
-
-**Status is explicit.** Record what is implemented, verified, deployed, and accepted separately. A routine fix may be implementation-complete before release or customer acceptance; state what remains and attach the current verification receipt. The included build, integrate, debug and QA methods cover implementation; `@fde` connects their evidence to the engagement.
-
-## Engineering within the pack
-
-Use `references/build.md` for implementation, `references/integrate.md` for customer-system boundaries, `references/debug.md` for failures and `references/qa.md` for the delivered journey. Each uses `references/verification.md` for actual evidence. These methods use the customer's coding conventions and installed tools; another skill pack is not required. Use an existing engineering plan rather than creating a competing backlog. Green tests establish tested behavior, not customer acceptance or production authority.
+- **Standalone request:** use supplied permitted context and the selected method. Do not initialize `.fde/`, preferences or records just to draft, analyze or change code. Ordinary code edits in an unbound repository do not automatically trigger `@fde`.
+- **Ongoing engagement:** use the supplied customer binding. If none exists, use the supplied name or ask once, then run `fde resume --init <client-name>`. Two possible customers require a binding decision before reads or writes.
+- **Ready to build:** use the existing outcome, constraints and verification path. Discover or plan only for material gaps. Audit inherited claims on a takeover.
 
 ## Human surface vs agent plumbing
 
-**FDE (human):** `@fde` + English, or `/brief` `/discover` `/plan` `/ship` `/outcome` `/close` `/debrief` `/prep` `/trust` `/receipts` `/readout`. They may also invoke an individual task skill directly.
-
-**You (agent):** run the CLI when the task needs real records. **Never tell the FDE to type** `fde …`. For ongoing work without a binding, use the supplied client name or ask once, then run `fde resume --init`. Never ask them to run the CLI. Standalone drafts and code tasks skip initialization, preferences and record reads.
-
-Fallbacks: `node ~/.claude/fdeops/fde.js …`, then `npx --yes fdeops …`. Skill-only install is not "unavailable."
-
-## First-use preferences
-
-For ongoing record-backed work, run `fde setup --show` before client reads. Skip this section for standalone work. If unavailable, use the permitted CLI fallback before offering setup; if none is available, continue from supplied excerpts without claiming record access. If `configured` is false, bind the named client, then run `fde setup` and present its three questions together: how they work, what would help first, and what to mask. Save their explicit answers; never infer permission to share data. For custom masking, the optional fourth question asks them to enter terms **locally** with `fde setup`, or give a local terms-file path. Do not ask them to paste sensitive names into chat or open that file with model-facing file tools. Pass the path directly to `--terms-file`; inspect only the returned count, never `.preferences.json` or the alias dictionary. If they skip, keep existing defaults.
-
-Use `work` to tailor the help: single = focus on the bound client; multiple = portfolio overview with one bound client per write; team = clarify responsibility and handoff, without implying shared storage. `start` chooses the initial route when no more specific request or record determines it: new → land, daily → triage, takeover → audit. Current client evidence and the user's request always take precedence; never restart an existing engagement because of this preference. `masking` selects standard patterns or those plus custom terms. Older technical settings remain valid; offer personal setup when requested rather than resetting them. Do not ask again per client. `fde setup --settings` keeps display, context size and report masking editable. Choices do not configure models or approve client data use.
+The human asks in ordinary language or invokes a task skill. You run the required CLI commands. Never tell the FDE to type commands; never ask them to run the CLI. Follow the permitted fallback in task context, including `npx --yes fdeops` when downloads are authorized.
 
 ## Entry (every session)
 
-This section applies to ongoing record-backed work only. For a standalone request, use Task entry and the selected method; do not run setup, resume or init merely because `@fde` was invoked.
+For record-backed work only:
 
-1. After the first-use setup check above, use one current `fde resume` packet (16 KiB by default, 4 KiB with compact setup; a byte ceiling, not a model token count). At each new user turn or task, run `fde resume` unless a fresh session-hook packet was supplied for that entry. Within this entry, reuse that hook packet or a packet from a CLI call made during the current turn/task only if its `ENGAGEMENT:` identity is visible, matches the current client binding, and freshness is certain. Never reuse a packet carried over from an earlier user turn or task: external edits may have changed the record. If the packet is absent, its identity or freshness is uncertain, the binding or engagement state changed since it was loaded (including your own writes or setup/masking changes), or the user asks for a refresh or “where are we,” run `fde resume` before using the context. Do not repeat an immediate entry call solely because the skill, an adapter, or a slash command was loaded. Read client constraints first, then signer, goals, risks, delivery ledger and current context; never substitute a recursive read of `.fde/` or raw transcripts. If truncated or a decision needs evidence, run `fde recall <specific topic>`; narrow the query rather than loading the whole history. `--max-bytes 4096` reduces the allowance for smaller models. `--full` only when the complete log is explicitly needed.
-2. **NO ENGAGEMENT, ongoing work:** use the supplied client name, or ask "What should we call this client?" then **you** init. Pasted notes for that ongoing record → debrief after bind. Notes requested only for review stay standalone.
-3. Playback 2-3 lines. `hygiene:` → offer `fde doctor`; **never auto-rewrite**.
-4. Route. Read **one** `references/*.md`. Confirm, then write.
+1. Before client reads, run `fde setup --show` and verify `fde privacy` support. If setup is unconfigured or the user requests preferences, follow `references/record-setup.md`. Setup does not authorize sharing customer data.
+2. Use a fresh `fde resume` packet for this turn/task. Reuse a current session-hook packet only when its visible `ENGAGEMENT:` matches the binding and its freshness is certain. Refresh after binding, masking or record changes, or when the user asks where things stand. Do not reuse an earlier turn's packet or repeat the same entry solely because another method loaded.
+3. Read policy, signer, goals, risks and current work. Retrieve omitted or disputed evidence with `fde recall <topic>`; never replace this with raw or recursive record reads. Resume defaults to 16 KiB (4 KiB in compact setup); `--max-bytes 4096` reduces it, and `--full` is for explicitly needed complete context.
+4. For interrupted implementation, inspect the saved checkpoint and follow `references/verification.md#recoverable-checkpoint` before acting. A checkpoint is a dated claim, not a fresh test or permission to execute.
+5. Give a brief playback and load the relevant method below. `hygiene:` means offer `fde doctor`; never auto-rewrite.
 
-Writes need a bind (`FDEOPS_ENGAGEMENT` or registry). Never install fdeops on infrastructure they do not control.
+The CLI uses local files and Git, without network calls. Install it on the FDE's own machine, never customer infrastructure. The AI host's permissions and provider policy remain separate.
+
+## Engineering and delivery
+
+Use `build` for implementation, `integrate` for system boundaries, `debug` for failures and `qa` for the delivered journey. Their shared verification method binds claims to actual evidence; another skill pack is not required.
+
+For a bound engagement, connect the existing plan or bounded experiment to characterization of the customer's code, relevant checks, a replayable delivery checkpoint and a confirmed receipt. Reuse their tests and runner. Where a model acts or judges, follow `references/eval-pack.md` and `references/ai.md` before release. Use `ship` for release authority, recovery and operating evidence.
+
+Scale this to the work: routine fixes reuse agreed scope, signer and acceptance criteria. They do not require a new sponsor decision per edit. Keep implemented, verified, deployed, measured and accepted separate. A local pass is not a customer outcome.
+
+## Record commands
 
 | They say | You run |
 |----------|---------|
 | where are we | `fde resume` |
+| outcome / Friday status | `fde status` |
 | day-1 look at the repo | `fde scan` |
 | debrief / pasted notes for a bound record | `fde debrief --smart` → agent reconciliation → one plain-English review → Save this update? → `--apply`. `--smart` is a gate, not a brain. `references/debrief.md` |
 | prep me for … | `fde prep "<label>"` |
@@ -96,39 +63,22 @@ Writes need a bind (`FDEOPS_ENGAGEMENT` or registry). Never install fdeops on in
 
 ## The memory contract
 
-1. **On entry:** follow **Entry (every session)** above for the current packet and refresh rules. Retrieve additional evidence through targeted `fde recall` when needed.
-2. **Deliverable plus memory.** Deliver the requested code, evidence or decision artifact. On a bound engagement, record the confirmed result in the file named by the method. A standalone artifact does not require a `.fde/` folder.
-3. **Evidence.** Without a supplied source, a decision or measurement remains CLAIM. Use `[source: meeting YYYY-MM-DD]`, a PR/URL, transcript ID, or artifact path. The automatic log date is not attribution. ON RECORD means a source was supplied, not that it was authenticated or the customer approved. Never invent a source, signer, or acceptance.
-4. **No invented facts.** People, quotes, meetings, numbers: they said it or the repo shows it. Else `unknown - ask: <question>`.
-5. **Bound-engagement session digest** (end of session and before a PR) - relevant conclusions, not the chat. Confirm, then write. Standalone tasks return their requested result without a record digest. Never a transcript dump.
+- Deliver the requested artifact; save consequential engagement judgments only under the confirmation rules in task context. No supplied source means a decision or measurement remains CLAIM. ON RECORD means a source was supplied, not authenticated or customer-approved. Never invent people, meetings, numbers or acceptance.
+- For bound meeting updates: `fde debrief --smart` prepares a proposal; reconcile it, run `fde debrief --review`, show one concise review, then apply only after confirmation and verify saved facts. Standalone meeting analysis uses the review-only path in `references/debrief.md`.
+- Keep one customer per folder. Never drop `## Signal history` or `## Retired` when editing. Preserve existing decisions and scope when updating progress.
+- Keep a **session digest** at a meaningful pause or before a PR: relevant conclusions, not a transcript dump. Confirm consequential judgments before writing. The session-stop hook captures filesystem facts; it does not replace your digest or infer completed work.
 
-   | Digest beat | Lands in |
-   |-------------|----------|
-   | **TL;DR** | `context.md` |
-   | **Key decisions & why** | `decisions.md` - skip if none |
-   | **Pivot / aha** | `context.md` or `decisions.md` |
-   | **Scope + verification** | `delivery.md` if code/PR; else skip |
-   | **Gotchas** | `context.md` |
-   | **Next action** | existing `## Next action` - **replace**; never append a second heading |
-
-   Judgment ships in the fieldbook. Raw transcripts stay on the machine. The `session-stop` hook is a thin backstop; **you** write the digest.
-
-6. **One customer, one folder.**
-7. Never drop `## Signal history` or `## Retired` when rewriting those files.
-
-**Don't invent.** Don't tell them to run the CLI. Don't fill `success.md` / `terrain.md` with guesses. Don't ship on "probably fine" - intent vs diff, then pre-blast. Don't grill mid-flow. Don't sync transcripts into git.
-
-## Data boundary
-
-CLI is local (`git` + files, no network). You see their code only when they point you at it. AI policy unknown → ask before loading code. `<private>` is redacted from CLI/dashboard/hooks - do not open raw private blocks with file tools.
+| Digest beat | Destination |
+|-------------|-------------|
+| TL;DR, gotchas, pivot | `context.md` |
+| Key decisions & why | `decisions.md`, when there are decisions |
+| Scope and verification | `delivery.md`, when applicable |
+| Next action | Replace the existing `## Next action`; never append a second heading |
+| Interrupted implementation | Optional `## Implementation checkpoint` in existing `context.md`, summarized from the existing task record under `references/verification.md` |
 
 ## Voice
 
-Direct. Their words. No "Certainly." Playback 2-4 lines, then act. One question only when a missing fact changes the next move.
-
-New embed: sprint / standard / programme changes depth, not which skills exist. Before first code: safe place to break things, plus AI-code policy. Before go-live: who needs to know, what's the rollback. Before a sponsor artifact: as-is or gut-check first.
-
-Muddy signal: name it ("discover or rescue - leaning X"). Never a phase-picker interview. Default: brief if new, audit if takeover.
+Be direct, use the customer's terms, and act after a short playback. Ask one sharp question only when missing information changes the next action. State uncertainty rather than guessing. Choose brief for a new engagement or audit for a takeover; never run a phase-picker interview. Engagement size changes depth, not the available skills.
 
 ## Routing - 6 stages
 
@@ -218,17 +168,8 @@ Ready to build: check that the supplied facts establish the outcome, constraints
 
 ## Principles
 
-- Never ask the FDE to pick a phase. That's your job.
-- Same six stages at any scale. Overlays carry the industry. Greenfield and brownfield change the first move inside ship, not the map.
-- Ground loop on a bound client: name → characterise → verify in the agreed environment → authorize release → log. The included engineering methods do the build. `@fde` keeps delivery status explicit. When they disagree, their repo and the signer win.
-- Customer delivery needs a replayable acceptance check in the agreed environment; reuse existing criteria for routine fixes. Missing evidence means unproven, not an observed test failure. Never equate implementation-complete with deployed or customer-accepted.
-- Read the current entry packet before speaking; follow **Entry (every session)** above. One sharp question - never a barrage.
-- Never invent people, meetings, or numbers - `unknown - ask:` beats a polished lie.
-- Deliver the task artifact; persist confirmed engagement judgments only when bound. Never manufacture a record to satisfy a checklist.
-- Evidence on every claim. The FDE will be challenged on these files.
-- Overlays activate on signal, not on request.
-- Load `.fde/` files on demand, never the whole folder.
-
-## Identifier masking
-
-Before reading stored engagement content, run `fde privacy` to verify runtime support. If unavailable, stop record access and use the permitted CLI fallback; a new skill alone does not upgrade an older executable. A standalone task using supplied permitted context does not need the CLI. If no executable is available, continue useful work from supplied excerpts and report the record-access limitation. Use CLI context and previews for model input. They mask common email, phone, SSN-shaped, and credential patterns by default; aliases remain consistent within the local engagements root. Preserve complete alias tokens when drafting updates; the CLI resolves them locally. Never read the private `.privacy/` dictionary, sealed sidecars, raw sensitive notes, or local dashboard/vault files to recover an identity. Custom masking additionally hides the literal names or terms the user supplied locally, ignoring letter case and matching whole terms. It does not infer variants or discover names. Names, company names, addresses, and unrecognized formats are otherwise not automatically detected: keep sensitive prose in `<private>` blocks. Direct file tools, pasted chat, and upstream source MCPs bypass this boundary.
+- Follow the selected method and relevant overlays; do not load every reference.
+- Reuse approved plans and applicable evidence instead of inventing parallel process.
+- A missing record or check is an explicit gap, not a reason to fabricate facts or restart discovery.
+- Confirm consequential record changes; use customer policy and actual decision authority for external actions.
+- Report what was achieved, its evidence and remaining limits. Never equate implementation with deployment or acceptance.

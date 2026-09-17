@@ -11,7 +11,11 @@ description: Review the portfolio across existing engagement records. Use for st
 
 Review the portfolio across existing engagement records. Use for status across customers; requires accessible permitted records and does not create missing client histories.
 
-Read [the task context contract](references/task-context.md), then [the method](references/dashboard.md). Load further references only when the task needs them. Everything linked is included in this skill; no other skill pack is required.
+Before investigating or acting:
+1. Read [the task context contract](references/task-context.md).
+2. Read [the method](references/dashboard.md).
+
+Load further references only when the task needs them. Everything linked is included in this skill; no other skill pack is required.
 
 ## Principles
 

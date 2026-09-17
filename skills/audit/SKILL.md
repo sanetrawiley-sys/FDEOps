@@ -11,7 +11,11 @@ description: Audit an inherited engagement or implementation against its evidenc
 
 Audit an inherited engagement or implementation against its evidence. Use when taking over work or joining mid-project; distinguish verified facts from inherited claims.
 
-Read [the task context contract](references/task-context.md), then [the method](references/audit.md). Load further references only when the task needs them. Everything linked is included in this skill; no other skill pack is required.
+Before investigating or acting:
+1. Read [the task context contract](references/task-context.md).
+2. Read [the method](references/audit.md).
+
+Load further references only when the task needs them. Everything linked is included in this skill; no other skill pack is required.
 
 ## Principles
 

@@ -11,7 +11,11 @@ description: Compare feasible approaches to a customer problem and recommend a p
 
 Compare feasible approaches to a customer problem and recommend a path with costs, constraints and evidence. Use for an architecture or delivery decision, not implementation.
 
-Read [the task context contract](references/task-context.md), then [the method](references/three-options.md). Load further references only when the task needs them. Everything linked is included in this skill; no other skill pack is required.
+Before investigating or acting:
+1. Read [the task context contract](references/task-context.md).
+2. Read [the method](references/three-options.md).
+
+Load further references only when the task needs them. Everything linked is included in this skill; no other skill pack is required.
 
 ## Principles
 

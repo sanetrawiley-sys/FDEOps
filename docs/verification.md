@@ -46,6 +46,10 @@ Three additional fictional field simulations on 5.1.3 covered a tenant-scoped ca
 
 These are single runs per case, not a randomized baseline comparison. The host was Codex; an exact model identifier and token measurements were not recorded. Fixture requirements were supplied, no customer systems were used, and no long-term or cross-model reliability is established. The [field-task protocol](../evals/delivery/README.md#repeatable-standalone-field-trials-f1-f3) prepares fresh baseline and FDEOps variants; its checker preserves evidence and never assigns customer-judgment scores automatically.
 
+On the 5.1.6 candidate, fresh Codex CLI 0.154.0 sessions exercised four fictional cases: rejecting stale passing evidence against a failing current check, refusing unsupported alert/deployment readiness, reproducing a tenant authorization bypass, and reconciling an older saved checkpoint with a newer task record without executing pending work. Final runs used isolated host preferences. Trace and file review found only the requested answer files written; no application or engagement records changed. The exact model identifier was not captured.
+
+The first stale-evidence run correctly rejected completion but claimed a Git command had run when it had not. The verification instructions now explicitly require an actual invocation and result; a fresh rerun supported its execution claims. The alert case reached the correct decision but read some supplied evidence before finishing the prescribed method-entry sequence. An initial continuity run also loaded a global skill and was repeated with isolated host preferences. These deviations remain part of the evidence; successful reruns do not establish enforcement or a reliability rate. F4-F7 fixtures and reviewer criteria are available in the delivery evaluation guide.
+
 Keep the distinction between instructions available, agent task completed and customer benefit demonstrated. The repeated D1-D5 comparison remains unrun. Reproducible fixtures and review criteria are in [delivery evaluations](../evals/delivery/README.md); raw session traces remain local.
 
 ## Host and connection coverage

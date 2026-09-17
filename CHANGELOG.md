@@ -1,5 +1,13 @@
 # Changelog
 
+## 5.1.6 - 2026-09-17
+
+- Surface optional implementation checkpoints in bounded resume without opening linked task files; retain nested headings and clear superseded progress.
+- Keep substantial work resumable in existing task records, with applicable evidence and an explicit next action.
+- Make consequential trust-boundary reviews and operator-response evidence explicit in existing methods.
+- Consolidate coordinator guidance and make standalone task entry explicit.
+- Add reproducible diagnostics for stale evidence, unproven alert delivery, tenant isolation and interrupted work.
+
 ## 5.1.5 - 2026-09-17
 
 - Seal truncated and control-character private markers before preparing context or reports.

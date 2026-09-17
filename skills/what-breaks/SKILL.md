@@ -11,7 +11,11 @@ description: Assess the impact of a proposed change on dependencies and shared i
 
 Assess the impact of a proposed change on dependencies and shared infrastructure. Use before touching unfamiliar or consequential systems.
 
-Read [the task context contract](references/task-context.md), then [the method](references/what-breaks.md). Load further references only when the task needs them. Everything linked is included in this skill; no other skill pack is required.
+Before investigating or acting:
+1. Read [the task context contract](references/task-context.md).
+2. Read [the method](references/what-breaks.md).
+
+Load further references only when the task needs them. Everything linked is included in this skill; no other skill pack is required.
 
 ## Principles
 
