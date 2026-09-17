@@ -8,7 +8,7 @@ Start from [task context](task-context.md). Standalone work uses supplied permit
 
 Identify the exact outcome, acceptance check, scope, affected users/systems, target environment, recovery mechanism, and who or what is authorized to accept and release it. Reuse confirmed authority and checks for routine work. Do not invent missing signers, permissions, measurements, or acceptance.
 
-For an initialized engagement, run `fde doctor --ready` before a new delivery plan or material scope change. Missing binary success or a named customer-side signer blocks that planning progression until resolved. A passing doctor validates record structure, not connectivity, release readiness, or customer acceptance. Standalone work evaluates the supplied contract directly.
+For an initialized engagement, run `fde doctor --ready` before a new delivery plan or material scope change. Missing acceptance criteria or a named customer-side signer blocks the affected implementation or release commitment, not a provisional plan or independent preparation. A passing doctor validates record structure, not connectivity, release readiness, or customer acceptance. Standalone work evaluates the supplied contract directly.
 
 A customer delivery checkpoint must let the agreed decision-maker replay and reject the acceptance check through an interface they operate. Prefer their staging; otherwise use an agreed representative environment and disclose its owner and limitations. Local green proves only the local run. Routine fixes may share an agreed checkpoint; no fixed number of changes forces a ceremony.
 
@@ -43,7 +43,7 @@ For a coordinated engagement, also connect the release to the agreed value bucke
 
 Execute only when the requested workflow authorizes deployment to this target and the applicable gates are met. Otherwise leave a concrete release candidate, exact deployment/recovery instructions, evidence, and the remaining authorization for review. A permission to implement or test is not permission to publish.
 
-Use the customer's established pipeline and rollout mechanism. Select canary, staged exposure, blue/green, or direct rollout according to actual risk and platform capabilities; do not impose a universal cohort sequence. Define advance/abort thresholds and observation window before starting. If another operator must execute, record their handoff and report deployment pending until there is evidence it happened.
+Use the customer's established pipeline and rollout mechanism. Select canary, staged exposure, blue/green, or direct rollout according to actual risk and platform capabilities; do not impose a universal cohort sequence. Define advance/abort thresholds and observation window before starting. Capture an applicable pre-rollout operating baseline with its source, environment, load/cohort and window when assessing change. Compare like conditions; keep absolute safety limits even when the baseline is poor. If no comparable baseline exists, name the gap and measurement plan: improvement is unproven, while release depends on the agreed acceptance and safety evidence, not an invented universal baseline gate. If another operator must execute, record their handoff and report deployment pending until there is evidence it happened.
 
 During rollout inspect health, errors, key user behavior, and side-effect integrity. Halt expansion on breached thresholds or critical harm and apply authorized containment/recovery. Do not continue merely because the deploy command exited successfully.
 

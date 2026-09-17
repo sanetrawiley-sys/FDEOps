@@ -30,7 +30,7 @@ An FDE plan is not a sprint backlog. The technical sequence is the easy part. Th
 
 **Reuse check.** Before sequencing a build, compare the requested solution with the smallest existing capability or operating change that could satisfy the same acceptance test. Cite the relevant repo/config/workaround evidence. Record why reuse is sufficient or insufficient in `decisions.md`; include “no new code” when supported. A request for AI does not establish that a model is needed. If a host engineering pack already has an approved implementation plan, reference it from `decisions.md`; do not generate a parallel user-story backlog.
 
-Use existing ticket identifiers when they help connect the plan to implementation and evidence. Reuse the customer's domain terms; define a term in the existing plan or glossary only when ambiguity could change behavior or acceptance. Do not introduce another ticket scheme or glossary by default.
+Preserve supplied ticket identifiers and blocking dependencies; do not renumber them. For a dependency, name what it blocks, its status, and the responsible owner or unresolved question. Keep independent work moving. Reuse the customer's domain terms; define a term in the existing plan or glossary only when ambiguity could change behavior or acceptance. Do not introduce another ticket scheme or glossary by default.
 
 **1. Work backwards from success.** What's the last thing that must be true before done? And before that? That's the dependency chain - not a wish list.
 
@@ -46,6 +46,8 @@ Use existing ticket identifiers when they help connect the plan to implementatio
 
 **7. End with a kill list.** Every plan names what you will **not** do this phase. If everything is "later," you have no plan - you have a wish list. Keep **Now** small enough to review and act on; split by independently verifiable outcomes.
 
+Carry the agreed acceptance checks and their source into implementation and verification, preferably by linking the existing record. Added checks may strengthen coverage; changing a threshold or removing a requirement remains a proposal until the appropriate decision-maker approves the change with a dated source. Record what changed and why; a passing weaker test does not satisfy the original agreement.
+
 **Acceptance criteria gate:** no task moves to build without written happy-path AND unhappy-path criteria. Can't write them = the task isn't understood; the open question goes to the customer **before** the task starts. Vague criteria surface later as scope creep and rework.
 
 ## Artifact
@@ -57,7 +59,8 @@ A plan is **not done** until all four blocks exist:
 ```markdown
 ## Plan - <date>
 ### Now
-Task N: <outcome, not activity>
+Task <existing ID, or local label when none supplied>: <outcome, not activity>
+Blocked by: <existing task/access/decision + status and owner, or none>
 Delivers: <what someone can see/test>
 Accepts: <happy path> / <unhappy path>
 Touches: <files/systems - blast radius declared upfront>
