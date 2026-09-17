@@ -1,0 +1,23 @@
+{
+  "description": "Terminal-style replay of an actual FDEOps agent run against fictional public example records. Responses shortened for readability. No production actions or record writes.",
+  "scenes": [
+    {
+      "customer": "Garvey Payment Systems",
+      "label": "Resume the customer project",
+      "prompt": "@fde Pick up Garvey. What is stopping the rollout?",
+      "answer": "Security sign-off blocks the production canary.\nCTO phase approval is also required.\nStaging is recorded; deployment is unproven."
+    },
+    {
+      "customer": "Garvey Payment Systems",
+      "label": "Prepare the next decision",
+      "prompt": "@fde What should I take to the release review?",
+      "answer": "Bring staging evidence, security-ticket status,\nCTO approval status and the rollback plan.\nAcceptance: a full week of EU failures replayed,\nzero manual reprocessing in the audit log,\nand June Porter’s written acceptance."
+    },
+    {
+      "customer": "Kesterman Freight Lines",
+      "label": "Switch customers with the right context",
+      "prompt": "@fde Switch to Kesterman. What needs my attention?",
+      "answer": "Karen’s write-back race review needs attention.\nDenise needs to decide scope: three additions,\nunchanged timeline.\nTemporary customer selection. No records changed."
+    }
+  ]
+}
