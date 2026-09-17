@@ -1,5 +1,11 @@
 # Changelog
 
+## 5.1.8 - 2026-09-17
+
+- Explain individual skills, project coordination and customer records through a shorter, problem-led README.
+- Restructure build, debug, integrate and QA instructions around clear actions and completion evidence, with fictional examples.
+- Preserve existing authority, privacy, investigation and uncertain-write requirements in both coordinated and standalone use.
+
 ## 5.1.7 - 2026-09-17
 
 - Preserve agreed acceptance checks, ticket identifiers and blocked dependencies as work moves into implementation.

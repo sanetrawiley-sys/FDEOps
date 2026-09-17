@@ -1,22 +1,33 @@
 # build - Implement a verifiable increment
 
-**Enter when:** an agreed behavior needs implementation in an existing or new repository. For a broken behavior, start with [debug](debug.md); for a system boundary, use [integrate](integrate.md).
+Build the smallest complete change that demonstrates the agreed customer outcome through the real entry point.
 
-Use the permitted context and authority in [task context](task-context.md). This method works without `.fde/`; an existing engagement record can supply the same contract. Do not initialize memory just to write code.
+**Use when:** agreed behavior needs implementation in a new or existing repository. Use [debug](debug.md) for broken behavior and [integrate](integrate.md) for a system boundary.
 
-## Method
+Follow [task context](task-context.md). Supplied permitted context or an existing engagement record can provide the contract; do not initialize `.fde/` merely to write code.
 
-1. Identify the repository, its instructions, working tree, relevant callers, and test commands. Inspect examples before creating abstractions. Follow the repository's branch policy and choose any needed checkout isolation according to that policy and overlapping work. Preserve unrelated edits and state which dependencies or interfaces the change touches. Before changing an untested legacy path, capture the undocumented behavior callers depend on with targeted characterization checks; distinguish behavior to preserve from the intended change.
-2. State the observable outcome, constraints, and acceptance checks. Reuse agreed criteria for routine fixes. If a consequential product choice is unresolved, surface that choice while continuing independent investigation; do not invent acceptance.
-3. Choose the smallest coherent path that demonstrates the outcome through the real entry point. Include the necessary storage, error handling, and interface behavior in that slice. Name the failure that stops expansion and the recovery path for stateful changes.
-4. Implement using the repository's tools and conventions. Search for existing services, fixtures, and validation before adding alternatives. Keep cleanup limited to what makes the changed path understandable; do not expand scope to repair unrelated code. When changing dependencies, inspect the package source, requested version, lockfile changes and repository install-script policy before executing package code. Use the approved package manager and bootstrap controls; do not blanket-enable scripts or apply unrelated dependency upgrades.
-5. Add or update automated coverage for changed behavior when meaningful and feasible, including the relevant failure path. Existing tests must actually exercise the change; explain manual-only coverage and its limits. Run focused checks, then required repository checks. Exercise the actual affected journey with [QA](qa.md) when appropriate. For uncertain model behavior, use [eval-pack](eval-pack.md). Record results with [verification](verification.md), including checks that could not run.
-6. Inspect the final diff against the agreed outcome. If public behavior, interfaces, configuration or operating steps changed, update affected existing documentation and examples; exercise relevant commands or clearly mark checks that could not run. For substantial or risky work, seek [review](review.md) using an actual separate reviewer when available; identify a self-check honestly. Reverify affected behavior after fixes.
+## Understand the repository and outcome
 
-## Deliverable and acceptance
+Inspect repository instructions, working tree, relevant callers, examples, and test commands. Preserve unrelated edits. Follow its branch policy and choose checkout isolation according to overlapping work. Identify the dependencies and interfaces the change touches. Before changing an untested legacy path, use targeted characterization checks to capture undocumented behavior callers rely on; separate that behavior from the intended change.
 
-For substantial work, maintain the [recoverable checkpoint](verification.md#recoverable-checkpoint) in the existing task record as slices complete or work pauses.
+State the observable outcome, constraints, and acceptance checks, reusing agreed criteria for routine fixes. Surface unresolved consequential product choices while continuing independent investigation; do not invent acceptance.
 
-Return the implemented behavior, relevant paths, evidence, remaining limitations, and any decision needed. Done means the agreed checks have applicable evidence and the change is reviewable; passing tests does not imply deployment or customer acceptance. Committing, opening a PR, merging, and publishing happen only when the requested workflow authorizes those actions.
+## Build one complete slice
 
-When coordinated through `@fde`, record implementation and verification in the existing decisions/delivery records under their write rules. Standalone work can return the same receipt directly or use the repository's task record.
+Choose a coherent path through the real entry point, including its necessary storage, error handling, and interface behavior. Name the failure that would stop expansion and the recovery path for stateful changes.
+
+Use existing services, fixtures, validation, and repository conventions before adding alternatives. Limit cleanup to making the changed path understandable. For dependency changes, inspect the package source, requested version, lockfile changes, and install-script policy before executing package code. Use the approved package manager and bootstrap controls; do not blanket-enable scripts or include unrelated upgrades.
+
+## Demonstrate the behavior
+
+Add or update automated coverage when meaningful and feasible, including the relevant failure path. Check that existing tests actually exercise the change. Explain manual-only coverage and its limits. Run focused checks, then required repository checks; use [QA](qa.md) for the affected journey when appropriate and [eval-pack](eval-pack.md) for uncertain model behavior. Record evidence and unrun checks with [verification](verification.md).
+
+Inspect the final diff against the agreed outcome. Update affected existing documentation and examples when public behavior, interfaces, configuration, or operating steps change. Exercise relevant commands or state what could not run. For substantial or risky work, use [review](review.md) with a separate reviewer when available; label a self-check honestly. Reverify affected behavior after repairs.
+
+*Fictional example:* Northstar needs failed imports to be recoverable. A useful first slice takes one failed import through the existing retry action to a persisted result, including the retry's failure behavior. A new button alone does not demonstrate recovery.
+
+## Completion
+
+Return implemented behavior, relevant paths, evidence, limitations, and any decision needed. The change is ready when agreed checks have applicable evidence and the work is reviewable. Passing tests does not establish deployment or customer acceptance. Commit, open a PR, merge, or publish only when the requested workflow authorizes it.
+
+For substantial work, maintain a [recoverable checkpoint](verification.md#recoverable-checkpoint) in the existing task record as slices finish or work pauses. When coordinated through `@fde`, record implementation and verification in existing decisions/delivery records under their write rules. Standalone work can return the receipt directly or use the repository's task record.
