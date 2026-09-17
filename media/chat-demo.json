@@ -1,68 +1,12 @@
 {
-  "description": "Continuous edited terminal replay combining two scripted FDEOps runs. Real local code, tests, approved record writes and handover draft; fictional customers, no production deployment.",
+  "description": "A concise continuous terminal replay of discovery, delivery and customer handoff. Fictional customers; real local code and tests; no production deployment.",
   "scenes": [
-    {
-      "customer": "Garvey Payment Systems",
-      "label": "01/07  Discovery",
-      "prompt": "@fde Workshop done. Finance keeps reprocessing payments. Where do we start?",
-      "answer": "Trace one failed payment with finance: delivery, acknowledgement, write.\nCheck whether retries cause duplicates. Measure the recovery work first.",
-      "receipt": "Customer failure pattern and business baseline still need evidence.",
-      "activity": "skill: discover | Working from the workshop notes",
-      "hold_ms": 11000
-    },
-    {
-      "customer": "Garvey Payment Systems",
-      "label": "02/07  Scope",
-      "prompt": "@fde Finance approved retry fixes. Keep the ledger unchanged.",
-      "answer": "Saved PAY-42: one payment write per customer and event, even after retries.\nNo ledger redesign. Check repeat delivery, restart and customer separation.",
-      "receipt": "Approved scope saved to Garvey’s record.",
-      "activity": "skill: plan | Defining the slice and acceptance checks",
-      "hold_ms": 11000
-    },
-    {
-      "customer": "Garvey Payment Systems",
-      "label": "03/07  Build",
-      "prompt": "@fde Build PAY-42. Save my place before the customer call.",
-      "answer": "Updated retry.js to validate identity and prevent duplicate writes.\nCheckpoint saved. The next step is to run the full local suite.",
-      "receipt": "Baseline: 3 passed, 4 failed | Post-change checks pending.",
-      "activity": "skill: build | Implementing the agreed slice",
-      "hold_ms": 11000
-    },
-    {
-      "customer": "Kesterman Freight Lines",
-      "label": "04/07  Switch customer",
-      "prompt": "@fde Switch to Kesterman. What does Denise need to decide?",
-      "answer": "Defer Nashville role views, or trade scope and timeline. Reconfirm the demo.\nGarvey’s unfinished work is preserved.",
-      "receipt": "Kesterman context loaded | Temporary selection, read-only.",
-      "activity": "skill: switch-clients | Loading Kesterman’s meeting context",
-      "hold_ms": 11000
-    },
-    {
-      "customer": "Garvey Payment Systems",
-      "label": "05/07  Resume and test",
-      "prompt": "@fde Back to Garvey. Continue and test the change.",
-      "answer": "Recovered PAY-42 and checked that the code is unchanged.\nAll 7 local tests pass. The real customer receiver still needs verification.",
-      "receipt": "Tests: 7 | Passed: 7 | Failed: 0 | Local receiver mock.",
-      "activity": "skill: build | Recovering the checkpoint and verifying the change",
-      "hold_ms": 11000
-    },
-    {
-      "customer": "Garvey Payment Systems",
-      "label": "06/07  Rollout decision",
-      "prompt": "@fde Seven tests pass. Are we ready for production?",
-      "answer": "Not yet. Replay retries against the durable receiver on customer staging.\nSecurity, CTO approval and finance acceptance remain pending.",
-      "receipt": "Local evidence is ready. Nothing has been deployed.",
-      "activity": "skill: ship | Checking evidence and release authority",
-      "hold_ms": 11000
-    },
-    {
-      "customer": "Garvey Payment Systems",
-      "label": "07/07  Handover preparation",
-      "prompt": "@fde Prepare the handover and save tomorrow’s next step.",
-      "answer": "Handover draft ready: staging checks, operating owner and rollback needs.\nSaved next action: arrange the authorised staging replay.",
-      "receipt": "handover-draft.md created | Production and handover acceptance pending.",
-      "activity": "skill: runbook + handoff | Preparing the operator’s next steps",
-      "hold_ms": 11000
-    }
+    {"customer":"Garvey Payment Systems","label":"01/07  Discover","prompt":"@fde Finance sees duplicate payment retries. What do we know?","answer":"A hypothesis, not a measured incident.\nTrace one failed payment with Finance.\nMeasure the recovery work before designing the fix.","receipt":"Next: trace delivery → acknowledgement → write","activity":"discover | separating evidence from assumption","hold_ms":5000},
+    {"customer":"Garvey Payment Systems","label":"02/07  Scope","prompt":"@fde Make the first slice small.","answer":"PAY-42: one write per tenant and event.\nNo ledger redesign.\nAcceptance: seven checks, then customer staging.","receipt":"Scope saved | PAY-42","activity":"plan | defining the slice and acceptance","hold_ms":5000},
+    {"customer":"Garvey Payment Systems","label":"03/07  Build","prompt":"@fde Build it. Save my place before the call.","answer":"retry.js changed: validate identity and deduplicate.\nCheckpoint saved.\nNext: run the full local suite.","receipt":"Baseline: 3/7 passed | Verification pending","activity":"build | implementing PAY-42","hold_ms":5000},
+    {"customer":"Kesterman Freight Lines","label":"04/07  Switch customer","prompt":"@fde Kesterman meeting in five minutes. Brief me.","answer":"Denise must choose: defer Nashville views,\nor trade scope for the timeline.\nGarvey’s unfinished work is preserved.","receipt":"Kesterman loaded | read-only temporary selection","activity":"switch-clients | loading the next customer","hold_ms":5000},
+    {"customer":"Garvey Payment Systems","label":"05/07  Resume and test","prompt":"@fde Back to Garvey. Verify PAY-42.","answer":"Checkpoint recovered.\n7/7 local tests pass.\nThe customer receiver still needs staging verification.","receipt":"Passed: 7 | Failed: 0 | Environment: local mock","activity":"build + verify | resuming the exact next action","hold_ms":5000},
+    {"customer":"Garvey Payment Systems","label":"06/07  Rollout decision","prompt":"@fde Seven tests pass. Ship it?","answer":"Not yet. Replay against the durable receiver\non customer staging. Security, CTO approval\nand Finance acceptance are still pending.","receipt":"Local evidence ready | Nothing deployed","activity":"ship | checking evidence and authority","hold_ms":5000},
+    {"customer":"Garvey Payment Systems","label":"07/07  Handover","prompt":"@fde Prepare handover and leave the next step.","answer":"Runbook draft ready: owner, rollback and staging checks.\nSaved next action: arrange the authorised replay.","receipt":"Handover prepared | Acceptance still pending","activity":"handoff | leaving the customer able to continue","hold_ms":5000}
   ]
 }
