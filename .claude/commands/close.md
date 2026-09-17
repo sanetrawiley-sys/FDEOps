@@ -2,7 +2,7 @@
 description: They operate it without you.
 ---
 
-Load `@fde` (`skills/fde/SKILL.md`) and follow its **First-use preferences** and **Entry (every session)** once. Stage: **close**.
+Load `@fde` (`skills/fde/SKILL.md`) and follow its **Entry (every session)** once. Stage: **close**.
 
 If `fde resume` shows NO ENGAGEMENT: ask "What should we call this client?" once, then **you** run `fde resume --init`. Never tell the human to type the CLI.
 

@@ -1,114 +1,53 @@
 # switch-clients - Switch engagements
 
-**Enter when:** the FDE is running 2+ engagements simultaneously, context-switching is causing mistakes or delays, a new customer is being onboarded while existing engagements are active, or the FDE says "I'm losing track."
+Switch customers without losing the next action or carrying one customer's information into another's work.
 
-**Read first:** Run `fde status --all` for the portfolio view. Then per engagement: `context.md` only - load deeper files only for the engagement being worked on.
+**Use when:** moving between existing engagements, reviewing competing customer needs, or recovering from confused customer context.
 
-The solo FDE running three customers simultaneously is the norm, not the exception. Without a system, the third customer gets the scraps of attention left after the other two have their crises. Multi-customer ops is the discipline of giving each customer the experience of being your only customer.
+Apply [task context](task-context.md). This task needs existing records; do not invent or initialise a customer merely to complete a portfolio view. Check `fde privacy` before record access, then use `fde status --all` for the permitted portfolio summary. Do not read raw `.fde/` files.
 
-## Method (you do this work)
+## Decide what needs attention
 
-**1. The hard boundary: one `.fde/` per customer, always.**
+Use the available evidence to compare customer impact, safety or security incidents, contractual deadlines, blocked work and agreed commitments. A trust signal is a prompt to examine its source, not a fixed countdown or an automatic priority over an incident. A delayed reply does not establish lost trust.
 
-```
-~/fde-engagements/
-  garvey-payments/.fde/    ← Garvey's engagement memory
-  kesterman-freight/.fde/  ← Kesterman's engagement memory
-  rennick-health/.fde/     ← Rennick's engagement memory
-```
+Keep portfolio summaries brief and authorised. Inspect deeper context only for the customer being worked on, through a sanitized `fde resume` packet and targeted `fde recall`. If there is not enough capacity for the competing commitments, name the conflict and the decision-maker who can change priorities. Do not silently deprioritise another customer.
 
-**Never:**
-- Merge two customers' data into one folder
-- Reference one customer's code/data in another's context
-- Load two customers' `.fde/` folders in the same session
-- Copy patterns between customers without stripping identifying information
+## Leave the current engagement recoverable
 
-Cross-contamination is the fastest way to lose two engagements at once.
+Identify what changed, what remains uncertain and the next action. For unfinished implementation, use the existing [recoverable checkpoint](verification.md#recoverable-checkpoint), with its task ID, working-tree state and applicable evidence.
 
-**2. The daily triage.** Every morning, before opening any editor:
+Follow the record's confirmation and CLI write rules. An unconfirmed checkpoint stays a draft; switching customers does not approve it. Keep every update in the current customer's record. Do not automatically commit, stash, discard or move working-tree changes. Preserve them under the repository's policy and the user's existing authority.
 
-```markdown
-## Daily triage - <date>
+## Select the next customer explicitly
 
-| Customer | Trust signal | Top risk | Today's action | Time budget |
-|----------|-------------|----------|---------------|-------------|
-| Garvey | green | Canary blocked on their security ticket | Chase ticket, prep ship checklist | 4h |
-| Kesterman | AMBER | Sponsor went quiet Tue | Proactive conversation TODAY | 2h |
-| Rennick | green | None active | Build slice 3, push PR | 2h |
+1. Identify the requested customer and the intended workspace. If either is ambiguous, resolve that before record access or changes.
+2. Inspect the binding with `fde resume --bind`. Merely opening another editor tab or running bare `fde resume` does not select a different customer.
+3. Confirm the target exists using permitted metadata. Prefer its already-bound workspace. For read-only work, a command-scoped `FDEOPS_ENGAGEMENT=<known-record-path>` selects that existing record without changing the workspace binding; use the same scope for each record command and report that the persistent binding is unchanged. `fde resume --init <existing-client>` can fill missing templates and initialise memory Git as well as bind the workspace. Use it only when those record changes are also authorised; a request to switch alone is not enough. Never guess a missing customer or silently change unrelated host settings.
+4. Get a fresh sanitized `fde resume` packet and verify its visible `ENGAGEMENT:` identity matches the intended customer. Stop on a mismatch; do not continue from the previous customer's packet.
+5. Resume the selected task from current evidence. Check actual repository state before relying on a saved implementation checkpoint. Keep the other customer's files and output out of subsequent tool reads and messages.
 
-Priority order: Kesterman (amber trust), Garvey (deadline), Rennick (steady)
-```
+Changing the binding does not erase earlier conversation context. Use a fresh agent session when the customer's isolation policy requires it or prior sensitive context should not remain available. Do not claim that closing tabs removes information already supplied to a model.
 
-**3. The triage rules.** In order of priority:
+## Communicate within the agreed boundaries
 
-| Priority | Rule | Why |
-|----------|------|-----|
-| **1** | Trust fires first | A green-trust engagement with a deadline can wait 4 hours. An amber-trust engagement cannot wait 4 hours - it's 48 hours from red. |
-| **2** | Deadlines second | Real deadlines (customer-facing, regulatory, contractual) outrank planned milestones. |
-| **3** | Highest-value delivery third | The engagement where today's work produces the most visible outcome. |
-| **4** | Steady-state last | Engagements on track with no urgent needs get allocated remaining time. |
+Use each customer's agreed audience, channel and cadence. Prepare an update when a commitment changes or a material risk needs a decision; send it only within existing communication authority. Explain the effect on that customer's work without disclosing another customer's identity, incident or confidential priorities.
 
-**4. Context-switch protocol.** When moving between customers:
+Reusing a field lesson across customers requires permission as well as removal of identifying and confidential information. Masking alone does not authorise reuse.
 
-```
-BEFORE LEAVING CUSTOMER A:
-  1. Write 3 lines to context.md: where we are, what changed, next step
-  2. Commit or stash any work in progress
-  3. Close all customer A files and browser tabs
+## Worked example
 
-BEFORE STARTING CUSTOMER B:
-  1. Run: fde resume (loads Customer B's engagement)
-  2. Read context.md - where did we leave off?
-  3. Confirm: what's the one thing to accomplish in this block?
-  4. Set a time boundary (e.g., "2 hours on Kesterman, then back to Garvey")
-```
+The FDE is leaving Garvey with an unfinished retry fix and switching to Kesterman. Garvey's `context.md` has a confirmed checkpoint pointing to the existing task and its unrun staging check. The FDE preserves the dirty working tree rather than committing or stashing it automatically. `fde resume --bind` still identifies Garvey, so bare resume would reopen the wrong record. After verifying that Kesterman already exists, the FDE selects its bound workspace or uses a command-scoped selection when record writes are prohibited, then obtains a fresh sanitized packet and checks `ENGAGEMENT:` before continuing. A temporary selection is reported as temporary, not as a changed workspace binding. Kesterman's sponsor has not replied, but the notes show planned leave; that alone does not justify an amber signal. An unconfirmed Garvey update stays a draft for Garvey and is never written into Kesterman's record.
 
-The 3-line context update is the bridge. Without it, the next session starts with "what was I doing?" - that's 20 minutes of re-discovery each time.
+## Completion
 
-**5. The communication cadence.** Each customer gets a rhythm:
+Return the selected customer, whether selection is temporary or persistent, binding evidence, next action, and any unsaved update or unresolved priority. A switch is complete only when the fresh packet identifies the intended customer and the previous work remains recoverable. Standalone portfolio review can return its summary without rebinding or saving anything.
 
-| Engagement intensity | Status cadence | Touchpoint type |
-|---------------------|---------------|-----------------|
-| Active build (daily work) | Weekly written + ad-hoc Slack | Status update + visible progress |
-| Light touch (2-3 days/week) | Weekly written | Status update + next week's plan |
-| Monitoring only | Bi-weekly written | Health check + any emerging risks |
-
-**The golden rule: no customer should have to chase you for an update.** Proactive status updates are cheaper than reactive ones - and they protect trust across all engagements.
-
-**6. Capacity management.** The honest conversation with yourself:
-
-| Situation | Action |
-|-----------|--------|
-| All engagements are steady | Allocate by value; reserve 20% for unplanned |
-| One engagement is on fire | Other engagements get a proactive heads-up: "Focus is on X this week; here's what's planned for you next week" |
-| Two engagements are on fire | Triage - one gets full attention, one gets stabilised, tell the sponsor of the stabilised one what's happening |
-| Three+ are on fire simultaneously | Escalate to your manager/team. Solo capacity is exceeded - communicate before quality drops |
-
-**7. The cross-contamination checklist.** Before every customer interaction:
-
-- [ ] Am I in the right `.fde/` folder?
-- [ ] Am I referencing the right customer's context?
-- [ ] Is the status update addressed to the right person?
-- [ ] Does my current context contain any data from another customer?
-- [ ] Are my browser tabs / code editors pointed at the right customer?
-
-One wrong customer name in a status update damages both relationships.
-
-## Artifact
-
-**`context.md`** (per customer) - the 3-line bridge updated at every context switch. The most-written file in multi-customer ops.
-
-**`fieldbook.html`** - regenerated by `fde dashboard --all` (deterministic, zero tokens) for the portfolio. Bare `fde dashboard` refreshes the bound `fieldbook-current.html`.
-
-## Checkpoint
-
-The daily triage is the checkpoint. One line per customer: signal, priority, today's action. If any customer hasn't been touched in 3+ business days: flag it - silence is noticed.
+For an authorised portfolio view, `fde dashboard --all` regenerates `fieldbook.html`; it does not change customer records. Neither the dashboard nor the agent's summary grants approval for a release or customer communication.
 
 ## Principles
 
-- One `.fde/` per customer. Never merge. Never cross-reference.
-- Trust fires outrank deadlines. A deadline can be renegotiated; trust can't.
-- Write the 3-line context bridge at every switch. 20 seconds saves 20 minutes.
-- No customer should have to chase for an update.
-- Two fires simultaneously is a triage decision. Three is an escalation.
-- The wrong customer name in a status update is a two-customer trust fire.
+- One customer's writes belong in that customer's record.
+- Use sanitized CLI packets; never substitute raw record reads.
+- Verify identity after a switch and preserve unfinished work without inventing authority.
+- Prioritise from impact and commitments, not unsupported trust timelines.
+- A fresh binding is not a fresh model context.

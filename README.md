@@ -52,7 +52,12 @@ Separate decisions, requests and open questions. Return a draft only.
 
 No customer record is needed for this draft. Each task includes its required instructions; you do not need to install `fde` or another pack.
 
+<details>
+<summary>Installation requirements and alternatives</summary>
+
 These installation commands use Node.js and Git; the optional record CLI requires Node.js 18+. See [installation and upgrades](docs/install.md) for host-specific invocation, the full pack and alternatives. Installing `fde` includes all underlying instructions, but does not add the 35 separate task names to your agent's menu.
+
+</details>
 
 **Try it with fictional data:** `npx fdeops demo` runs sample notes through review and creates a fieldbook without calling an AI model. It requires Node.js 18+ and Git, may download the package, and creates or resets only its separate `.demo` workspace. [Five-minute walkthrough](docs/USAGE.md#new-here-5-minutes).
 
@@ -66,6 +71,15 @@ A repository tells you where the code lives. It may not tell you why the custome
 <a name="how-skills-work"></a>
 
 For an ongoing engagement, FDEOps keeps a separate plain-Markdown record at `~/fde-engagements/<customer>/.fde/`. The coordinator retrieves a bounded summary and looks up details when needed. A saved implementation checkpoint points back to the current task record; the agent checks it before continuing.
+
+For example, the fictional demo's `fde resume` output includes these next actions (excerpt):
+
+```text
+next: get the reconciliation runbook from Tom before touching anything. [source: meeting 2026-09-10]
+do first: Ask the acceptance owner to review the reported result and its evidence (delivery.md: 1 reported result awaiting acceptance)
+```
+
+The next session can pick up the work while keeping acceptance pending.
 
 Use [debrief](skills/debrief/SKILL.md) after a meeting and [switch-clients](skills/switch-clients/SKILL.md) when changing customers. [How records work](docs/USAGE.md).
 
@@ -93,6 +107,16 @@ This is a draft, not a saved agreement. Use [who-decides](skills/who-decides/SKI
 ### 3. Knowing what is actually ready
 
 A local test, a deployed change and a customer-accepted result answer different questions.
+
+| Claim | Evidence it needs |
+|---|---|
+| Implemented | The change exists in the identified revision |
+| Verified | Applicable checks passed under stated conditions |
+| Deployed | The intended environment is running the change |
+| Measured | A result was observed against the agreed measure |
+| Accepted | The agreed owner or mechanism accepted the outcome |
+
+These are separate claims, not five automatic dashboard states.
 
 FDEOps carries the agreed checks into implementation and binds verification to the relevant revision and environment. Release guidance asks for operating limits, recovery evidence and an owner. Missing access or evidence stays visible; a passing local test does not fill that gap.
 
