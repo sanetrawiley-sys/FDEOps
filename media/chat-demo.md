@@ -1,56 +1,62 @@
-# FDEOps in one workday
+# FDEOps: a customer email project
 
-One continuous terminal replay: discovery, scope, build, a customer switch, testing, rollout judgment and handover preparation.
+A scripted conversation showing how an engineer uses natural language to take a customer problem through scoping, implementation, a customer switch, checks and handover preparation. Typing and responses are staged for readability; this is not a recording of a live customer engagement.
 
-The user speaks naturally. FDEOps chooses the method and keeps the work moving. The small muted line names the method for the viewer; it is an explanatory label, not a command the user has to remember.
+## Conversation
 
-The GIF is a shortened, edited replay of one fictional support workflow. The local routing fixture, six tests, checkpoints and handover draft were actually exercised. No production system was accessed or deployed.
+**Understand**
 
-## The conversation
+> @fde Our customer sorts support emails by hand. Help me improve it.
 
-1. **Discover** - “The queue is growing. Where do we start?”
+Where does the team lose time: reading emails, choosing a team, or waiting for replies?
 
-   “Trace one request. Measure delay, rework and wrong routes.”
+**Agree the work**
 
-2. **Scope** - “Make the first slice small.”
+> Choosing a team. Start with billing, login problems and outages.
 
-   “Route three request types. Send everything else to a person.”
+We can route those three types to the right team. Anything unclear stays with a person. Shall I build that?
 
-3. **Build** - “Build it. Save my place before the call.”
+**Build**
 
-   “`triage.js` changed. Checkpoint saved. Baseline: 2/6 passed.”
+> Yes. Build the routing part first.
 
-4. **Switch customer** - “I have another customer call. Save this.”
+Added triage.js: billing to Billing, login problems to IT, outages to Support. Next: test the routes.
 
-   “Saved. This work stays intact. Brief ready for the next customer.”
+**Switch customer**
 
-5. **Resume and test** - “Back to the support team. Run the checks.”
+> @fde Save my place. I have a website meeting with my other client.
 
-   “Checkpoint recovered. 6/6 local cases pass. Staging is next.”
+Saved: email routing is built; tests are next. Switching to your other client's notes for the meeting.
 
-6. **Rollout decision** - “Can we roll it out?”
+**Resume and test**
 
-   “Not yet. Test representative requests in staging. Name the operator, rollback and approver.”
+> @fde Back to the email project. Continue where we stopped.
 
-7. **Handover** - “Prepare handover and leave the next step.”
+Resumed the tests. All 6 local checks pass, including sending unknown types to a person.
 
-   “Runbook ready: operate, review, roll back. Next: authorised staging replay.”
+**Prepare rollout**
 
-## What the evidence means
+> Can the customer use it now?
 
-The local fixture starts at 2/6 passing tests and reaches 6/6 after the routing change. That proves the local cases ran; it does not prove customer integration, staging readiness or production value.
+The routing code passes. We still need to connect their inbox and test with approved sample emails before going live.
 
-The handover draft carries the operating questions forward: who operates the queues, who reviews exceptions, how to roll back and who accepts the result. Those conditions remain pending in the demo.
+**Prepare handover**
 
-The customer switch is temporary and read-only. The first work is preserved; no second customer record is changed. The animation stages typing and pauses for readability.
+> Prepare the handover and save what is left.
 
-## Reproduce the local fixture
+Draft saved: team routes, manual review and how to stop routing. Next session: connect and test the inbox.
+
+## What was tested
+
+The included routing function passes six local checks. Inputs already carry a type; the function chooses a team or returns a review status. It does not read, classify or send emails. Inbox connection, customer testing and production deployment remain future work. The customer switch and saved-session responses illustrate intended use, not proof of a live agent run.
+
+Run the local checks:
 
 ```bash
 node --test media/workday-fixture/triage.test.js
 ```
 
-To render the GIF, use Python, Pillow and a monospace font:
+Render the animation with Pillow and a monospace font:
 
 ```bash
 python3 media/render-chat-demo.py --font /path/to/monospace.ttf
