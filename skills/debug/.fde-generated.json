@@ -2,7 +2,8 @@
   "generator": "bin/generate-skills.js",
   "version": 1,
   "files": {
-    "SKILL.md": "4a5cb9e98910f043bd8f4482540fd68387b45878946379514d4d581cc813c61f",
+    "SKILL.md": "00b6f8c7c56be7a665f9401c58319fc4cd344e1c865d88021c116d94149a4a35",
+    "agents/openai.yaml": "f9178e65a1e2e9ee27f2f5917a36a50e3ebe64bd6e331b43379efcf1c7d5aac3",
     "references/build.md": "03c52eda90642c62053b53ef1e85c97b4e647600f454aee9da0e415c9d98903e",
     "references/debug.md": "3273a921a98522431ae821a283814897270c719cbfab83d14b99175537d869e5",
     "references/eval-pack.md": "0590b85d3cae0903c6b1274540c92eaa2a4373047e8a0548d6942516ef0bb9e1",

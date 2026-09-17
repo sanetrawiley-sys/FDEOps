@@ -3,6 +3,7 @@
   "version": 1,
   "files": {
     "SKILL.md": "5a03a3842983d32da658da2e36466f64ad2474af2b189f71e596c586e91bc502",
+    "agents/openai.yaml": "d928b571b9ebbb29ea8acd2e38769087288e2500f0ce9ab7f20f3f57a0e3d8d2",
     "references/build.md": "03c52eda90642c62053b53ef1e85c97b4e647600f454aee9da0e415c9d98903e",
     "references/debug.md": "3273a921a98522431ae821a283814897270c719cbfab83d14b99175537d869e5",
     "references/eval-pack.md": "0590b85d3cae0903c6b1274540c92eaa2a4373047e8a0548d6942516ef0bb9e1",

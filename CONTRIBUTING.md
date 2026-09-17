@@ -86,3 +86,17 @@ MIT. By contributing text you agree your contribution is licensed under MIT and 
 Author methods once under `skills/fde/references/`. Add or refine task entry metadata in `bin/skill-catalog.js`, then run `npm run generate:skills` to refresh task packages and the public catalog. Commit canonical changes and regenerated task directories under `skills/` together. `npm run check` verifies reference closure and freshness; isolated installation must work without sibling skills. Keep examples fictional and local evaluation traces outside Git.
 
 Generation records ownership in each task package. Write mode removes obsolete owned output; check mode reports drift without writing. Unknown additions or modified obsolete files are preserved and reported for review. Do not hand-edit generated files or their ownership metadata.
+
+Task UI metadata lives in `bin/skill-ui.js`; generated `agents/openai.yaml` files provide display text and starting prompts for Codex. They do not grant tools or change who can invoke a task. Keep the coordinator metadata in `skills/fde/agents/openai.yaml` consistent with its role.
+
+### Writing a skill
+
+Start with the situation that calls for the skill and the result the reader needs. Describe decisions and actions, not an idealised role. Use plain verbs and examples only where they resolve ambiguity.
+
+- Keep the trigger specific enough to select this task over its neighbours. Missing evidence may change the next action; it should not hide a useful diagnostic skill.
+- Use headings that help someone resume the work. A fixed sequence or hard gate needs a concrete reason.
+- Keep shared authority and data rules in task context. Put task-specific failure handling in the method.
+- Add a companion only when a reusable template, checklist or executable tool earns a separate file. Keep every required reference inside the installed package.
+- State what completion establishes and what remains unproven. Use fictional examples; never turn a sample result into a performance claim.
+
+Review a change in both modes: invoked directly with supplied context, and selected by `fde` during an engagement. Check that neither path repeats setup, invents authority or loses evidence.

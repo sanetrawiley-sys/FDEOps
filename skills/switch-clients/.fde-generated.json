@@ -3,6 +3,7 @@
   "version": 1,
   "files": {
     "SKILL.md": "ebfebe6e5872800c749659aec45af48b2287db2e72c0b914118482e4c73334b5",
+    "agents/openai.yaml": "67ecd37a1e5bd57986d800a782aeff8d00171d6d09794b6026d8daf1e2d91e6f",
     "references/switch-clients.md": "4e8cb763db871b38fece3adaf9d1ac3b995c21dd1d0e463903eaa3854332c389",
     "references/task-context.md": "9066514a50043f3ad888d133d4e8b89b7132551e098cf2c80203c458a80126e5"
   }

@@ -3,6 +3,7 @@
   "version": 1,
   "files": {
     "SKILL.md": "0c51c5421875b17c66c4fdb03a33e3705da52a0c649dd138c4c4cd3f3c92292a",
+    "agents/openai.yaml": "ff5da2d5215943e5c4e2a1339c11101035ed2741ded38e443af5180239e2a24b",
     "references/business-case.md": "32e000e8351cd59f9eaad8be40babb276df69948ea4f81e01a4672e47f48cb25",
     "references/task-context.md": "9066514a50043f3ad888d133d4e8b89b7132551e098cf2c80203c458a80126e5",
     "references/test-assumptions.md": "bf60d8bb4c0701fcffb196d78f7f6c8b1c472fc877fb2caf41058fbf8e2415a1",

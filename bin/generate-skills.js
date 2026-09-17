@@ -4,6 +4,7 @@ const fs = require('node:fs')
 const path = require('node:path')
 const { createHash } = require('node:crypto')
 const catalog = require('./skill-catalog')
+const { interfaceYaml } = require('./skill-ui')
 const root = path.resolve(__dirname, '..')
 const source = path.join(root, 'skills/fde/references')
 
@@ -44,6 +45,8 @@ function entrypoint(item) {
 }
 function expectedFiles(item, referenceRoot = source) {
   const files = new Map([['SKILL.md', entrypoint(item)]])
+  const ui = interfaceYaml(item.name, item.ui)
+  if (ui) files.set('agents/openai.yaml', ui)
   for (const ref of referencesFor(item.method, referenceRoot)) files.set(`references/${ref}`, fs.readFileSync(path.join(referenceRoot, ref), 'utf8'))
   return files
 }
@@ -59,7 +62,7 @@ function walk(dir, prefix = '') {
     const rel = prefix + e.name
     if (e.isSymbolicLink() || (!e.isDirectory() && !e.isFile()) || (e.isFile() && fs.lstatSync(path.join(dir, e.name)).nlink > 1)) throw new Error(`Unsafe generated path: ${path.join(dir, e.name)}`)
     if (e.isDirectory()) {
-      if (rel !== 'references') throw new Error(`Unowned generated directory: ${path.join(dir, e.name)}`)
+      if (rel !== 'references' && rel !== 'agents') throw new Error(`Unowned generated directory: ${path.join(dir, e.name)}`)
       entries.push(...walk(path.join(dir, e.name), rel + '/'))
     } else entries.push(rel)
   }
@@ -103,7 +106,7 @@ function generate(check = false, options = {}) {
         if (manifest.generator !== 'bin/generate-skills.js' || manifest.version !== 1 || !manifest.files || Array.isArray(manifest.files) || typeof manifest.files !== 'object') throw new Error(`Invalid ownership manifest: ${name}`)
         owned = manifest.files
         for (const [rel, hash] of Object.entries(owned)) {
-          if (!/^(?:SKILL\.md|references\/[a-z][a-z-]*\.md)$/.test(rel) || !/^[a-f0-9]{64}$/.test(hash)) throw new Error(`Invalid ownership entry: ${name}/${rel}`)
+          if (!/^(?:SKILL\.md|agents\/openai\.yaml|references\/[a-z][a-z-]*\.md)$/.test(rel) || !/^[a-f0-9]{64}$/.test(hash)) throw new Error(`Invalid ownership entry: ${name}/${rel}`)
         }
       } else {
         // Migrate 4.1.0 packages conservatively: only the marked entry and exact
@@ -138,11 +141,11 @@ function generate(check = false, options = {}) {
       fs.mkdirSync(path.dirname(path.join(dest, rel)), { recursive: true })
       fs.writeFileSync(path.join(dest, rel), body)
     }
-    if (!output.size) {
-      const refs = path.join(dest, 'references')
-      if (stat(refs)) fs.rmdirSync(refs)
-      fs.rmdirSync(dest)
+    for (const directory of ['references', 'agents']) {
+      const target = path.join(dest, directory)
+      if (stat(target)?.isDirectory() && fs.readdirSync(target).length === 0) fs.rmdirSync(target)
     }
+    if (!output.size) fs.rmdirSync(dest)
   }
 }
 module.exports = { referencesFor, expectedFiles, generate }

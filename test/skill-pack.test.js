@@ -92,7 +92,7 @@ function generationFixture(t) {
   fs.mkdirSync(referenceRoot, { recursive: true })
   fs.writeFileSync(path.join(root, 'skills/fde/SKILL.md'), 'canonical coordinator')
   for (const [name, body] of Object.entries({ 'task-context.md': 'context', 'start.md': '[extra](extra.md)', 'extra.md': 'extra' })) fs.writeFileSync(path.join(referenceRoot, name), body)
-  const catalog = [{ name: 'example', method: 'start', description: 'Example task' }]
+  const catalog = [{ name: 'example', method: 'start', description: 'Example task', ui: ['Example Task', 'Exercise a generated task package', 'exercise this example task'] }]
   const options = { root, referenceRoot, catalog }
   return { root, referenceRoot, options, dest: path.join(root, 'skills/example') }
 }
@@ -127,6 +127,7 @@ test('generation prunes obsolete dependencies and removed skills; checks never m
 test('legacy generated packages migrate safely and can be removed', t => {
   const f = generationFixture(t)
   for (const [rel, body] of expectedFiles(f.options.catalog[0], f.referenceRoot)) {
+    if (rel === 'agents/openai.yaml') continue // Pre-metadata package.
     fs.mkdirSync(path.dirname(path.join(f.dest, rel)), { recursive: true })
     fs.writeFileSync(path.join(f.dest, rel), body)
   }
@@ -136,6 +137,7 @@ test('legacy generated packages migrate safely and can be removed', t => {
   generate(false, f.options)
   generate(true, f.options)
   fs.unlinkSync(path.join(f.dest, '.fde-generated.json'))
+  fs.rmSync(path.join(f.dest, 'agents'), { recursive: true })
   generate(false, { ...f.options, catalog: [] })
   assert.equal(fs.existsSync(f.dest), false)
 })
@@ -174,7 +176,7 @@ test('modified obsolete files and unrecognized legacy references are preserved',
 })
 
 test('generation refuses target symlinks and never follows them', t => {
-  for (const rel of ['', 'SKILL.md', 'references', 'references/extra.md', '.fde-generated.json']) {
+  for (const rel of ['', 'SKILL.md', 'references', 'references/extra.md', 'agents', 'agents/openai.yaml', '.fde-generated.json']) {
     const f = generationFixture(t)
     generate(false, f.options)
     const target = path.join(f.dest, rel)
@@ -200,7 +202,7 @@ test('generation protects canonical and skills root paths', t => {
 
 
 test('generation refuses hard links without changing either path', t => {
-  for (const rel of ['SKILL.md', 'references/start.md', '.fde-generated.json']) {
+  for (const rel of ['SKILL.md', 'references/start.md', 'agents/openai.yaml', '.fde-generated.json']) {
     const f = generationFixture(t)
     generate(false, f.options)
     const target = path.join(f.dest, rel)
@@ -258,4 +260,121 @@ test('public catalog uses installable paths and includes every skill exactly onc
   for (const match of names) assert.equal(match[1], match[2])
   assert.equal(new Set(names.map(m => m[1])).size, catalog.length)
   checkCatalog()
+})
+
+// Parse the intentionally small emitted YAML subset and require quoted scalars.
+function readInterface(body) {
+  const lines = body.trimEnd().split('\n')
+  assert.equal(lines.shift(), 'interface:')
+  const fields = {}
+  for (const line of lines) {
+    const match = line.match(/^  ([a-z_]+): (".*")$/)
+    assert.ok(match, `Expected a quoted interface scalar: ${line}`)
+    fields[match[1]] = JSON.parse(match[2])
+  }
+  assert.deepEqual(Object.keys(fields), ['display_name', 'short_description', 'default_prompt'])
+  return fields
+}
+
+test('all task packages and the coordinator have bounded, optional host UI metadata', () => {
+  const { entries } = require('../bin/skill-ui')
+  assert.deepEqual(Object.keys(entries).sort(), catalog.map(item => item.name).sort())
+  const outputs = catalog.map(item => [item.name, expectedFiles(item).get('agents/openai.yaml')])
+  outputs.push(['fde', fs.readFileSync(path.resolve(source, '../agents/openai.yaml'), 'utf8')])
+  for (const [name, body] of outputs) {
+    const ui = readInterface(body)
+    assert.ok(ui.display_name.trim())
+    assert.ok(ui.short_description.length >= 25 && ui.short_description.length <= 64, name)
+    assert.ok(ui.default_prompt.includes(`$${name} `), name)
+    assert.doesNotMatch(body, /policy:|dependencies:|icon_small:|icon_large:/)
+  }
+})
+
+test('UI serialization preserves YAML-sensitive strings without extra fields', () => {
+  const { interfaceYaml } = require('../bin/skill-ui')
+  const fields = ['Task: "review"', 'Check "quoted" text: paths and evidence', 'inspect C:\\work and line\nbreaks # safely']
+  const ui = readInterface(interfaceYaml('example', fields))
+  assert.equal(ui.display_name, fields[0])
+  assert.equal(ui.short_description, fields[1])
+  assert.equal(ui.default_prompt, `Use $example to ${fields[2]}.`)
+  assert.throws(() => interfaceYaml('example', ['Example', 'Too short', 'try it']), /Invalid skill UI metadata/)
+})
+
+test('version-one manifests gain metadata and report drift without mutation', t => {
+  const f = generationFixture(t)
+  const legacyOptions = { ...f.options, catalog: [{ ...f.options.catalog[0], ui: null }] }
+  generate(false, legacyOptions)
+  const manifestPath = path.join(f.dest, '.fde-generated.json')
+  const oldManifest = JSON.parse(fs.readFileSync(manifestPath, 'utf8'))
+  assert.equal(oldManifest.version, 1)
+  assert.equal(oldManifest.files['agents/openai.yaml'], undefined)
+  const before = snapshot(f.root)
+  assert.throws(() => generate(true, f.options), /Stale generated skill: example\/agents\/openai.yaml/)
+  assert.deepEqual(snapshot(f.root), before)
+  generate(false, f.options)
+  generate(true, f.options)
+  const yaml = path.join(f.dest, 'agents/openai.yaml')
+  fs.writeFileSync(yaml, 'edited metadata')
+  const edited = snapshot(f.root)
+  assert.throws(() => generate(true, f.options), /Stale generated skill/)
+  assert.deepEqual(snapshot(f.root), edited)
+  generate(false, f.options)
+  generate(true, f.options)
+})
+
+test('unknown agent files and directories survive both generation and removal', t => {
+  for (const rel of ['agents/personal.yaml', 'agents/nested']) {
+    const f = generationFixture(t)
+    generate(false, f.options)
+    const target = path.join(f.dest, rel)
+    if (rel.endsWith('nested')) fs.mkdirSync(target)
+    else fs.writeFileSync(target, 'personal metadata')
+    const before = snapshot(f.root)
+    for (const check of [true, false]) {
+      for (const options of [f.options, { ...f.options, catalog: [] }]) {
+        assert.throws(() => generate(check, options), /Unowned generated (file|directory)/)
+        assert.deepEqual(snapshot(f.root), before)
+        assert.ok(fs.existsSync(target))
+      }
+    }
+  }
+})
+
+test('unowned openai metadata is not adopted during legacy migration', t => {
+  const f = generationFixture(t)
+  generate(false, f.options)
+  fs.unlinkSync(path.join(f.dest, '.fde-generated.json'))
+  const before = snapshot(f.root)
+  assert.throws(() => generate(false, f.options), /Unowned generated file: example\/agents\/openai.yaml/)
+  assert.deepEqual(snapshot(f.root), before)
+})
+
+test('obsolete UI output is pruned only when unchanged and empty agents directories are removed', t => {
+  const f = generationFixture(t)
+  generate(false, f.options)
+  const options = { ...f.options, catalog: [{ ...f.options.catalog[0], ui: null }] }
+  const yaml = path.join(f.dest, 'agents/openai.yaml')
+  const original = fs.readFileSync(yaml, 'utf8')
+  fs.writeFileSync(yaml, 'personal edit')
+  assert.throws(() => generate(false, options), /Modified obsolete generated file/)
+  assert.equal(fs.readFileSync(yaml, 'utf8'), 'personal edit')
+  fs.writeFileSync(yaml, original)
+  const before = snapshot(f.root)
+  assert.throws(() => generate(true, options), /Obsolete generated file/)
+  assert.deepEqual(snapshot(f.root), before)
+  generate(false, options)
+  assert.equal(fs.existsSync(path.join(f.dest, 'agents')), false)
+  generate(true, options)
+})
+
+test('a file blocking the agents directory is preserved before any writes', t => {
+  const f = generationFixture(t)
+  generate(false, f.options)
+  fs.rmSync(path.join(f.dest, 'agents'), { recursive: true })
+  fs.writeFileSync(path.join(f.dest, 'agents'), 'personal file')
+  const before = snapshot(f.root)
+  for (const check of [true, false]) {
+    assert.throws(() => generate(check, f.options), /Unowned generated file: example\/agents/)
+    assert.deepEqual(snapshot(f.root), before)
+  }
 })
