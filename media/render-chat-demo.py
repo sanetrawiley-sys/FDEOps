@@ -10,14 +10,15 @@ parser.add_argument('--font', required=True, help='Path to a monospace TrueType 
 args = parser.parse_args()
 root = Path(__file__).resolve().parents[1]
 scenes = json.loads((root / 'media/chat-demo.json').read_text())['scenes']
-width, height = 1120, 520
+width, height = 960, 510
 background = '#101617'
 foreground = '#ededed'
 muted = '#a3b1b4'
 green = '#22ff9c'
-fonts = {size: ImageFont.truetype(args.font, size) for size in (15, 17, 22)}
-line_height = 31
-visible_lines = 12
+fonts = {size: ImageFont.truetype(args.font, size) for size in (15, 17, 25)}
+line_height = 34
+visible_lines = 11
+columns = int((width - 48) / fonts[25].getlength('M'))
 history = [
     ('FDEOps  /  one client engagement', green),
     ('discover → build → verify → hand over', muted),
@@ -34,11 +35,11 @@ def render(lines, customer, stage):
         draw.ellipse((x, 16, x + 10, 26), fill=color)
     draw.text((92, 12), 'FDEOps / client work', font=fonts[17], fill=muted)
     for index, (line, color) in enumerate(lines[-visible_lines:]):
-        assert draw.textlength(line, font=fonts[22]) <= width - 48, line
-        draw.text((24, 60 + index * line_height), line, font=fonts[22], fill=color)
-    draw.line((24, 450, width - 24, 450), fill='#344044')
-    draw.text((24, 462), stage, font=fonts[17], fill=green)
-    draw.text((24, 494), 'Fictional demo | Local checks | No production deployment',
+        assert draw.textlength(line, font=fonts[25]) <= width - 48, line
+        draw.text((24, 60 + index * line_height), line, font=fonts[25], fill=color)
+    draw.line((24, 448, width - 24, 448), fill='#344044')
+    draw.text((24, 459), stage, font=fonts[17], fill=green)
+    draw.text((24, 485), 'Fictional demo | Local checks | No production deployment',
               font=fonts[15], fill=muted)
     return image
 
@@ -50,7 +51,7 @@ def add_frame(lines, scene, duration):
 
 
 def wrap(text, color):
-    return [(line, color) for line in textwrap.wrap(text, width=79)] or [('', color)]
+    return [(line, color) for line in textwrap.wrap(text, width=columns)] or [('', color)]
 
 
 for index, scene in enumerate(scenes):
@@ -60,10 +61,12 @@ for index, scene in enumerate(scenes):
     history.extend(wrap(prompt, green))
     history.extend(wrap('  ' + scene['activity'], muted))
     add_frame(history, scene, 1000)
-    for paragraph in scene['answer'].split('\n'):
-        for line in wrap(paragraph, foreground):
-            history.append(line)
-            add_frame(history, scene, 350)
+    # Wrap complete responses to the terminal width, rather than forcing
+    # every short sentence onto a separate line.
+    response = ' '.join(scene['answer'].splitlines())
+    for line in wrap(response, foreground):
+        history.append(line)
+        add_frame(history, scene, 350)
     for paragraph in scene.get('receipt', '').split('\n'):
         if paragraph:
             history.extend(wrap('  ' + paragraph, muted))
