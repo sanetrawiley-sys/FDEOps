@@ -11,7 +11,7 @@ H=$(mktemp -d); ROOT="$H/fde-engagements"
 HOME="$H" FDEOPS_ENGAGEMENTS_ROOT="$ROOT" node bin/fde.js resume --init client-a
 ```
 
-Rules learned the hard way:
+Test requirements:
 
 - **Create decoy fixtures FIRST.** The absence of a directory proves nothing. Always make a
   second engagement (`client-b`) plus a `realclient` decoy and a `.registry` binding, then compare
@@ -21,8 +21,7 @@ Rules learned the hard way:
   test failure by itself.
 - Strip ANSI before grepping output; colored prompts/markers silently break naive greps.
 - `npm run check` runs gates **and** tests; `npm test` alone runs only tests.
-- Regression floor: v3.10.3 → 97/97; v3.10.4 → **103/103**, then **107/107** once the non-regular
-  and slug guards landed. `npm run check` exit 0. Check the current floor rather than assuming.
+- Run the current suite with `npm run check` and record its results; historical test counts are not an acceptance criterion.
 - **Wrap every single CLI/hook invocation in `timeout 15` regardless.** Non-regular-file shapes have
   repeatedly re-introduced blocking reads/writes; without `timeout` the whole matrix stalls instead
   of reporting exit 124, and a regression here is invisible.
