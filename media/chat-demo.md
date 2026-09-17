@@ -4,45 +4,45 @@ One continuous terminal replay: discovery, scope, build, a customer switch, test
 
 The user speaks naturally. FDEOps chooses the method and keeps the work moving. The small muted line names the method for the viewer; it is an explanatory label, not a command the user has to remember.
 
-The GIF is a shortened, edited replay of two scripted runs using fictional Northstar Support and Kesterman Freight Lines records. The local routing fixture, six tests, checkpoints and handover draft were actually exercised. No production system was accessed or deployed.
+The GIF is a shortened, edited replay of one fictional support workflow. The local routing fixture, six tests, checkpoints and handover draft were actually exercised. No production system was accessed or deployed.
 
 ## The conversation
 
-1. **Discover** - “The support queue is growing. Where do we start?”
+1. **Discover** - “The queue is growing. Where do we start?”
 
-   “Follow one request from arrival to assignment. Measure waiting time, rework and misroutes.”
+   “Trace one request. Measure delay, rework and wrong routes.”
 
 2. **Scope** - “Make the first slice small.”
 
-   “Classify three request types and route them to existing queues. Keep unusual cases with a human reviewer.”
+   “Route three request types. Send everything else to a person.”
 
 3. **Build** - “Build it. Save my place before the call.”
 
-   “`triage.js` changed. Checkpoint saved. Baseline: 2/6 passed. Next: run the local cases.”
+   “`triage.js` changed. Checkpoint saved. Baseline: 2/6 passed.”
 
-4. **Switch customer** - “Kesterman meeting in five minutes. Brief me.”
+4. **Switch customer** - “I have another customer call. Save this.”
 
-   “Denise must choose: defer the extra report, or trade scope for the date. Northstar’s unfinished work is preserved.”
+   “Saved. This work stays intact. Brief ready for the next customer.”
 
-5. **Resume and test** - “Back to Northstar. Verify the router.”
+5. **Resume and test** - “Back to the support team. Run the checks.”
 
-   “Checkpoint recovered. 6/6 local cases pass. The real queue still needs a staging check.”
+   “Checkpoint recovered. 6/6 local cases pass. Staging is next.”
 
-6. **Rollout decision** - “Six cases pass. Ship it?”
+6. **Rollout decision** - “Can we roll it out?”
 
-   “Not yet. Replay representative requests on customer staging. Name the operator, rollback and acceptance owner first.”
+   “Not yet. Test representative requests in staging. Name the operator, rollback and approver.”
 
 7. **Handover** - “Prepare handover and leave the next step.”
 
-   “Runbook draft ready: queues, review path and rollback. Saved next action: arrange the authorised staging replay.”
+   “Runbook ready: operate, review, roll back. Next: authorised staging replay.”
 
 ## What the evidence means
 
 The local fixture starts at 2/6 passing tests and reaches 6/6 after the routing change. That proves the local cases ran; it does not prove customer integration, staging readiness or production value.
 
-The handover draft carries the operating questions forward: who owns the queues, what happens to unusual requests, how to roll back and who accepts the measured result. Those conditions remain pending in the demo.
+The handover draft carries the operating questions forward: who operates the queues, who reviews exceptions, how to roll back and who accepts the result. Those conditions remain pending in the demo.
 
-The customer switch is temporary and read-only. Northstar’s work is preserved; Kesterman’s record is not changed. The animation combines two scripted runs and stages typing and pauses for readability.
+The customer switch is temporary and read-only. The first work is preserved; no second customer record is changed. The animation stages typing and pauses for readability.
 
 ## Reproduce the local fixture
 

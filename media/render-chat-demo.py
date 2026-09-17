@@ -19,8 +19,8 @@ fonts = {size: ImageFont.truetype(args.font, size) for size in (15, 17, 22)}
 line_height = 31
 visible_lines = 12
 history = [
-    ('FDEOps  /  customer work in your AI coding agent', green),
-    ('Garvey Payment Systems | fictional customer, local workspace', muted),
+    ('FDEOps  /  one client engagement', green),
+    ('discover → build → verify → hand over', muted),
     ('', muted),
 ]
 frames, durations = [], []
@@ -32,13 +32,13 @@ def render(lines, customer, stage):
     draw.rectangle((0, 0, width, 42), fill='#1b2325')
     for x, color in ((18, '#ef7069'), (38, '#eabd5b'), (58, '#55bd7b')):
         draw.ellipse((x, 16, x + 10, 26), fill=color)
-    draw.text((92, 12), 'AI agent / ' + customer, font=fonts[17], fill=muted)
+    draw.text((92, 12), 'FDEOps / client work', font=fonts[17], fill=muted)
     for index, (line, color) in enumerate(lines[-visible_lines:]):
         assert draw.textlength(line, font=fonts[22]) <= width - 48, line
         draw.text((24, 60 + index * line_height), line, font=fonts[22], fill=color)
     draw.line((24, 450, width - 24, 450), fill='#344044')
     draw.text((24, 462), stage, font=fonts[17], fill=green)
-    draw.text((24, 494), 'Fictional customers | Edited terminal replay | Local tests, not production footage',
+    draw.text((24, 494), 'Fictional demo | Local checks | No production deployment',
               font=fonts[15], fill=muted)
     return image
 
