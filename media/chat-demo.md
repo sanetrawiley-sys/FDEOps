@@ -1,62 +1,64 @@
-# FDEOps: a customer email project
+# FDEOps: insurance KYC and a healthcare client
 
-A scripted conversation showing how an engineer uses natural language to take a customer problem through scoping, implementation, a customer switch, checks and handover preparation. Typing and responses are staged for readability; this is not a recording of a live customer engagement.
+An illustrative terminal conversation follows an insurer's know-your-customer (KYC) document-review project. Operations wants less manual work; Compliance retains approval; IT controls model access. Mid-build, the engineer switches to a healthcare client's intake meeting, then resumes the insurance work.
+
+The conversation is authored and animated, not captured from a live customer engagement. Names, stakeholder decisions, saved-session responses and handover are illustrative.
 
 ## Conversation
 
-**Understand**
+**Workshop**
 
-> @fde Our customer sorts support emails by hand. Help me improve it.
+> @fde Insurer workshop: Ops wants faster ID checks. Compliance must approve every case.
 
-Where does the team lose time: reading emails, choosing a team, or waiting for replies?
+Agreed: AI prepares the document review; Compliance makes the decision. First, measure the time reviewers spend.
 
-**Agree the work**
+**Scope**
 
-> Choosing a team. Start with billing, login problems and outages.
+> Their CTO approved the internal model. Start with synthetic IDs and the existing review screen.
 
-We can route those three types to the right team. Anything unclear stays with a person. Shall I build that?
+First build: extract ID fields, flag missing or conflicting details, and prepare a review. No automatic customer approval.
 
 **Build**
 
-> Yes. Build the routing part first.
+> Build the review step. Keep it inside their current system.
 
-Added triage.js: billing to Billing, login problems to IT, outages to Support. Next: test the routes.
+Added kyc-review.js: turns extracted fields into a reviewer summary. Missing or conflicting details get flagged. Tests are next.
 
 **Switch customer**
 
-> @fde Save my place. I have a website meeting with my other client.
+> @fde Save this. Healthcare client call now: IT has not approved access to patient records.
 
-Saved: email routing is built; tests are next. Switching to your other client's notes for the meeting.
+KYC saved: review step built; tests next. Healthcare: use synthetic intake forms. Ask IT who owns access approval and when.
 
 **Resume and test**
 
-> @fde Back to the email project. Continue where we stopped.
+> @fde Back to insurance. Pick up the tests.
 
-Resumed the tests. All 6 local checks pass, including sending unknown types to a person.
+Resumed from the saved step. 6/6 local checks pass: complete, missing, unreadable and conflicting fields. Every case still needs a reviewer.
 
-**Prepare rollout**
+**Rollout decision**
 
-> Can the customer use it now?
+> Can Ops start using it?
 
-The routing code passes. We still need to connect their inbox and test with approved sample emails before going live.
+Not yet. Test their model and review screen with approved samples. Compliance signs off before a pilot with one team.
 
-**Prepare handover**
+**Handover preparation**
 
-> Prepare the handover and save what is left.
+> Prepare the handover for Ops and IT.
 
-Draft saved: team routes, manual review and how to stop routing. Next session: connect and test the inbox.
+Draft ready: reviewer steps, support owner and manual fallback. Next: customer testing, then compare review time with the baseline.
 
-## What was tested
+## What the local evidence establishes
 
-The included routing function passes six local checks. Inputs already carry a type; the function chooses a team or returns a review status. It does not read, classify or send emails. Inbox connection, customer testing and production deployment remain future work. The customer switch and saved-session responses illustrate intended use, not proof of a live agent run.
+The included review function passes six tests using synthetic extracted fields. It flags missing, unreadable or mismatched information and always requires a reviewer. Unexpected model-output approval fields cannot change that status. It does not call an AI model, read identity documents, verify identity, establish regulatory compliance or connect to a customer system. Model quality, permissions, the review-screen integration and business results are untested.
 
-Run the local checks:
+The healthcare switch illustrates using a separate engagement record while insurance work is paused. This animation does not itself test cross-client isolation or session recovery. No patient records are used.
 
 ```bash
-node --test media/workday-fixture/triage.test.js
+node --test media/workday-fixture/kyc-review.test.js
 ```
 
-Render the animation with Pillow and a monospace font:
+Render with Pillow and a monospace font:
 
 ```bash
 python3 media/render-chat-demo.py --font /path/to/monospace.ttf

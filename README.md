@@ -12,9 +12,9 @@ FDEOps brings that context into the work, from the first meeting to a system the
 
 [Get started](#quick-start) · [What it helps with](#three-things-it-helps-with) · [Choose a skill](#task-skills) · [Data boundaries](#your-records-your-control) · [Docs](docs/README.md)
 
-![FDEOps terminal: discover, build, verify and hand over a client workflow](media/chat-demo.gif)
+![FDEOps terminal: insurance KYC workshop, build, healthcare client switch, tests and handover](media/chat-demo.gif)
 
-*Fictional customers. Illustrative conversation with real local routing tests. No live inbox or production deployment. [Read the conversation](media/chat-demo.md) · [View a still](media/chat-demo.png).*
+*Fictional customers. Illustrative enterprise conversation with real local review-logic tests. Synthetic data; no live model or customer deployment. [Read the conversation](media/chat-demo.md) · [View a still](media/chat-demo.png).*
 
 ## Quick start
 

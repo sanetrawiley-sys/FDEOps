@@ -1,54 +1,54 @@
 {
-  "description": "Illustrative terminal conversation. Real local routing tests; no live email integration or deployment.",
+  "description": "Illustrative insurance KYC engagement with a healthcare customer switch. Local review-logic tests use synthetic extracted fields; no model, patient records or customer system accessed.",
   "scenes": [
     {
-      "customer": "Email project",
-      "label": "Understand",
-      "prompt": "@fde Our customer sorts support emails by hand. Help me improve it.",
-      "answer": "Where does the team lose time: reading emails, choosing a team, or waiting for replies?",
-      "hold_ms": 4500
+      "customer": "Insurance / KYC",
+      "label": "Workshop",
+      "prompt": "@fde Insurer workshop: Ops wants faster ID checks. Compliance must approve every case.",
+      "answer": "Agreed: AI prepares the document review; Compliance makes the decision. First, measure the time reviewers spend.",
+      "hold_ms": 5500
     },
     {
-      "customer": "Email project",
-      "label": "Agree the work",
-      "prompt": "Choosing a team. Start with billing, login problems and outages.",
-      "answer": "We can route those three types to the right team. Anything unclear stays with a person. Shall I build that?",
-      "hold_ms": 4500
+      "customer": "Insurance / KYC",
+      "label": "Scope",
+      "prompt": "Their CTO approved the internal model. Start with synthetic IDs and the existing review screen.",
+      "answer": "First build: extract ID fields, flag missing or conflicting details, and prepare a review. No automatic customer approval.",
+      "hold_ms": 5500
     },
     {
-      "customer": "Email project",
+      "customer": "Insurance / KYC",
       "label": "Build",
-      "prompt": "Yes. Build the routing part first.",
-      "answer": "Added triage.js: billing to Billing, login problems to IT, outages to Support. Next: test the routes.",
-      "hold_ms": 4500
+      "prompt": "Build the review step. Keep it inside their current system.",
+      "answer": "Added kyc-review.js: turns extracted fields into a reviewer summary. Missing or conflicting details get flagged. Tests are next.",
+      "hold_ms": 5500
     },
     {
-      "customer": "Other client",
+      "customer": "Healthcare / Intake",
       "label": "Switch customer",
-      "prompt": "@fde Save my place. I have a website meeting with my other client.",
-      "answer": "Saved: email routing is built; tests are next. Switching to your other client's notes for the meeting.",
-      "hold_ms": 4500
+      "prompt": "@fde Save this. Healthcare client call now: IT has not approved access to patient records.",
+      "answer": "KYC saved: review step built; tests next. Healthcare: use synthetic intake forms. Ask IT who owns access approval and when.",
+      "hold_ms": 5500
     },
     {
-      "customer": "Email project",
+      "customer": "Insurance / KYC",
       "label": "Resume and test",
-      "prompt": "@fde Back to the email project. Continue where we stopped.",
-      "answer": "Resumed the tests. All 6 local checks pass, including sending unknown types to a person.",
-      "hold_ms": 4500
+      "prompt": "@fde Back to insurance. Pick up the tests.",
+      "answer": "Resumed from the saved step. 6/6 local checks pass: complete, missing, unreadable and conflicting fields. Every case still needs a reviewer.",
+      "hold_ms": 5500
     },
     {
-      "customer": "Email project",
-      "label": "Prepare rollout",
-      "prompt": "Can the customer use it now?",
-      "answer": "The routing code passes. We still need to connect their inbox and test with approved sample emails before going live.",
-      "hold_ms": 4500
+      "customer": "Insurance / KYC",
+      "label": "Rollout decision",
+      "prompt": "Can Ops start using it?",
+      "answer": "Not yet. Test their model and review screen with approved samples. Compliance signs off before a pilot with one team.",
+      "hold_ms": 5500
     },
     {
-      "customer": "Email project",
-      "label": "Prepare handover",
-      "prompt": "Prepare the handover and save what is left.",
-      "answer": "Draft saved: team routes, manual review and how to stop routing. Next session: connect and test the inbox.",
-      "hold_ms": 4500
+      "customer": "Insurance / KYC",
+      "label": "Handover preparation",
+      "prompt": "Prepare the handover for Ops and IT.",
+      "answer": "Draft ready: reviewer steps, support owner and manual fallback. Next: customer testing, then compare review time with the baseline.",
+      "hold_ms": 5500
     }
   ]
 }
