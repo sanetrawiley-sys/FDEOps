@@ -12,9 +12,9 @@ FDEOps brings that context into the work, from the first meeting to a system the
 
 [Get started](#quick-start) · [What it helps with](#three-things-it-helps-with) · [Choose a skill](#task-skills) · [Data boundaries](#your-records-your-control) · [Docs](docs/README.md)
 
-![FDEOps terminal: discovery, scope, build, customer switch, tests and rollout and handover preparation](media/chat-demo.gif)
+![FDEOps terminal: discover a support workflow, build a small change, switch customers, test and prepare handover](media/chat-demo.gif)
 
-*Fictional customers. Real local code, tests, saved checkpoints and a handover draft. Edited terminal replay; no production deployment. [Read the conversation](media/chat-demo.md) · [View a still](media/chat-demo.png).*
+*Fictional customers. Real local routing code, tests, saved checkpoints and a handover draft. Edited terminal replay; no production deployment. [Read the conversation](media/chat-demo.md) · [View a still](media/chat-demo.png).*
 
 ## Quick start
 
