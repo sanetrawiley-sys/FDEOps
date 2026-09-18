@@ -105,3 +105,11 @@ FDEOPS_TEST_OLLAMA=http://127.0.0.1:11434 node evals/local-model/check.js qwen3:
 ## Claims the evidence does not support yet
 
 Independent users' maintenance time, repeated benefit and continued use have not been demonstrated. Neither have universal host compatibility, enterprise certification or superiority over other skill packs. A scoped successful trial is evidence for that task under those conditions. Record failures, unknowns and the actual environment before generalizing it.
+
+## Skills and memory checks (2026-09-18)
+
+Synthetic insurance and municipal-portal tasks exercised discovery, architecture choices, implementation, scope and handoff. The outputs kept unmeasured business targets separate from technical results, preserved uncertain writes, rejected unauthorized scope changes and identified incomplete operating handover. Standalone tasks produced useful drafts without creating customer records.
+
+Separate CLI checks switched between two fictional customer records, returned to the original checkpoint and recalled its lesson. Assertions checked customer identity, exclusion of the other customer's checkpoint and private-content redaction. These checks do not establish that an AI host erases earlier conversation context.
+
+All 442 repository tests passed, along with routing-contract and context-budget checks. The task trials were small, non-blinded diagnostics with no real APIs, production deployments or customer acceptance. They do not establish comparative skill performance, universal reliability or measured customer value. The [reusable scenario](../evals/delivery/README.md#end-to-end-diagnostic-strategy-through-handoff) describes the exercise; temporary outputs are not shipped.

@@ -4,7 +4,7 @@
   "files": {
     "SKILL.md": "396110a1cb9a555b4096ef77bf45e531b60d78b18bd617c654f19c8e07506ce1",
     "agents/openai.yaml": "731f3c81d46444af542369f0aa27736d24530d00fc1aa717436ddefe3f3bdef7",
-    "references/build.md": "03c52eda90642c62053b53ef1e85c97b4e647600f454aee9da0e415c9d98903e",
+    "references/build.md": "4ebea9776605f79f902d9bf83a065e4cded191d7b5f8defcf58c054514fc34f5",
     "references/debug.md": "3273a921a98522431ae821a283814897270c719cbfab83d14b99175537d869e5",
     "references/eval-pack.md": "0590b85d3cae0903c6b1274540c92eaa2a4373047e8a0548d6942516ef0bb9e1",
     "references/integrate.md": "1cb7a60d7545b0bf224fce678a04ce6ccdf368c47877d9c8e4dc4272bb0d5b0c",

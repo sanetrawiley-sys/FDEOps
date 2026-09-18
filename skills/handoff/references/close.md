@@ -8,11 +8,18 @@ For a standalone handoff draft, use the supplied notes and project evidence; no 
 
 **Read first:** for standalone work, use the supplied permitted operating notes, evidence and ownership; no engagement binding or CLI command is required. For a bound engagement, use bounded `fde handoff` or `fde resume`, then `fde recall <topic>` for relevant client patterns, earlier retrospectives, and missing evidence. Never initialize records merely to draft a handoff. Build the picture through relevant excerpts, not a full-directory load. Consult `terrain.md` only for code paths needed by the successor.
 
-The engagement doesn't end at ship. It ends when the customer can maintain what was built without calling.
+A handoff transfers the ability to operate the system, not just its files.
 
-## Method (you do this work, with the FDE's answers)
+## Match the requested output
 
-**0. The opening question:** "What will bite them when you're gone?" Their answer shapes everything written below.
+- **Draft a handoff:** return the operating summary, evidence and gaps from supplied context. Do not require a retrospective, initialized record or completed value measurement to produce a useful draft. Missing evidence limits readiness claims, not drafting.
+- **Assess readiness or close the engagement:** apply the close gates below. Reuse existing evidence and agreed acceptance rather than restarting the engagement.
+
+Lead with what is being transferred, what the receiving team can demonstrably do, what is untested, and the next action with its owner or ownership gap. A document can be ready for review while operational handover remains incomplete.
+
+## Method
+
+**0. Find the operating gap.** Use supplied evidence to identify what still depends on the departing engineer. Ask “What will bite them when you’re gone?” only if the answer would change the handoff; do not repeat information already supplied.
 
 **1. The retrospective.** Work through, blame-free and specific:
 - Did the real problem match the brief? (Compare `brief.md` vs `reality.md` - you have the receipts.)
@@ -30,7 +37,7 @@ The engagement doesn't end at ship. It ends when the customer can maintain what 
 
 **2. The pattern.** Anything that happened here and may happen again - a compliance approach, a migration pattern, a stakeholder dynamic - is a candidate for the client's `patterns.md`. Use [encode-pattern](encode-pattern.md) to record applicability, counterexamples, and evidence. Cross-client generalizations need explicit approval and a user-chosen export destination under the applicable policy; closing an engagement does not authorize an automatic scan or export.
 
-**3. The handoff.** Operational knowledge for the person woken at 2am, not technical documentation: the 3 things that will break and the fix for each · who holds the tribal knowledge · what each alert means · deploy and rollback in plain language. AI components additionally: model version, what normal output looks like (so drift is recognisable), fallback behaviour, who owns evaluation and corrective changes, and how to disable or contain the AI path using the supported fallback. Do not assume retraining is available or appropriate.
+**3. The handoff.** Operational knowledge for the person woken at 2am, not technical documentation: the relevant observed failures, their recovery steps and any untested procedure · who holds the tribal knowledge · what each alert means · deploy and rollback in plain language. AI components additionally: model version, what normal output looks like (so drift is recognisable), fallback behaviour, who owns evaluation and corrective changes, and how to disable or contain the AI path using the supported fallback. Do not assume retraining is available or appropriate.
 
 **4. Transformation engagements - four extra answers in `handoff.md`:**
 - Who owns AI governance after the FDE leaves? (Who can pull a model from production?)
@@ -58,7 +65,7 @@ Retrospective against the receipts: `brief.md` asked for monitoring, `reality.md
 
 The close gate bites in a useful way. The ledger shows detection at 12 minutes measured across two real incidents, but **Accepted by** is empty - Marco confirmed it in Slack, but Denise, the recorded acceptance owner, has not accepted the result. Her authority comes from the agreed acceptance record, not her finance title or the fact that she raised the original problem. So it closes as `claimed` with a one-line retrospective note and a named next step, rather than a green close on a number the agreed acceptance owner has not accepted.
 
-`handoff.md` is written for the person woken at 2am: the three things that break, what the page means, how to re-run manually the way Marco does, and who holds the tribal knowledge (Raj, who built the original job - credited, because he protects it now). `patterns.md` gets *"unowned job" presents as "unmonitored job"* - it has now happened twice.
+`handoff.md` is written for the person woken at 2am: the observed failure modes, what the page means, how to re-run manually the way Marco does, and who holds the tribal knowledge (Raj, who built the original job - credited, because he protects it now). `patterns.md` gets *"unowned job" presents as "unmonitored job"* - it has now happened twice.
 
 ## Principles
 

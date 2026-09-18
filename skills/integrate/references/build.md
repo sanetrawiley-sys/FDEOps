@@ -20,7 +20,7 @@ Use existing services, fixtures, validation, and repository conventions before a
 
 ## Demonstrate the behavior
 
-Add or update automated coverage when meaningful and feasible, including the relevant failure path. Check that existing tests actually exercise the change. Explain manual-only coverage and its limits. Run focused checks, then required repository checks; use [QA](qa.md) for the affected journey when appropriate and [eval-pack](eval-pack.md) for uncertain model behavior. Record evidence and unrun checks with [verification](verification.md).
+Add or update automated coverage when meaningful and feasible, including the relevant failure path. Check that existing tests actually exercise the change. Derive expected results from the agreed behavior or an independent fixture, not by repeating the implementation in the assertion; a passing test must be capable of detecting a wrong result. Explain manual-only coverage and its limits. Run focused checks, then required repository checks; use [QA](qa.md) for the affected journey when appropriate and [eval-pack](eval-pack.md) for uncertain model behavior. Record evidence and unrun checks with [verification](verification.md).
 
 Inspect the final diff against the agreed outcome. Update affected existing documentation and examples when public behavior, interfaces, configuration, or operating steps change. Exercise relevant commands or state what could not run. For substantial or risky work, use [review](review.md) with a separate reviewer when available; label a self-check honestly. Reverify affected behavior after repairs.
 
