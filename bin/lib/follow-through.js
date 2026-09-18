@@ -1,7 +1,11 @@
 'use strict'
 
 // Explicit checkboxes keep closure human-owned; prose is not inferred as a debt.
-function pendingItems(text, today = new Date().toISOString().slice(0, 10)) {
+function localDay(now = new Date()) {
+  return [now.getFullYear(), String(now.getMonth() + 1).padStart(2, '0'), String(now.getDate()).padStart(2, '0')].join('-')
+}
+
+function pendingItems(text, today = localDay()) {
   const items = []
   let section = ''
   let fence = ''
@@ -34,4 +38,4 @@ function pendingSummary(text) {
   return `OPEN FOLLOW-THROUGH (${Math.min(items.length, 8)} of ${items.length} recorded items)\n${items.slice(0, 8).join('\n')}\nRecorded items, not a complete agenda. Confirm status and meeting relevance.`
 }
 
-module.exports = { pendingItems, pendingSummary }
+module.exports = { pendingItems, pendingSummary, localDay }

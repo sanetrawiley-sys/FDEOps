@@ -2717,7 +2717,10 @@ function cmdRecall(args) {
   let omitted = false
   try {
     if (fs.lstatSync(retrospectiveDir).isDirectory()) {
-      const names = fs.readdirSync(retrospectiveDir).filter(name => /^\d{4}-\d{2}-\d{2}-.+\.md$/.test(name)).sort().reverse()
+      const names = fs.readdirSync(retrospectiveDir).filter(name => {
+        if (!/^\d{4}-\d{2}-\d{2}-.+\.md$/.test(name)) return false
+        try { return fs.lstatSync(path.join(retrospectiveDir, name)).isFile() } catch (_) { return false }
+      }).sort().reverse()
       omitted = names.length > 100
       files.push(...names.slice(0, 100).map(name => `retrospectives/${name}`))
     }

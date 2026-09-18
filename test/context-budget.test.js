@@ -277,3 +277,25 @@ test('follow-through retains nested headings and ignores malformed or list-conta
   assert.match(items[1], /ALSO_REAL/)
   assert.doesNotMatch(items.join('\n'), /EXAMPLE/)
 })
+
+test('follow-through compares due dates to the local calendar day west and east of UTC', () => {
+  const modulePath = path.join(__dirname, '../bin/lib/follow-through.js')
+  for (const [tz, expected] of [['America/Los_Angeles', '2026-09-17'], ['Asia/Kolkata', '2026-09-18']]) {
+    const result = spawnSync(process.execPath, ['-e', `const {localDay,pendingItems}=require(${JSON.stringify(modulePath)}); const day=localDay(new Date('2026-09-18T00:30:00Z')); console.log(day); console.log(pendingItems('## Commitments\\n- [ ] Due today; due: '+day,day).join(''));`], { env: { ...process.env, TZ: tz }, encoding: 'utf8' })
+    assert.equal(result.status, 0)
+    assert.ok(result.stdout.startsWith(expected))
+    assert.doesNotMatch(result.stdout, /past recorded/)
+  }
+})
+
+test('excluded retrospective links and directories cannot displace real files from recall', t => {
+  const f = fixture(t)
+  fs.mkdirSync(path.join(f.eng, 'retrospectives'))
+  f.write('retrospectives/2020-01-01-real.md', 'retry RETAINED_REAL_LESSON')
+  for (let i = 0; i < 100; i++) fs.symlinkSync('/nonexistent', path.join(f.eng, `retrospectives/2026-09-18-link-${i}.md`))
+  fs.mkdirSync(path.join(f.eng, 'retrospectives/2026-09-19-directory.md'))
+  const out = f.run(['recall', 'retry'])
+  assert.equal(out.status, 0, out.stderr)
+  assert.match(out.stdout, /RETAINED_REAL_LESSON/)
+  assert.doesNotMatch(out.stdout, /Older retrospectives omitted/)
+})
