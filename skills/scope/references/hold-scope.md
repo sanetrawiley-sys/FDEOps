@@ -4,7 +4,7 @@
 
 **Enter when:** "also can you…" mid-build, a stakeholder adds requirements without adjusting timeline, the FDE feels scope creeping but can't name it, or `success.md` no longer matches what's being asked.
 
-**Read first:** `success.md` (the agreed boundary), `decisions.md`, `context.md`. Load `stakeholders.md` to know who's asking and their signal.
+**Read first:** the supplied agreement, acceptance checks and request. In a bound engagement, retrieve the relevant `success.md`, `decisions.md`, `context.md` and decision authority. Missing records do not block a standalone recommendation; identify which boundary or authority remains unconfirmed.
 
 Small requests can accumulate into material changes to cost, timing or acceptance. Compare the request with the actual agreement before classifying it; an adjacent request may already be in scope, and a clarification is not automatically an addition.
 
@@ -66,13 +66,17 @@ Check cumulative impact against the agreed scope and remaining capacity. Recomme
 
 ## Worked example
 
-Acme, week 5. Nothing has been formally added, and the slice is a week late.
+Fictional example: the agreed slice sends missing-document reminders. Sales asks to reject a case automatically after 48 hours, calling it a small rule. Compliance owns acceptance of review controls; no automated rejection has been approved.
 
-The pattern shows in three requests: a "quick" finance CSV export (Jun 20, half a day, from Denise directly), retry-logic cleanup asked for mid-build (Jun 24, one day, Tom), and a dashboard tile "while you're in there" (Jun 27, half a day). Each sounds reasonable; their cumulative estimates explain part of the slip and need a scope decision.
+The code may be small, but the request changes who decides the case outcome. Recommend keeping reminders in the current slice and treating automatic rejection as a separate proposed decision. Do not imply that sales enthusiasm supplies authority or that a future phase is promised. If saved in a bound engagement, the `decisions.md` receipt remains proposed; `success.md` stays unchanged until the appropriate owner agrees.
 
-Three-bucket response, applied while the requests can still be placed: the CSV export fits this phase only with an accepted trade (it displaces the runbook polish), the retry cleanup goes to the kill list in `decisions.md` with the what-breaks reason, and the tile is absorbed because it is genuinely twenty minutes - included in the existing progress receipt so cumulative impact remains visible.
+Reply draft: “The reminder slice stays as agreed. Automatic rejection changes the decision policy, so I would not include it under the current approval. We can assess it with the policy owner, including the exception path and impact on delivery.”
 
-That conversation happens with Priya when the added work threatens the date, with the receipts on screen: "here are the asks, their estimated impact, and what moved." Confirm Priya holds the relevant scope authority before treating her response as agreement.
+For a lower-impact request, reach the same decision from its actual fit, risk and authority, not from how few minutes it takes.
+
+## Return
+
+Give the scope fit, evidence or missing agreement, material impact, recommended disposition, and the decision needed from whom. Include a short customer-facing reply when useful. In standalone mode, return the assessment directly; do not create records or imply that the recommendation was accepted.
 
 ## Principles
 

@@ -1,5 +1,12 @@
 # Changelog
 
+## 5.1.12 - 2026-09-18
+
+- Clarify standalone scope recommendations and distinguish coding effort from authority.
+- Separate handoff drafting from operational closure; use observed failure modes instead of a fixed quota.
+- Ground test expectations in agreed behavior or independent fixtures.
+- Update generated skill packages and document synthetic validation limits.
+
 ## 5.1.11 - 2026-09-18
 
 - Recall saved client lessons and dated retrospectives without following linked records.
