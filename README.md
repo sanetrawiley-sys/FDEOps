@@ -10,16 +10,6 @@ Use a task skill on its own, or let `fde` coordinate work across strategy, archi
 
 [Get started](#quick-start) · [What it helps with](#three-things-it-helps-with) · [Choose a skill](#task-skills) · [Data boundaries](#your-records-your-control) · [Docs](docs/README.md)
 
-### What it looks like
-
-Illustrative exchange using a fictional customer record; these are sample results, not a recorded run:
-
-> **You:** Our support team routes requests manually. Help us reduce routing time without sending requests to the wrong team.
->
-> **fde:** I’ll inspect the routing process and existing service first, then propose a small change with checks for speed and incorrect routing.
->
-> **fde, after the approach is agreed and implemented:** Routing suggestions and manual fallback are built. Local checks passed. Staging replay, measured routing time and rollout approval are still pending.
-
 ## Quick start
 
 **Use your customer’s approved AI tools and data.** The FDEOps CLI runs locally; your AI host may send what it reads to its provider. Start with synthetic data until customer access is approved. [Safe setup](SECURITY.md#before-customer-work).

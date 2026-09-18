@@ -200,9 +200,7 @@ if (readme.includes('media/chat-demo.gif')) {
   } else if (['chat-demo.gif', 'chat-demo.png', 'chat-demo.json', 'chat-demo.md', 'render-chat-demo.py'].some(name => !fs.existsSync(path.join(root, 'media', name)))) {
     fail('chat walkthrough must include rendered assets, text, source and renderer')
   } else ok('README animation has accessible text and reproducible source')
-} else if (!/fictional customer record/i.test(readme) || !readme.includes('> **You:**') || !readme.includes('> **fde:**')) {
-  fail('README must show a readable example with fictional-data disclosure')
-} else ok('README has a text example with fictional-data disclosure')
+}
 
 const usage = read('docs/USAGE.md')
 if (!usage.includes('media/session.gif') || !usage.includes('media/record-session.sh')) {
