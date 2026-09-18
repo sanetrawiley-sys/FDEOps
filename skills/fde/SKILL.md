@@ -27,8 +27,8 @@ For record-backed work only:
 
 1. Before client reads, run `fde setup --show` and verify `fde privacy` support. If setup is unconfigured or the user requests preferences, follow `references/record-setup.md`. Setup does not authorize sharing customer data.
 2. Use a fresh `fde resume` packet for this turn/task. Reuse a current session-hook packet only when its visible `ENGAGEMENT:` matches the binding and its freshness is certain. Refresh after binding, masking or record changes, or when the user asks where things stand. Do not reuse an earlier turn's packet or repeat the same entry solely because another method loaded.
-3. Read policy, signer, goals, risks and current work. Retrieve omitted or disputed evidence with `fde recall <topic>`; never replace this with raw or recursive record reads. Resume defaults to 16 KiB (4 KiB in compact setup); `--max-bytes 4096` reduces it, and `--full` is for explicitly needed complete context.
-4. For interrupted implementation, inspect the saved checkpoint and follow `references/verification.md#recoverable-checkpoint` before acting. A checkpoint is a dated claim, not a fresh test or permission to execute.
+3. Read policy, signer, goals, risks and current work. Retrieve omitted or disputed evidence, saved lessons and dated retrospectives with `fde recall <topic>`; never replace this with raw or recursive record reads. Resume defaults to 16 KiB (4 KiB in compact setup); `--max-bytes 4096` reduces it, and `--full` is for explicitly needed complete context.
+4. For interrupted implementation, inspect the saved checkpoint and follow `references/verification.md#recoverable-checkpoint` before acting. A checkpoint is a dated claim, not a fresh test or permission to execute. For a returning or closed engagement, apply the reopening check in `references/land.md` before relying on historical access, owners or deployment evidence.
 5. Give a brief playback and load the relevant method below. `hygiene:` means offer `fde doctor`; never auto-rewrite.
 
 The CLI uses local files and Git, without network calls. Install it on the FDE's own machine, never customer infrastructure. The AI host's permissions and provider policy remain separate.
@@ -173,3 +173,7 @@ Ready to build: check that the supplied facts establish the outcome, constraints
 - A missing record or check is an explicit gap, not a reason to fabricate facts or restart discovery.
 - Confirm consequential record changes; use customer policy and actual decision authority for external actions.
 - Report what was achieved, its evidence and remaining limits. Never equate implementation with deployment or acceptance.
+
+### Keep open work visible
+
+For confirmed follow-ups, maintain `## Commitments` and `## Open questions` in the existing `context.md`. Use unchecked bullets for unresolved items and check them only after confirmed resolution. A commitment says who owes what to whom; include a source and `due: YYYY-MM-DD` or `review: YYYY-MM-DD` only when agreed. Preserve unresolved `unknown - ask:` questions here when they affect the next decision. Do not infer a promise from a suggestion. `resume` and `prep` surface these entries with sources; dates prompt a status check, not an invented escalation. For a meeting, select relevant entries and use targeted recall for supporting evidence. Users describe the follow-up naturally; maintain the record for them.

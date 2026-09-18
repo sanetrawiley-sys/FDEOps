@@ -4,7 +4,7 @@
 
 **Enter when:** the engagement is closing and reusable patterns exist, a technique worked well and will apply to future clients, the FDE notices themselves doing the same thing on a second engagement, or close identified a pattern worth preserving.
 
-**Read first:** `decisions.md`, `reality.md`, `delivery.md`, `retrospectives/`, `context.md`. Patterns live in what was *done*, not what was planned.
+**Read first:** permitted evidence from `decisions.md`, `reality.md`, `delivery.md`, `retrospectives/`, `patterns.md`, and `context.md`. For a bound engagement, use `fde recall <topic>` to retrieve relevant client patterns and retrospective excerpts; do not load whole directories. Patterns live in what was *done*, not what was planned.
 
 The difference between a 5-year FDE and a 15-year FDE is not talent - it's encoded patterns. The 15-year FDE walks into a new engagement and recognises the situation in minutes because they've seen it before, named it, and know the move. Pattern extraction turns experience into reusable intelligence.
 
@@ -49,7 +49,7 @@ The difference between a 5-year FDE and a 15-year FDE is not talent - it's encod
 | **Specific enough?** | Contains concrete steps, not just principles | "Build trust" / "Communicate well" - too vague to act on |
 | **Repeatable?** | Applies to a class of situations, not just this one | Only worked because of a unique circumstance |
 | **Falsifiable?** | You can tell when the pattern is working or not | No way to measure whether applying it helped |
-| **Monday bag?** | You would refuse the next similar embed without this in your bag - a named move plus an artifact you can drop on day one (pipe questions, CAB dance, eval golden shape, floor-drill script) | "We learned to communicate." Patterns that only live in this client's `.fde/` do not compound |
+| **Useful again?** | A named move plus an artifact you could use when the situation and policy permit (pipe questions, CAB dance, eval golden shape, floor-drill script) | "We learned to communicate." No concrete move or conditions for reuse |
 
 **4. Classify by stage.** Patterns sort into the same stages as the skills:
 
@@ -69,17 +69,15 @@ The difference between a 5-year FDE and a 15-year FDE is not talent - it's encod
 - After modification: increment minor version with what changed and why
 - After contradiction: note the counter-example, adjust the "watch out for" section
 
-**6. Cross-engagement pattern mining.** Only when explicitly authorized for the named engagements and permitted by each customer's data policy. Keep records separate; use sanitized CLI packets or targeted recall in each authorized context, never raw file comparisons. Otherwise extract a candidate from the current permitted context only.
+**6. Review before reuse.** Client patterns and retrospectives remain in that client's record. Recall relevant evidence with `fde recall <topic>` and check the situation trigger, applicability, counterexamples, and current policy before applying a move. Previous success is historical evidence, not present authority or proof of fit.
 
-- Compare permitted problem summaries - do the same problems recur?
-- Compare permitted decision summaries - are the same decisions being made?
-- Compare permitted lessons - are the same lessons being learned twice?
+Cross-client reuse requires an explicitly approved generalization exported to a user-chosen destination, permitted by the source customer's data policy. Review exactly what will leave the record before export. Do not automatically scan other clients, export patterns, or maintain a shared library. In the receiving engagement, use only the approved export and recheck applicability, counterexamples, and that customer's policy before reuse; do not pull the source client record into its context.
 
 A pattern learned twice is a process failure. Encoding it prevents the third time.
 
 ## Artifact
 
-**`patterns.md`** - candidates and evidence for this engagement, indexed by stage and situation trigger. A shared library is a separate, authorized export: remove names, identifiers, distinctive operational details, secrets, and confidential code or data. Keep source receipts in the original record and export only permitted generalizations.
+**`patterns.md`** - candidates and evidence for this engagement, indexed by stage and situation trigger. A cross-client export is separate and explicitly approved, to a user-chosen destination: remove names, identifiers, distinctive operational details, secrets, and confidential code or data. Keep source receipts in the original record and export only permitted generalizations with their limits and counterexamples.
 
 **`retrospectives/YYYY-MM-DD-<engagement>.md`** - reference to which patterns were extracted from this engagement.
 
@@ -93,4 +91,4 @@ Present the extracted patterns to the FDE: "From this engagement, I've identifie
 - Patterns are steps, not principles. "Build trust" isn't a pattern; "fix a small visible bug on day one" is.
 - Every pattern needs a situation trigger - the FDE must recognise when it applies.
 - Version substantive changes. State the evidence and limits; repeated use is not automatic confirmation.
-- The pattern library is the FDE's compound interest. It's what separates 5 years of experience from 1 year repeated 5 times.
+- Keep client evidence local to its record; share only explicitly approved generalizations.

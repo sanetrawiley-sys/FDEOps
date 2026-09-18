@@ -33,6 +33,7 @@ const path = require('path')
 const os = require('os')
 const { execSync, execFileSync } = require('child_process')
 const { createMemoryApi } = require('./lib/memory')
+const { pendingSummary } = require('./lib/follow-through')
 const { createTrustApi } = require('./lib/trust')
 const vault = require('./lib/vault')
 const context = require('./lib/context')
@@ -1462,7 +1463,7 @@ function cmdResume(args) {
     console.log(`NO ENGAGEMENT for this workspace.\nexisting: ${list}\nAsk the human the client name (one question), then run: fde resume --init <client-name>\nDo not tell them to type that command.`)
     process.exit(2)
   }
-  const intro = [resumeTriage(eng), firstActionLine(eng), ...hygieneTriageLines(eng), ...recordDigest(eng)].join('\n')
+  const intro = [resumeTriage(eng), firstActionLine(eng), pendingSummary(readClean(eng, 'context.md')), ...hygieneTriageLines(eng), ...recordDigest(eng)].join('\n')
   const ctx = readClean(eng, 'context.md')
   const savedWork = context.implementationCheckpoint(ctx)
   const checkpoint = stripTemplateNoise(savedWork.checkpoint).trim()
@@ -2710,11 +2711,22 @@ function cmdRecall(args) {
   }
   const eng = resolveEngagement()
   if (!eng) { console.error('no engagement - bind a client before recall'); process.exit(2) }
-  const files = ['context.md', 'trust-profile.md', 'success.md', 'decisions.md', 'risks.md', 'delivery.md', 'stakeholders.md', 'brief.md', 'reality.md', 'assumptions.md', 'terrain.md', 'handoff.md']
+  const files = ['context.md', 'trust-profile.md', 'success.md', 'decisions.md', 'risks.md', 'delivery.md', 'stakeholders.md', 'brief.md', 'reality.md', 'assumptions.md', 'terrain.md', 'handoff.md', 'patterns.md']
+  // Never follow a directory link into another customer's record.
+  const retrospectiveDir = path.join(eng, 'retrospectives')
+  let omitted = false
+  try {
+    if (fs.lstatSync(retrospectiveDir).isDirectory()) {
+      const names = fs.readdirSync(retrospectiveDir).filter(name => /^\d{4}-\d{2}-\d{2}-.+\.md$/.test(name)).sort().reverse()
+      omitted = names.length > 100
+      files.push(...names.slice(0, 100).map(name => `retrospectives/${name}`))
+    }
+  } catch (_) {}
   const result = context.recallSections(files.map(file => ({ file, text: readClean(eng, file) })), query, 12, masking.mask)
   process.stdout.write(maskedSections([
     `RECALL - ${eng}\n${result.total ? `${result.sections.length} of ${result.total} matching lines; refine the query if evidence is omitted.` : 'No matching record. This is not proof that the event never happened.'}\nSources are local record assertions; verify dates, supersession and approval scope.`,
     ...result.sections,
+    omitted ? 'Older retrospectives omitted: searched at most the 100 newest dated files.' : '',
   ], maxBytes))
 }
 
@@ -3497,6 +3509,8 @@ function cmdPrep(args) {
   // Grounded brief: only text already in .fde/. No invention (Rowboat meeting-prep rule).
   console.log(`MEETING PREP - ${label}`)
   console.log('(grounded in local .fde/ only - if a fact is missing, it is missing)\n')
+  const pending = pendingSummary(readClean(eng, 'context.md'))
+  if (pending) console.log(masking.mask(pending) + '\n')
   console.log(resumeTriage(eng))
   const owner = readOwner(eng)
   const head = memoryHead(eng)

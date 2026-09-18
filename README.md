@@ -72,7 +72,7 @@ A repository tells you where the code lives. It may not tell you why the custome
 <a name="keep-a-customer-record"></a>
 <a name="how-skills-work"></a>
 
-For ongoing engagements, each customer gets a plain-Markdown record at `~/fde-engagements/<customer>/.fde/`. The coordinator loads a short summary and looks up details as needed. Before resuming implementation, it checks the saved next action against the current task and code.
+For ongoing engagements, each customer gets a plain-Markdown record at `~/fde-engagements/<customer>/.fde/`. The coordinator loads a short summary and looks up details as needed. Before resuming implementation, it checks the saved next action against the current task and code. Saved lessons are searchable within that customer’s record. Meeting preparation brings back recorded open questions and commitments; sharing a lesson with another customer requires explicit approval.
 
 From the fictional demo’s `fde resume` output:
 

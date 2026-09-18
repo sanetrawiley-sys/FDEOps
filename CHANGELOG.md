@@ -1,5 +1,11 @@
 # Changelog
 
+## 5.1.11 - 2026-09-18
+
+- Recall saved client lessons and dated retrospectives without following linked records.
+- Surface explicit open commitments and questions in resume and meeting preparation, including agreed due/review dates.
+- Clarify returning-project checks and explicitly approved lesson exports; no automatic cross-client sharing.
+
 ## 5.1.10 - 2026-09-17
 
 - Verify customer identity after switching, preserve unfinished work and use sanitized CLI records under existing authority.

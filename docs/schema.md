@@ -119,3 +119,18 @@ From 3.27, accepted value requires a measured result, named signer, and non-pend
 For substantial work, keep the implementation plan and progress in the existing project task record. A bound engagement may hold a short confirmed summary under an unindented `## Implementation checkpoint` heading in `context.md`. Keep record section headings unindented; headings inside code or lists are content. Put the next action and source task path/ID first, followed by repository/revision and dirty state, completed and pending checks, blocker and update time. Replace the previous checkpoint or close it when work finishes; do not copy a second backlog.
 
 `fde resume` gives this section its own bounded, sanitized excerpt so session history does not bury it. It never opens the source path automatically. The pre-compact hook leaves the saved section intact; it cannot infer unsaved progress. A fresh agent must reconcile the summary with the authorized task record, working tree and applicable evidence before continuing. Missing or stale checkpoints remain gaps, not proof of completion.
+
+## Open follow-through
+
+Optional sections in `context.md` keep commitments and questions visible in `resume` and `prep` without a separate task system:
+
+```markdown
+## Commitments
+- [ ] Delivery lead owes the operations team a runbook; due: 2026-10-02; source: workshop 2026-09-28
+## Open questions
+- [ ] Who accepts the staging replay? source: workshop 2026-09-28
+```
+
+Check an item `[x]` when its resolution is confirmed. Update the existing item when an agreed date changes; retain the dated decision as its source. Only explicit due/review dates are flagged as past date. The output is a bounded list of recorded open items, not proof that every obligation was captured.
+
+`recall` also searches `patterns.md` and up to 100 newest dated `retrospectives/YYYY-MM-DD-*.md` files in this engagement. Linked files and linked retrospective directories are excluded. Lessons remain historical evidence; confirm their applicability before reuse.

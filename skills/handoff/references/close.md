@@ -6,7 +6,7 @@ For a standalone handoff draft, use the supplied notes and project evidence; no 
 
 **Enter when:** the engagement is ending - the customer team must run this without the FDE.
 
-**Read first:** for standalone work, use the supplied permitted operating notes, evidence and ownership; no engagement binding or CLI command is required. For a bound engagement, use bounded `fde handoff` or `fde resume`, then targeted `fde recall` for missing evidence. Never initialize records merely to draft a handoff. Build the picture through relevant excerpts, not a full-directory load. Consult `terrain.md` only for code paths needed by the successor.
+**Read first:** for standalone work, use the supplied permitted operating notes, evidence and ownership; no engagement binding or CLI command is required. For a bound engagement, use bounded `fde handoff` or `fde resume`, then `fde recall <topic>` for relevant client patterns, earlier retrospectives, and missing evidence. Never initialize records merely to draft a handoff. Build the picture through relevant excerpts, not a full-directory load. Consult `terrain.md` only for code paths needed by the successor.
 
 The engagement doesn't end at ship. It ends when the customer can maintain what was built without calling.
 
@@ -28,7 +28,7 @@ The engagement doesn't end at ship. It ends when the customer can maintain what 
 - Eval receipt: **n/a if no AI**, else final scoped eval result + operating owner and required human-review or bounded-automation authority recorded; kill switch / fallback named in `handoff.md`.
 - One line in the retrospective: which bucket moved, by how much, vs baseline.
 
-**2. The pattern.** Anything that happened here and will happen again - a compliance approach, a migration pattern, a stakeholder dynamic - gets encoded for reuse. Use [encode-pattern](encode-pattern.md) to distinguish candidate patterns from supported ones and protect customer data.
+**2. The pattern.** Anything that happened here and may happen again - a compliance approach, a migration pattern, a stakeholder dynamic - is a candidate for the client's `patterns.md`. Use [encode-pattern](encode-pattern.md) to record applicability, counterexamples, and evidence. Cross-client generalizations need explicit approval and a user-chosen export destination under the applicable policy; closing an engagement does not authorize an automatic scan or export.
 
 **3. The handoff.** Operational knowledge for the person woken at 2am, not technical documentation: the 3 things that will break and the fix for each · who holds the tribal knowledge · what each alert means · deploy and rollback in plain language. AI components additionally: model version, what normal output looks like (so drift is recognisable), fallback behaviour, who owns evaluation and corrective changes, and how to disable or contain the AI path using the supported fallback. Do not assume retraining is available or appropriate.
 
@@ -40,7 +40,7 @@ The engagement doesn't end at ship. It ends when the customer can maintain what 
 
 ## Artifact
 
-**`retrospectives/YYYY-MM-DD-<engagement>.md`** - one file per close (separate files make cross-engagement patterns scannable). **`patterns.md`** - reusable patterns extracted. **`handoff.md`** - the 2am document.
+**`retrospectives/YYYY-MM-DD-<engagement>.md`** - one file per close, retaining dated lessons for targeted recall within this client. **`patterns.md`** - client pattern candidates and evidence. **`handoff.md`** - the 2am document, including the deployed revision and the policy, access, and ownership evidence current at handoff. If the project reopens, use [land](land.md) to recheck these before dependent action; closure evidence remains historical.
 
 ## Checkpoint
 
