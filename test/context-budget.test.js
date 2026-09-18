@@ -222,3 +222,58 @@ test('list examples cannot replace or end the top-level recovery checkpoint', ()
   const notes = '## Notes\n' + example
   assert.deepEqual(implementationCheckpoint('## Implementation checkpoint\n' + body + '\n' + notes), { checkpoint: body, remaining: notes })
 })
+
+test('recall finds client lessons and dated retrospectives without crossing linked records', t => {
+  const f = fixture(t)
+  f.write('patterns.md', '# Lessons\nretry LOCAL_LESSON\n<private>retry PRIVATE_LESSON</private>')
+  fs.mkdirSync(path.join(f.eng, 'retrospectives'))
+  f.write('retrospectives/2026-09-01-launch.md', 'retry RETRO_LESSON')
+  fs.writeFileSync(path.join(f.dir, 'external.md'), 'retry EXTERNAL_LESSON')
+  fs.symlinkSync(path.join(f.dir, 'external.md'), path.join(f.eng, 'retrospectives/2026-09-02-linked.md'))
+  const out = f.run(['recall', 'retry'])
+  assert.equal(out.status, 0, out.stderr)
+  assert.match(out.stdout, /LOCAL_LESSON/)
+  assert.match(out.stdout, /retrospectives\/2026-09-01-launch.md/)
+  assert.match(out.stdout, /RETRO_LESSON/)
+  assert.doesNotMatch(out.stdout, /PRIVATE_LESSON|EXTERNAL_LESSON/)
+  fs.rmSync(path.join(f.eng, 'retrospectives'), { recursive: true })
+  fs.mkdirSync(path.join(f.dir, 'other-retros'))
+  fs.writeFileSync(path.join(f.dir, 'other-retros/2026-09-01-secret.md'), 'retry EXTERNAL_LESSON')
+  fs.symlinkSync(path.join(f.dir, 'other-retros'), path.join(f.eng, 'retrospectives'))
+  assert.doesNotMatch(f.run(['recall', 'retry']).stdout, /EXTERNAL_LESSON/)
+})
+
+test('prep and resume surface explicit open commitments and questions, never completed or private items', t => {
+  const f = fixture(t)
+  f.write('context.md', '# Context\n**Phase:** build\n## Commitments\n- [ ] I owe the runbook; owner: delivery lead; due: 2026-01-01\n- [x] CLOSED_ITEM\n<private>\n- [ ] PRIVATE_ITEM\n</private>\n## Open questions\n- [ ] Who approves the replay?\n## History\n- [ ] HISTORICAL_ITEM\n')
+  const out = f.run(['prep'])
+  assert.equal(out.status, 0, out.stderr)
+  assert.match(out.stdout, /I owe the runbook/)
+  assert.match(out.stdout, /Who approves the replay/)
+  assert.match(out.stdout, /past recorded due/)
+  assert.doesNotMatch(out.stdout, /CLOSED_ITEM|PRIVATE_ITEM|HISTORICAL_ITEM/)
+  assert.match(f.run(['resume']).stdout, /OPEN FOLLOW-THROUGH/)
+})
+
+test('follow-through uses recorded dates, ignores invalid dates and does not infer severity', () => {
+  const { pendingItems } = require('../bin/lib/follow-through')
+  const items = pendingItems('## Commitments\n- [ ] Wait on access; due: 2026-02-30\n- [ ] Send report; review: 2026-09-18\n- [ ] Confirm owner; review: 2026-09-01', '2026-09-17')
+  assert.doesNotMatch(items[0], /past recorded/)
+  assert.doesNotMatch(items[1], /past recorded/)
+  assert.match(items[2], /past recorded/)
+})
+
+test('follow-through does not treat fenced or indented examples as commitments', () => {
+  const { pendingItems } = require('../bin/lib/follow-through')
+  assert.deepEqual(pendingItems('```markdown\n## Commitments\n- [ ] Example only\n```\n## Open questions\n    - [ ] Indented example\n- [ ] Real question'), ['context.md:7 [open questions] Real question'])
+})
+
+test('follow-through retains nested headings and ignores malformed or list-contained fences', () => {
+  const { pendingItems } = require('../bin/lib/follow-through')
+  const text = '## Commitments\n```markdown\n```not-a-closing-fence\n- [ ] EXAMPLE\n```\n### Operations\n- [ ] REAL\n## Notes\n- ```markdown\n  ## Commitments\n  - [ ] EXAMPLE\n  ```\n## Commitments\n- [ ] ALSO_REAL'
+  const items = pendingItems(text)
+  assert.equal(items.length, 2)
+  assert.match(items[0], /REAL/)
+  assert.match(items[1], /ALSO_REAL/)
+  assert.doesNotMatch(items.join('\n'), /EXAMPLE/)
+})

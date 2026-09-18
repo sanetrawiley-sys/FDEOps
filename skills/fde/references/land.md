@@ -1,6 +1,6 @@
 # land - Interrogate the brief
 
-**Enter when:** new customer, first meeting, just got the brief, nothing started yet.
+**Enter when:** new customer, first meeting, just got the brief, nothing started yet, or an old or closed project is reopening.
 
 **Read first:** apply [task context](task-context.md), then permitted `context.md` evidence if it exists and the supplied brief. Once the engagement type and AI/access policy are known, inspect the supplied repo/docs relevant to the ask before asking questions they can answer. This is a bounded evidence check, not a full discovery scan.
 
@@ -17,6 +17,8 @@ Then check - probe ONLY if it prevents a bad start:
 3. **Access.** If the FDE is about to start work → one line: "Got repo and environment access sorted, or is that still pending?"
 
 State your read, let the FDE correct, then land.
+
+**Reopening an old or closed project:** after the privacy-safe context check, use `fde recall <topic>` for relevant client patterns, retrospectives, and prior decisions. Treat old evidence as historical. Before dependent action, recheck current AI/data policy, access, decision and operating owners, and the deployed revision against current permitted evidence. Record changes and unknowns; an old approval or successful drill does not establish present authority or readiness. Continue independent preparation while material gaps are resolved.
 
 ## Brief interrogation (only when the brief is thin)
 

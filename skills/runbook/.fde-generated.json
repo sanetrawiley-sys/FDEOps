@@ -4,8 +4,9 @@
   "files": {
     "SKILL.md": "36843356c2e89e2a9205a4edf47afb8fd489d2f719c72241e3fdc3209829d2d8",
     "agents/openai.yaml": "53922bbe55ba23dc812c9bef311fbef238e2e25252100bdac7a8bd4f6c5e2780",
-    "references/close.md": "b3dbc1ecef12ee1c9d298e32a21d87ce61c9f6c88039d7a8b19970c6e3f21254",
-    "references/encode-pattern.md": "3be7bf9d0f69af31659423c54d6023a4af1556e2ce200fb025bf64d0757de4d8",
+    "references/close.md": "55fa64212f20bb828e3d9550dd771258945deb42b2d2c01f2bdb523c835f9034",
+    "references/encode-pattern.md": "9740d97faa8491d168410916c9003ea9a651a1507da186dcb29ce6e58eba6773",
+    "references/land.md": "87dfffc8e39d35eaf23d510ba7e9913d48e90d2705eb9155ab192d12ea98d18d",
     "references/runbook.md": "d32a40113941c603b97f09eabfd0e25afd25129102c6b07fa91a04fb4f8e93e7",
     "references/task-context.md": "9066514a50043f3ad888d133d4e8b89b7132551e098cf2c80203c458a80126e5",
     "references/verification.md": "8ee2502112a37eedfdacf929041e7b91e9e6fabb007408a1ee2e2992e3af6ff6"

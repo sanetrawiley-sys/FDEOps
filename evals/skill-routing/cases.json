@@ -131,6 +131,7 @@
         "must_not_cli": ["debrief", "doctor", "land", "discover"],
         "note": "Code first; memory/log only after confirm - not an immediate fde dump"
       }
-    }
+    },
+    {"id": "happy-client-lessons-recall", "kind": "happy", "prompt": "@fde what did we learn about retries in this client’s last rollout?", "expect": {"cli": ["recall"], "must_not_tell_human_to_run_cli": true}}
   ]
 }
