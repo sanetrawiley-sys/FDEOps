@@ -701,7 +701,7 @@ test('demo runs the real CLI on a fake client, leaks no private block, and stays
   // the value promise: notes routed, memory reloaded cold, receipts dated
   assert.match(r.stdout, /ENGAGEMENT READY/)
   assert.match(r.stdout, /debrief routed/)
-  assert.match(r.stdout, /ON RECORD \(dated, source-backed\):/)
+  assert.match(r.stdout, /ON RECORD \(source-backed; check stated dates and status\):/)
   assert.match(r.stdout, /MEETING PREP/)
   assert.match(r.stdout, /fieldbook-current\.html/)
   // no fabricated transcript: the record on disk holds what the demo printed
@@ -3284,12 +3284,12 @@ test('subcommand --help prints usage, not a meeting or a missing file', () => {
   }
 })
 
-test('receipts header is dated, not defensible', () => {
+test('receipts header requests date and status verification, not defensibility', () => {
   const sandbox = makeSandbox('receipts-dated')
   assert.equal(runFde(sandbox, ['resume', '--init', 'recco']).status, 0)
   assert.equal(runFde(sandbox, ['log', 'decision', 'sheet remains system of record until Denise signs [source: meeting 2026-09-10]']).status, 0)
   const r = runFde(sandbox, ['receipts', 'Denise'])
-  assert.match(r.stdout, /ON RECORD \(dated, source-backed\):/)
+  assert.match(r.stdout, /ON RECORD \(source-backed; check stated dates and status\):/)
   assert.doesNotMatch(r.stdout, /defensible/)
 })
 

@@ -50,7 +50,7 @@ Scale this to the work: routine fixes reuse agreed scope, signer and acceptance 
 | day-1 look at the repo | `fde scan` |
 | debrief / pasted notes for a bound record | `fde debrief --smart` → agent reconciliation → one plain-English review → Save this update? → `--apply`. `--smart` is a gate, not a brain. `references/debrief.md` |
 | prep me for … | `fde prep "<label>"` |
-| when did we agree | `fde receipts <term>` |
+| did we agree / who decided / why did we | `fde receipts <term>` |
 | sponsor update / defend the number | `fde defend` |
 | successor / rotation / portable handoff | `fde handoff` (stdout; `--out new-file.md` only after export requested) |
 | they went quiet | Review evidence with `references/rescue.md`; confirm a signal change before `fde log contact "…" --signal amber\|green\|red` |
@@ -151,7 +151,7 @@ Work names (engage, diagnose, align, deliver, realize, transfer) are the same ma
 | Engagement ending, team needs to operate without you, write the runbook | runbook | `references/runbook.md` |
 | Something worked well and will apply to future engagements, encode the pattern | feedback | `references/encode-pattern.md` |
 | "Red-team this," "stress-test my plan," poke holes, challenge the plan, what am I missing | red-team | `references/red-team.md` |
-| "What did we agree about X?", scope dispute, receipts | - | run `fde receipts <term>`, answer with dates |
+| "Did we agree to X?", "Who decided?", "Why did we choose X?", scope dispute | - | run `fde receipts <term>`; return the decision, person, date, source and later changes; use targeted recall for missing context |
 
 **Overlays - activate alongside any skill on signal, don't wait to be told:**
 
@@ -177,3 +177,9 @@ Ready to build: check that the supplied facts establish the outcome, constraints
 ### Keep open work visible
 
 For confirmed follow-ups, maintain `## Commitments` and `## Open questions` in the existing `context.md`. Use unchecked bullets for unresolved items and check them only after confirmed resolution. A commitment says who owes what to whom; include a source and `due: YYYY-MM-DD` or `review: YYYY-MM-DD` only when agreed. Preserve unresolved `unknown - ask:` questions here when they affect the next decision. Do not infer a promise from a suggestion. `resume` and `prep` surface these entries with sources; dates prompt a status check, not an invented escalation. For a meeting, select relevant entries and use targeted recall for supporting evidence. Users describe the follow-up naturally; maintain the record for them.
+
+### Answer from the record
+
+A receipt is dated evidence for a claim, not automatic customer approval. For agreement questions, distinguish proposed work, an agreed decision, a later withdrawal and acceptance of a delivered result. Attribute the decision and rationale only when recorded; the person who wrote a note is not necessarily the decision-maker. If the search finds no agreement evidence, say “I found no recorded agreement in the material checked,” show relevant claims as claims, and name who can clarify only when their authority is known. Do not invent a rationale or treat absence as “never agreed.”
+
+For meeting preparation, use `fde prep` as the starting packet, then select unresolved questions and commitments relevant to the meeting's purpose and participants. Include the recorded owner, due/review date and source where available; mark missing fields unknown. Retrieve supporting or conflicting context with targeted recall. Do not turn every old unknown into an agenda item, infer an overdue date, or hide a material blocker merely because its wording does not match the meeting label.

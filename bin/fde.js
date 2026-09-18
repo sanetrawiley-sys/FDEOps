@@ -2611,17 +2611,24 @@ function cmdReceipts(args) {
     const scaffold = new Set((templatesDir() ? readClean(templatesDir(), file) : '').split('\n').map(line => line.trim()))
     const decisionSources = new Map()
     if (file === 'decisions.md') for (const entry of datedDecisions(document)) {
-      for (let line = entry.line; line < entry.line + entry.text.split('\n').length; line++) decisionSources.set(line, entry.text)
+      for (let line = entry.line; line < entry.line + entry.text.split('\n').length; line++) decisionSources.set(line, entry)
     }
+    const seenEntries = new Set()
     document.split('\n').forEach((line, i) => {
       if (!line.toLowerCase().includes(term.toLowerCase())) return
-      const sourceText = decisionSources.get(i + 1) || line
+      const entry = decisionSources.get(i + 1)
+      if (entry && seenEntries.has(entry.line)) return
+      if (entry) seenEntries.add(entry.line)
+      const sourceText = entry ? entry.text : line
       const source = sourceReference(sourceText)
       if (!source && scaffold.has(line.trim())) return
       const sources = sourceReferences(sourceText)
       const attribution = masking.mask(sources.join('; '))
       const displayed = Buffer.byteLength(attribution) <= 320 ? attribution : context.clipMaskedUtf8(attribution, 240) + '… [sources truncated; use fde recall]'
-      const hit = `  ${file}:${i + 1}  ${context.clipMaskedUtf8(masking.mask(line.trim()), 160)}${source ? ` [${sources.length > 1 ? 'sources' : 'source'}: ${displayed}]` : ' [source missing]'}${dirty.has(file) ? '  dirty file - review manual edits' : ''}`
+      const excerpt = masking.mask(entry ? entry.text : line.trim())
+      const excerptLimit = entry ? 1400 : 160
+      const body = context.clipMaskedUtf8(excerpt, excerptLimit) + (Buffer.byteLength(excerpt) > excerptLimit ? ' [excerpt truncated; use fde recall]' : '')
+      const hit = `  ${file}:${entry ? entry.line : i + 1}  ${body}${source ? ` [${sources.length > 1 ? 'sources' : 'source'}: ${displayed}]` : ' [source missing]'}${dirty.has(file) ? '  dirty file - review manual edits' : ''}`
       ;(recordFiles.includes(file) && source ? records : claims).push({ file, hit })
     })
   }
@@ -2643,8 +2650,9 @@ function cmdReceipts(args) {
     }
     return `Selected ${selected.length} of ${hits.length} matching lines; omitted matches require a narrower search.\n` + selected.join('\n')
   }
-  const sections = ['RECEIPTS: a cited record is not proof of customer approval. File line numbers refer to the redacted view. Latest and earliest matching lines are sampled; file order is not authority. Check conflicting records.']
-  if (records.length) sections.push('ON RECORD (dated, source-backed):\n' + select(records))
+  const sections = ['RECEIPTS (dated evidence): a cited record is not proof of customer approval. File line numbers refer to the redacted view. Latest and earliest matching lines are sampled; file order is not authority. Check conflicting records.']
+  if (records.length) sections.push('ON RECORD (source-backed; check stated dates and status):\n' + select(records))
+  if (!records.length && claims.length) sections.push('No source-backed record matched. The notes below do not establish agreement; verify with the relevant decision owner when known.')
   if (claims.length) sections.push('CLAIMS & working notes (verify source and approval before citing):\n' + select(claims))
   if (!records.length && !claims.length) sections.push(`no record of "${term}" - a gap in the record, not proof of absence`)
   process.stdout.write(maskedSections(sections))

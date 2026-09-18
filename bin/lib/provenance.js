@@ -29,11 +29,12 @@ function datedDecisions(value) {
   for (let i = 0; i < lines.length; i++) {
     const bullet = lines[i].match(/^\s*[-*]\s*\[(\d{4}-\d{2}-\d{2})\]\s*(.+)/)
     const heading = lines[i].match(/^(#{2,3})\s+\[?(\d{4}-\d{2}-\d{2})(?:\]|\s+-)?\s+(.+)/)
+    const named = lines[i].match(/^(#{2,3})\s+((?:Decision:\s*.+|Scope change))\s+-\s+(\d{4}-\d{2}-\d{2})\s*$/i)
     if (bullet) entries.push({ date: bullet[1], text: lines[i].trim(), line: i + 1 })
-    else if (heading) {
+    else if (heading || named) {
       let end = i + 1
       while (end < lines.length && !/^#{1,3}\s/.test(lines[end]) && !/^\s*[-*]\s*\[\d{4}-\d{2}-\d{2}\]/.test(lines[end])) end++
-      entries.push({ date: heading[2], text: lines.slice(i, end).join('\n').trim(), line: i + 1 })
+      entries.push({ date: heading ? heading[2] : named[3], text: lines.slice(i, end).join('\n').trim(), line: i + 1 })
       i = end - 1
     }
   }
