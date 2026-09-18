@@ -144,3 +144,41 @@ test('receipt attribution clipping preserves Unicode and never leaves partial ma
     assert.doesNotMatch(r.stdout.replace(/\[\[(?:email|phone|identifier|credential|term):[a-f0-9]{16}\]\]/g, ''), /\[\[/)
   }
 })
+
+test('agreement lookup retains the decision maker, rationale and status beside a matching heading', t => {
+  const f = fixture(t)
+  fs.writeFileSync(path.join(f.eng, 'decisions.md'), '# Decisions\n## 2026-09-17 - Keep CSV upload\nDecided by: Mara, scope owner\nReason: ERP access is unavailable\nStatus: agreed implementation scope; delivered result not accepted\nSource: [source: meeting:scope-0917]\n<private>PRIVATE_AGREEMENT</private>\n')
+  const r = f.run(['receipts', 'CSV'])
+  assert.equal(r.status, 0, r.stderr)
+  for (const text of ['2026-09-17', 'Mara, scope owner', 'ERP access is unavailable', 'delivered result not accepted', 'meeting:scope-0917']) assert.ok(r.stdout.includes(text), text)
+  assert.doesNotMatch(r.stdout, /PRIVATE_AGREEMENT/)
+})
+
+test('agreement lookup shows a later withdrawal and does not upgrade unsupported notes', t => {
+  const f = fixture(t)
+  fs.writeFileSync(path.join(f.eng, 'decisions.md'), '## 2026-09-01 - ERP rollout\nDecided by: Mara\nStatus: approved\n[source: meeting:initial]\n## 2026-09-17 - ERP rollout\nDecided by: Mara\nStatus: approval withdrawn pending access review\n[source: meeting:withdrawal]\n')
+  fs.writeFileSync(path.join(f.eng, 'context.md'), '- Sales thinks ERP was promised.\n')
+  const out = f.run(['receipts', 'ERP']).stdout
+  assert.match(out, /approval withdrawn/)
+  assert.match(out, /meeting:initial/)
+  assert.match(out, /meeting:withdrawal/)
+  assert.ok(out.indexOf('Sales thinks') > out.indexOf('CLAIMS'))
+})
+
+test('agreement lookup reports missing agreement evidence without asserting it never happened', t => {
+  const f = fixture(t)
+  fs.writeFileSync(path.join(f.eng, 'context.md'), '- ERP requested by sales, not yet confirmed.\n')
+  const out = f.run(['receipts', 'ERP']).stdout
+  assert.match(out, /CLAIMS/)
+  assert.doesNotMatch(out, /ON RECORD/)
+  assert.match(out, /No source-backed record matched/)
+  assert.match(f.run(['receipts', 'unmentioned']).stdout, /gap in the record, not proof of absence/)
+})
+
+test('agreement lookup supports documented named decision and scope-change headings once per entry', t => {
+  const f = fixture(t)
+  fs.writeFileSync(path.join(f.eng, 'decisions.md'), '# Decisions\n## Decision: CSV bridge - 2026-09-01\nDecided by: Mara\nChosen: CSV while access is pending\n[source: meeting:bridge]\n## Scope change - 2026-09-17\nRequest: CSV replacement\nRequested by: Sales\nStatus: proposed, not agreed\n[source: meeting:request]\n')
+  const out = f.run(['receipts', 'CSV']).stdout
+  for (const text of ['Decided by: Mara', 'Status: proposed, not agreed', 'meeting:bridge', 'meeting:request']) assert.ok(out.includes(text), text)
+  assert.equal((out.match(/## Decision: CSV bridge/g) || []).length, 1)
+})

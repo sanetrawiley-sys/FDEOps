@@ -1,5 +1,10 @@
 # Changelog
 
+## 5.1.13 - 2026-09-18
+
+- Preserve decision context and attribution in agreement lookups, including documented named decision and scope-change entries.
+- Clarify natural-language agreement answers and meeting agenda selection without new commands.
+
 ## 5.1.12 - 2026-09-18
 
 - Clarify standalone scope recommendations and distinguish coding effort from authority.
