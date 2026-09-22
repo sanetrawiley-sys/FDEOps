@@ -335,3 +335,38 @@ for (const kind of ['file', 'symlink']) {
     }
   })
 }
+
+test('a brand mention or orphaned marker does not count as an installed adapter', t => {
+  const f = fixture(t)
+  const files = ['AGENTS.md', 'CLAUDE.md', 'GEMINI.md', '.github/copilot-instructions.md']
+  const notes = '# Project\nWe are evaluating FDEOps.\n<!-- fdeops adapter - points your AI tool at @fde; safe to keep -->\n'
+  for (const name of files) {
+    const dest = path.join(f.workspace, name)
+    fs.mkdirSync(path.dirname(dest), { recursive: true })
+    fs.writeFileSync(dest, notes)
+  }
+  const result = f.run('adapters', f.workspace)
+  assert.equal(result.status, 0, result.stdout + result.stderr)
+  const first = files.map(name => fs.readFileSync(path.join(f.workspace, name), 'utf8'))
+  for (const text of first) {
+    assert.ok(text.startsWith(notes.trimEnd()))
+    assert.match(text, /skills\/fde\/SKILL\.md/)
+  }
+  assert.equal(f.run('adapters', f.workspace).status, 0)
+  assert.deepEqual(files.map(name => fs.readFileSync(path.join(f.workspace, name), 'utf8')), first)
+})
+
+for (const identity of ['# fdeops - existing workspace adapter', '<!-- fdeops adapter - points your AI tool at @fde; safe to keep -->']) {
+  test(`adapter wording changes preserve an existing branded skill pointer: ${identity.slice(0, 12)}`, t => {
+    const f = fixture(t)
+    const names = ['AGENTS.md', 'CLAUDE.md', 'GEMINI.md', '.github/copilot-instructions.md']
+    const existing = `# Personal instructions\nRetain my guidance.\n\n${identity}\nUse @fde and read ~/.claude/skills/fde/SKILL.md for client work.\nOlder or customised wording stays mine.\n`
+    for (const name of names) {
+      const dest = path.join(f.workspace, name)
+      fs.mkdirSync(path.dirname(dest), { recursive: true })
+      fs.writeFileSync(dest, existing)
+    }
+    assert.equal(f.run('adapters', f.workspace).status, 0)
+    for (const name of names) assert.equal(fs.readFileSync(path.join(f.workspace, name), 'utf8'), existing)
+  })
+}
