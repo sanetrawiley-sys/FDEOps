@@ -2,6 +2,12 @@
 
 **Skills for forward deployed engineers, used through your AI coding agent.**
 
+[![CI](https://github.com/suboss87/fdeops/actions/workflows/validate.yml/badge.svg?branch=Main)](https://github.com/suboss87/fdeops/actions/workflows/validate.yml)
+[![npm version](https://img.shields.io/npm/v/fdeops?logo=npm)](https://www.npmjs.com/package/fdeops)
+[![npm downloads](https://img.shields.io/npm/dm/fdeops?logo=npm)](https://www.npmjs.com/package/fdeops)
+[![License](https://img.shields.io/github/license/suboss87/fdeops)](LICENSE)
+![Focus: Forward deployed engineering](https://img.shields.io/badge/focus-forward%20deployed%20engineering-0f766e?style=flat-square)
+
 <a name="why-use-it"></a>
 
 FDEOps helps you turn a customer problem into a working system: clarify the goal, choose an architecture, build and integrate, then verify the result and prepare for rollout.
